@@ -8,9 +8,9 @@ import donorRouter from './routes/donor.route.js'
 import { verifyJWT } from './middleware/auth.middleware.js'
 import cors from 'cors'
 import path from 'path'
+import {app, server} from './config/socket.js'
 
-dotenv.config()
-const app = express()
+dotenv.config() 
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
@@ -37,7 +37,7 @@ if(process.env.NODE_ENV==="production"){
         res.sendFile(path.join(__dirname,"../client","dist","index.html"))
     })
 }
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log(`server running on PORT ${PORT}`)
     connectDB()
 })
