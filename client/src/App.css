@@ -1,0 +1,9 @@
+#signup{
+    position: absolute;
+    z-index: -1;
+    background-image: url('./assets/Register.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    object-fit: cover;
+}
