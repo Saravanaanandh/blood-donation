@@ -14,9 +14,9 @@ const app = express()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
-    origin:["http://127.0.0.1:5500","http://localhost:5173","http://192.168.190.231:5173/","http://192.168.190.231:5173"], 
+    origin:["https://blood-donation-o7z9.onrender.com","http://localhost:5173"], 
     methods: "GET,POST,PATCH,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: ["Content-Type"],
     credentials:true
 }))
 
