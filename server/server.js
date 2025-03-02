@@ -7,6 +7,7 @@ import bloodReqRouter from './routes/reqBlood.route.js'
 import donorRouter from './routes/donor.route.js'
 import { verifyJWT } from './middleware/auth.middleware.js'
 import cors from 'cors'
+import path from 'path'
 
 dotenv.config()
 const app = express()
@@ -31,6 +32,7 @@ if(process.env.NODE_ENV==="production"){
     })
 }
 
+const __dirname = path.resolve()
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/request',verifyJWT,bloodReqRouter)
 app.use('/api/v1/donate',verifyJWT,donorRouter)
