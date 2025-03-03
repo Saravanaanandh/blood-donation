@@ -2,7 +2,7 @@
 import Navbar from "../components/Navbar.jsx" 
 import { useEffect,useState} from "react"
 import bannerImg from './../assets/banner.png'
-import { CheckCheck, DropletsIcon, X} from "lucide-react"
+import { CheckCheck, CheckCircle, DropletsIcon, Smartphone, X} from "lucide-react"
 import profilePic from './../assets/user.png'
 import ToggleButton from './../components/ToggleButton.jsx'  
 import { useParams } from "react-router" 
@@ -108,6 +108,22 @@ const SingleRequest = () => {
                            {singleRecipient.recipient?.gender} 
                         </p>
                     </li>
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                        <h3>Person Last Donated Date :</h3>
+                        <p>
+                           {singleRecipient.recipientProfile?.lastDonated || "No donations!"} 
+                        </p>
+                    </li>
+                    {
+                        singleRecipient.recipientProfile?.nextDonationDate ? (
+                            <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                                <h3>Suggest to Donate After (90days) </h3>
+                                <p>
+                                {singleRecipient.recipientProfile?.nextDonationDate} 
+                                </p>
+                            </li>
+                        ) : ("")
+                    } 
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
                         <h3>Location</h3>
                         <p>
@@ -168,7 +184,7 @@ const SingleRequest = () => {
                             </button>
                         </div>
                         ) :     
-                        singleRecipient.requestDetail?.status === "accepted" ? <span className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800">Accepted <CheckCheck/></span>:<span  className="px-4 py-2 rounded-sm flex gap-2  bg-red-600 text-white border-red-600 shadow-md shadow-red-800">Rejected <X/></span>  
+                        singleRecipient.requestDetail?.status === "confirmed" ? <span className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800">Generate OTP <Smartphone/></span>:<span  className="px-4 py-2 rounded-sm flex gap-2  bg-green-600 text-white border-green-600 shadow-md shadow-green-800">Completed <CheckCircle/></span>  
                     } 
                 </div>
             </div>

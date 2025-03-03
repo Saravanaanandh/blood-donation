@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema({
     mobile:{
         type:Number,
         required:true,
-        maxlength:10
+        maxlength:12
     },
     email:{
         type:String,
@@ -71,6 +71,12 @@ const userSchema = new mongoose.Schema({
     positiveHIVTest:{
         type:Boolean,
         dafault:false
+    },
+    lastDonated:{
+        type:Date
+    },
+    nextDonationDate:{
+        type:Date
     },
     weight:String,
     token:String,

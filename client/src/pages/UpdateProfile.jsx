@@ -14,7 +14,7 @@ const UpdateProfile = () => {
 
     const {authUser, updateProfile} = useAuthStore()
     const {allRequests} = useRecipientStore()
-
+    console.log(authUser)
     const [formData, setFormData] = useState({
         location:authUser.location,
         pinCode:authUser.pinCode,
@@ -166,6 +166,22 @@ const UpdateProfile = () => {
                            {authUser.bloodType} 
                         </p>
                     </li>
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                        <h3>Lastly Donated Date :</h3>
+                        <p>
+                           {authUser.lastDonated || "No donations!"} 
+                        </p>
+                    </li>
+                    {
+                        authUser.nextDonate ? (
+                            <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                                <h3>Suggest to Donate After(90days)</h3>
+                                <p>
+                                {authUser.nextDonationDate} 
+                                </p>
+                            </li>
+                        ) : ("")
+                    } 
                     <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
                         <h3>Gender</h3>
                         <p>

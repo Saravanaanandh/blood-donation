@@ -3,25 +3,27 @@ import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import { useEffect, useState } from "react"
 import Navbar from "../components/Navbar.jsx"
 import { motion } from "framer-motion"
-import { CheckCheck, MoveRight, X } from "lucide-react"
+import { CheckCheck, CheckCircle, Clock, MoveRight, Smartphone, X } from "lucide-react"
 import profilePic from './../assets/user.png'
+import { useAuthStore } from "../store/useAuthStore.jsx"
 
 const AllRequests = () => {
 
     const {allRequests, recipients, getRequest} = useRecipientStore()
-
+    const {authUser} = useAuthStore()
     const [isRequests, setIsRequests] = useState(false)
     const [isConfirmedRequests, setIsConfirmedRequests] = useState(false)
     const [isRejectedRequests, setIsRejectedRequests] = useState(false)
-
-    const pendingRequests = recipients.filter(recipient => recipient.request.status === "pending")
-
-    const confirmedRequests = recipients.filter(recipient => recipient.request.status === "accepted")
-    const rejectedRequests = recipients.filter(recipient => recipient.request.status === "rejected")
-
+    
     useEffect(()=>{
        allRequests()
     },[allRequests])
+    
+    const pendingRequests = recipients.filter(recipient => (recipient.request?.status === "pending")&(recipient.request?.donorId === authUser._id))
+
+    const confirmedRequests = recipients.filter(recipient =>(recipient.request?.status === "accepted")&(recipient.request?.donorId === authUser._id))
+    const completedRequests = recipients.filter(recipient => ((recipient.request?.status === "confirmed") | (recipient.request?.status === "finalState")) & (recipient.request.donorId === authUser._id))
+
       
   return ( 
     <div>
@@ -46,7 +48,7 @@ const AllRequests = () => {
                 setIsRejectedRequests(true)
                 }
                 }>
-                    <span className="text-[1.2rem]">Rejected</span>
+                    <span className="text-[1.2rem]">Confirmed</span>
                 </div>
             </div>
             <motion.div 
@@ -161,7 +163,7 @@ const AllRequests = () => {
                 {
                     isConfirmedRequests && !confirmedRequests.length && (
                         <div className="w-full h-full flex justify-center items-center">
-                            <span>No History of Confirmed Requests!</span>
+                            <span> Requests Not are Confirmed !</span>
                         </div>
                     )
                 }
@@ -180,8 +182,8 @@ const AllRequests = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white">
-                                            Accepted <CheckCheck/>
+                                        <button className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-yellow-700 text-black">
+                                            Waiting <Clock/>
                                         </button>
                                     </div>
                                 </div> 
@@ -190,15 +192,15 @@ const AllRequests = () => {
                     )
                 }
                 {
-                    isRejectedRequests && !rejectedRequests.length && (
+                    isRejectedRequests && !completedRequests.length && (
                         <div className="w-full h-full flex justify-center items-center">
-                            <span>No History of Rejected Requests!</span>
+                            <span>No History of completed Requests!</span>
                         </div>
                     )
                 }
                 {
-                    isRejectedRequests && rejectedRequests.length>0 && (
-                        rejectedRequests.map((recipient)=>(
+                    isRejectedRequests && completedRequests.length>0 && (
+                        completedRequests.map((recipient)=>(
                             <Link className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100" key={recipient.request._id} onClick={()=> getRequest(recipient.request.recipientId)} to={`/allrequests/${recipient.request.recipientId}`}>
                                 <div className="h-full flex justify-between items-center">
                                     <div className="flex items-center gap-5">
@@ -212,7 +214,8 @@ const AllRequests = () => {
                                     </div>
                                     <div>
                                         <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-red-700  text-white">
-                                            Rejected <X/>
+                                            { recipient.request.status === "confirmed" ? "generate OTP" :"Completed"}
+                                            { recipient.request.status === "confirmed" ? (<Smartphone/>) :(<CheckCircle/>)}
                                         </button>
                                     </div>
                                 </div> 

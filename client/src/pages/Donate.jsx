@@ -75,10 +75,10 @@ const Donate = () => {
                     onChange={(e)=> setFormData({...formData, dob:e.target.value})} 
                 />
                 <input 
-                    type="text" 
+                    type="tel" 
                     className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
-                    placeholder="age"
-                    value={formData.age}
+                    placeholder={`${formData.age ? '': "Enter Age"}`}
+                    value={formData.age || ""} 
                     onChange={(e)=> setFormData({...formData, age:parseInt(e.target.value)})}
                     required
                 />
@@ -125,16 +125,16 @@ const Donate = () => {
                 <input 
                     type="text" 
                     className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
-                    placeholder="Enter pincode"
-                    value={formData.pinCode}
+                    placeholder={formData.pinCode ? '': "Enter pincode"}
+                    value={formData.pinCode || ""} 
                     onChange={(e)=> setFormData({...formData, pinCode:parseInt(e.target.value)})}
                     required
                 /> 
                 <input 
                     type="tel" 
                     className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
-                    placeholder="phone number"
-                    value={formData.mobile}
+                    placeholder={formData.mobile ? '': "phone number"}
+                    value={formData.mobile || ""} 
                     onChange={(e)=> setFormData({...formData, mobile:parseInt(e.target.value)})}
                     required
                 /> 

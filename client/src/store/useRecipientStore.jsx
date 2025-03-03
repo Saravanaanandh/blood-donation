@@ -6,6 +6,7 @@ export const useRecipientStore = create((set,get)=>({
 
     recipients:[],
     requests:[],
+    recipientIds:[],
     singleRecipient:{},
     isRequestsFetching:false,
     isSingleRequestFetching:false,
@@ -16,7 +17,8 @@ export const useRecipientStore = create((set,get)=>({
     createRecipient:async(data)=>{
         set({isCreatingRecipient:true})
         try{
-            await axiosInstance.post('/request/',data) 
+            const res = await axiosInstance.post('/request/',data) 
+            set({recipientIds:[...get().recipientIds, res.data.recipientId]})
             toast.success("Recipient Created successfully!")
         }catch(err){
             console.log(err.response.data.message)
@@ -79,6 +81,18 @@ export const useRecipientStore = create((set,get)=>({
             set({isAcceptReq:false})
         }
     },
+    confirmRequest:async(id)=>{
+        set({isAcceptReq:true})
+        try{ 
+            await axiosInstance.put(`/request/confirm/${id}`) 
+            toast.success("Donor confirmed Successfully !")
+        }catch(err){
+            console.log(err.response.data.message)
+            toast.error("something went wrong !")
+        }finally{
+            set({isAcceptReq:false})
+        }
+    },
     rejectRequest:async(id)=>{
         set({isRejectRequest:true})
         try{ 
@@ -90,5 +104,8 @@ export const useRecipientStore = create((set,get)=>({
         }finally{
             set({isRejectRequest:false})
         }
+    },
+    getOTP:async()=>{
+
     }
 }))

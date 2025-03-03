@@ -139,10 +139,10 @@ const Request = () => {
             <div className="relative w-1/4 flex flex-col gap-5 mt-[52px]">
             
             <input 
-                type="text" 
+                type="tel" 
                 className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
-                placeholder="patient's Age"
-                value={formData.patientsage}
+                placeholder={`${formData.patientsage ? '': "Patients Age"}`}
+                value={formData.patientsage || ""} 
                 onChange={(e)=> setFormData({...formData, patientsage:parseInt(e.target.value)})}
                 required
             />
@@ -150,8 +150,8 @@ const Request = () => {
             <input 
                 type="tel" 
                 className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
-                placeholder="Attendee's Phone no."
-                value={formData.AttendeesPhno}
+                placeholder={`${formData.AttendeesPhno ? '': "Attendee's Phone no"}`}
+                value={formData.AttendeesPhno || ""}
                 onChange={(e)=> setFormData({...formData, AttendeesPhno:parseInt(e.target.value)})}
                 required
             />  
@@ -165,17 +165,17 @@ const Request = () => {
             <input 
                 type="text"
                 className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
-                placeholder="Enter pincode"
-                value={formData.pinCode}
+                placeholder={`${formData.pinCode ? '': "Enter pincode"}`}
+                value={formData.pinCode || ""}
                 onChange={(e)=> setFormData({...formData, pinCode:parseInt(e.target.value)})}
                 required
             />
             <input 
-                type="number" 
+                type="tel" 
                 className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
-                placeholder="select no.of units"
-                value={formData.bloodUnits}
-                onChange={(e)=> setFormData({...formData, bloodUnits:e.target.value})}
+                placeholder={`${formData.bloodUnits ? '': "No. of Units"}`}
+                value={formData.bloodUnits || ""} 
+                onChange={(e)=> setFormData({...formData, bloodUnits:parseInt(e.target.value)})}
                 required
             /> 
             <button className="absolute bottom-0 -right-5 rounded-sm cursor-pointer bg-red-500 px-5 py-1 text-white" type="submit" onClick={handleSubmit}>

@@ -60,9 +60,9 @@ const Signup = () => {
             />
             <input 
                 className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
-                type="number" 
-                placeholder="Enter Your age"
-                value={formData.age}
+                type="tel" 
+                placeholder={`${formData.age ? '': "Enter Age"}`}
+                value={formData.age || ''}
                 onChange={(e)=> setFormData({...formData, age:parseInt(e.target.value)})}
                 required
             />
@@ -100,17 +100,17 @@ const Signup = () => {
             />
             <input 
                 className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
-                type="text" 
-                placeholder="Enter pincode"
-                value={formData.pinCode}
+                type="tel" 
+                placeholder={`${formData.pinCode ? '': "Enter pincode"}`}
+                value={formData.pinCode || ""}
                 onChange={(e)=> setFormData({...formData, pinCode:parseInt(e.target.value)})}
                 required
             />
             <input 
                 className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
                 type="tel" 
-                placeholder="Enter mobile number"
-                value={formData.mobile}
+                placeholder={`${formData.mobile ? '': "Enter Mobile No."}`}
+                value={formData.mobile || ""} 
                 onChange={(e)=> setFormData({...formData, mobile:parseInt(e.target.value)})}
                 required
             />

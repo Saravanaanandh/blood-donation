@@ -3,17 +3,21 @@ import User from './../model/User.js'
 
 export const signupController = async (req, res)=>{
     const {username,age, gender, bloodType,location,pinCode,mobile, email, password} = req.body 
+    console.log({username,age, gender, bloodType,location,pinCode,mobile, email, password})
     if(!username || !email || !gender || !password || !age || !bloodType || !location || !pinCode || !mobile) return res.status(400).json({message:"please fill required fields"})
+    try{ 
+        const duplicateUser = await User.findOne({email})
+        if(duplicateUser) return res.status(409).json({message:"user already with that email"})
+         
+        const user = await User.create({...req.body})
+        const token = user.createJWT() 
+        user.token = token 
 
-    const duplicateUser = await User.findOne({email})
-    if(duplicateUser) return res.status(409).json({message:"user already with that email"})
-    
-    const user = await User.create({...req.body})
-    const token = user.createJWT() 
-    user.token = token
-
-    res.cookie('jwt',token,{httpOnly:true,maxAge:30*24*60*60*1000, secure:true, sameSite:"None"})
-    res.status(201).json(user)
+        res.cookie('jwt',token,{httpOnly:true,maxAge:30*24*60*60*1000, secure:true, sameSite:"None"})
+        res.status(201).json(user) 
+    }catch(err){
+        res.status(400).json({message:err.name})
+    }
 }
 
 export const loginController = async (req, res)=>{

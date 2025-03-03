@@ -3,30 +3,37 @@ import { useDonorStore } from "../store/useDonorStore.jsx";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import profilePic from "./../assets/user.png";
-import { CheckCheck, SendHorizontalIcon, TriangleAlert } from "lucide-react";
-import { motion } from "framer-motion";
-
+import { CheckCheck, CheckCircleIcon, Eye, SendHorizontalIcon, TriangleAlert } from "lucide-react"; 
+import { useAuthStore } from "../store/useAuthStore.jsx";
+import {motion} from 'framer-motion'
+import { useRecipientStore } from "../store/useRecipientStore.jsx";
+import { useNavigate } from "react-router";
 const AllDonors = () => {
+  const {authUser} = useAuthStore()
   const { allDonors, donors, getDonor } = useDonorStore();
+  const {recipientIds} = useRecipientStore()
+  const navigate = useNavigate()
 
   const [isAvailable, setIsAvailable] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
-  const availableDonors = donors.filter(
-    (donor) =>
-      (donor.donorDetail?.available === true) & (donor.requestDetail === null)
-  );
-
-  const acceptedDonors = donors.filter(
-    (donor) => donor.requestDetail?.status === "accepted"
-  );
-  const pendingRequests = donors.filter(
-    (donor) => donor.requestDetail?.status === "pending"
-  );
-
   useEffect(() => {
     allDonors();
   }, [allDonors]);
+
+  const availableDonors = donors.filter(
+    (donor) =>
+      (donor.donorDetail?.available === true) & (donor.requestDetail === null)
+    
+  );
+
+  const acceptedDonors = donors.filter(
+    (donor) => ((donor.requestDetail?.status === "finalState") | (donor.requestDetail?.status === "confirmed")) & (donor.requestDetail?.recipientId === authUser._id)
+  );
+  const pendingRequests = donors.filter(
+    (donor) => ((donor.requestDetail?.status === "pending") | (donor.requestDetail?.status === "accepted")) & (donor.requestDetail?.recipientId === authUser._id)
+  );
+
 
   return (
     <div>
@@ -159,7 +166,9 @@ const AllDonors = () => {
               <Link
                 className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100"
                 key={donor.donor._id}
-                onClick={() => getDonor(donor.donor.donorId)}
+                onClick={() => {
+                  getDonor(donor.donor.donorId)
+                }}
                 to={`/alldonors/${donor.donor.donorId}`}
               >
                 <div className="h-full flex justify-between items-center">
@@ -233,8 +242,8 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div>
-                    <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-yellow-400 text-black">
-                      Pending <TriangleAlert className="size-4" />
+                    <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${donor.requestDetail?.status === "pending" ? "bg-yellow-400 text-black":"bg-green-400 text-white"}`}>
+                      {donor.requestDetail?.status === "accepted" ? "Confirm" : "Pending"} {donor.requestDetail?.status === "pending" ? (<TriangleAlert className="size-4" />):(<CheckCircleIcon className="size-4" />)}
                     </button>
                   </div>
                 </div>
@@ -280,7 +289,8 @@ const AllDonors = () => {
                   </div>
                   <div>
                     <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700 text-white">
-                      Accpted <CheckCheck className="size-4" />
+                      {donor.requestDetail?.status === "confirmed" ? "view" : "Completed"}
+                      {donor.requestDetail?.status === "confirmed" ? (<Eye/>):(<CheckCheck className="size-4" />)}
                     </button>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import express from 'express'
 import {
     acceptReq,
+    confirmReq,
     createRecipients, 
     getAllRequests, 
     getRequest, 
@@ -17,5 +18,6 @@ router.put('/reject/:id',rejectReq)
 
 router.post('/',createRecipients)
 router.post('/:id',sendRequest)
+router.put('/confirm/:id',confirmReq)
 
 export default router

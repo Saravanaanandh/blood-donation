@@ -5,13 +5,10 @@ import User from './../model/User.js'
 export const getAllDonars = async(req, res)=>{
     const {_id:userId} = req.user 
 
-    if(!userId) return res.status(401).json({message:"unauthorized user"})
-
+    if(!userId) return res.status(401).json({message:"unauthorized user"}) 
+    const donors = await Donor.find({donorId :{$ne: userId, $exists: true},available:true}) 
+    if(!donors) return res.status(200).json() 
         
-    const donors = await Donor.find({donorId :{$ne: userId, $exists: true},available:true})
-    
-    if(!donors) return res.status(200).json()
-
     const donorDetails = await Promise.all(
         donors.map(donor => User.findOne({ _id: donor.donorId }).select('-password'))
     );
@@ -50,8 +47,14 @@ export const createDonor = async (req, res)=>{
     if(!donorId) return res.status(401).json({message:"unauthorized user"})
 
     try{
-        const donor = await Donor.create({...req.body,donorId}) 
-        res.status(201).json(donor) 
+        const existingDonor = await Donor.findOne({donorId})
+        if(existingDonor){
+            const updatedDonor = await Donor.findOneAndUpdate({donorId},{...req.body})
+            res.status(201).json(updatedDonor) 
+        }else{
+            const donor = await Donor.create({...req.body,donorId}) 
+            res.status(201).json(donor)  
+        }
     }catch(err){
         if(err.name === "ValidationError"){
             return res.status(400).json({message:"please provide the valid details"})

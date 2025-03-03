@@ -9,8 +9,14 @@ export const createRecipients = async (req, res)=>{
     if(!recipientId) return res.status(401).json({message:"unauthorized user"})
 
     try{
-        const recipient = await ReqBlood.create({...req.body,recipientId}) 
-        res.status(201).json(recipient) 
+        const existingRecipient = await ReqBlood.findOne({recipientId})
+        if(existingRecipient){
+            const updatedRecipient = await ReqBlood.findOneAndUpdate({recipientId},{...req.body})
+            res.status(201).json(updatedRecipient) 
+        }else{
+            const recipient = await ReqBlood.create({...req.body,recipientId}) 
+            res.status(201).json(recipient)  
+        }
     }catch(err){
         if(err.name === "ValidationError"){
             return res.status(400).json({message:"please provide the valid details"})
@@ -69,6 +75,12 @@ export const getRequest = async (req, res)=>{
     }
 }
 
+function get90thDayFromDate(date) {
+    let givenDate = new Date(date); 
+    givenDate.setDate(givenDate.getDate() + 90);  
+    return givenDate.toISOString().split('T')[0];  
+}
+
 export const acceptReq = async (req, res)=>{
     const {_id:donorId} = req.user
     const {id:recipientId} = req.params
@@ -76,6 +88,25 @@ export const acceptReq = async (req, res)=>{
     try{
         const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"accepted"},{new:true})
         if(!request) return res.status(404).json({message:"request not found"}) 
+        console.log(user)
+        res.status(200).json(request)
+    }catch(err){
+        if(err.name === "CastError"){
+            return res.status(400).json({message:"please provide the valid recipient id"})
+        }
+        res.status(404).json({message:err.name})
+    }
+}
+
+export const confirmReq = async (req, res)=>{
+    const {_id:recipientId} = req.user
+    const {id:donorId} = req.params
+
+    try{
+        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"confirmed"},{new:true})
+        const user = await User.findByIdAndUpdate(donorId, {$inc :{donation: 1},available:false,lastDonated:new Date(Date.now()).toISOString().slice('T')[0],nextDonationDate:get90thDayFromDate(new Date(Date.now()).toISOString().slice('T')[0])},{new:true})
+        if(!request) return res.status(404).json({message:"request not found"}) 
+        console.log(user)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
