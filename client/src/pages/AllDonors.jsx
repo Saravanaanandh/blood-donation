@@ -5,14 +5,10 @@ import Navbar from "../components/Navbar.jsx";
 import profilePic from "./../assets/user.png";
 import { CheckCheck, CheckCircleIcon, Eye, SendHorizontalIcon, TriangleAlert } from "lucide-react"; 
 import { useAuthStore } from "../store/useAuthStore.jsx";
-import {motion} from 'framer-motion'
-import { useRecipientStore } from "../store/useRecipientStore.jsx";
-import { useNavigate } from "react-router";
+import {motion} from 'framer-motion' 
 const AllDonors = () => {
   const {authUser} = useAuthStore()
-  const { allDonors, donors, getDonor } = useDonorStore();
-  const {recipientIds} = useRecipientStore()
-  const navigate = useNavigate()
+  const { allDonors, donors, getDonor } = useDonorStore(); 
 
   const [isAvailable, setIsAvailable] = useState(false);
   const [isPending, setIsPending] = useState(false);

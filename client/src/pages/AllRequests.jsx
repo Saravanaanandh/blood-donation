@@ -18,7 +18,7 @@ const AllRequests = () => {
     useEffect(()=>{
        allRequests()
     },[allRequests])
-    
+
     const pendingRequests = recipients.filter(recipient => (recipient.request?.status === "pending")&(recipient.request?.donorId === authUser._id))
 
     const confirmedRequests = recipients.filter(recipient =>(recipient.request?.status === "accepted")&(recipient.request?.donorId === authUser._id))
@@ -182,7 +182,7 @@ const AllRequests = () => {
                                         </div>
                                     </div>
                                     <div>
-                                        <button className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-yellow-700 text-black">
+                                        <button className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-yellow-700 text-white">
                                             Waiting <Clock/>
                                         </button>
                                     </div>

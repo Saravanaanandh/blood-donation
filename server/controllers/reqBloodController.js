@@ -88,7 +88,6 @@ export const acceptReq = async (req, res)=>{
     try{
         const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"accepted"},{new:true})
         if(!request) return res.status(404).json({message:"request not found"}) 
-        console.log(user)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
