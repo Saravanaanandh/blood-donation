@@ -73,10 +73,10 @@ const userSchema = new mongoose.Schema({
         dafault:false
     },
     lastDonated:{
-        type:Date
+        type:String
     },
     nextDonationDate:{
-        type:Date
+        type:String
     },
     weight:String,
     token:String,

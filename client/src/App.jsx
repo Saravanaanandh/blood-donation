@@ -14,6 +14,7 @@ import AllDonors from './pages/AllDonors.jsx'
 import SingleRequest from './pages/SingleRequest.jsx'
 import SingleDonor from './pages/SingleDonor.jsx'
 import Loading from './components/Loading.jsx'
+import OtpPage from './pages/OtpPage.jsx'
 
 function App() { 
   const {authUser, checkAuth,isCheckAuth} = useAuthStore()
@@ -38,6 +39,7 @@ function App() {
         <Route path='/allrequests/:id' element={authUser ? <SingleRequest/>:<Navigate to={'/'}/>}/> 
         <Route path='/alldonors' element={authUser ? <AllDonors/>:<Navigate to={'/'}/>}/> 
         <Route path='/alldonors/:id' element={authUser ? <SingleDonor/>:<Navigate to={'/'}/>}/> 
+        <Route path='/:id/otp' element={authUser ? <OtpPage/> :<Navigate to={'/'}/>}/>
       </Routes>
       <Toaster/>
     </>

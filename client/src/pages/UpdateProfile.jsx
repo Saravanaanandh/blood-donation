@@ -169,15 +169,15 @@ const UpdateProfile = () => {
                     <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
                         <h3>Lastly Donated Date :</h3>
                         <p>
-                           {authUser.lastDonated || "No donations!"} 
+                           {authUser.lastDonated ? new Date(authUser.lastDonated).toISOString().split('T')[0] : "No donations!"} 
                         </p>
                     </li>
                     {
-                        authUser.nextDonate ? (
+                        authUser.nextDonationDate ? (
                             <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
                                 <h3>Suggest to Donate After(90days)</h3>
                                 <p>
-                                {authUser.nextDonationDate} 
+                                {new Date(authUser.nextDonationDate).toISOString().split('T')[0]}
                                 </p>
                             </li>
                         ) : ("")

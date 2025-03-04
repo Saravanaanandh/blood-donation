@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.jsx";
-import toast from "react-hot-toast";
+import toast from "react-hot-toast"; 
 
 export const useRecipientStore = create((set,get)=>({
-
+     
     recipients:[],
     requests:[],
     recipientIds:[],
@@ -13,6 +13,13 @@ export const useRecipientStore = create((set,get)=>({
     isSendRequest:false,
     isAcceptReq:false,
     isRejectRequest:false,
+    OtpDetail:null, 
+    setOtpDetail:(data)=>{
+        set({OtpDetail:data})
+    },
+    isSendingOtp:false,
+    isVerifyOtp:false,
+    isOtpVerified:false,
 
     createRecipient:async(data)=>{
         set({isCreatingRecipient:true})
@@ -107,7 +114,45 @@ export const useRecipientStore = create((set,get)=>({
             set({isRejectRequest:false})
         }
     },
-    getOTP:async()=>{
-
+    sendOtp:async(data)=>{
+        set({isSendingOtp:true})
+        try{
+            const res = await axiosInstance.post('/otp/',data)
+            console.log(res.data)
+            set({OtpDetail:res.data})
+            toast.success("OTP sent to the Email !")
+        }catch(err){
+            console.log(err)
+            toast.error("something went wrong !")
+        }finally{
+            set({isSendingOtp:false})
+        }
+    },
+    verifyOtp:async(data)=>{
+        set({isVerifyOtp:true})
+        try{
+            console.log(data)
+            const res = await axiosInstance.post('/otp/verifyotp',data)
+            if(res.data.status === "VERIFIED"){
+                set({isOtpVerified:true})
+                console.log(res.data)
+                toast.success("otp verified") 
+            }else if(res.data.status === "EXPIRED"){
+                set({isOtpVerified:false})
+                set({OtpDetail:null})
+                console.log(res.data)
+                toast.error("otp Expired! Send again!") 
+            }else{
+                set({isOtpVerified:false}) 
+                console.log(res.data)
+                toast.error("otp Incorrect") 
+            }
+        }catch(err){
+            set({isOtpVerified:false})
+            console.log(err.response.data.message)
+            toast.error("something went wrong !")
+        }finally{
+            set({isVerifyOtp:false})
+        }
     }
 }))

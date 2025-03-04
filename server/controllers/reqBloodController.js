@@ -75,12 +75,6 @@ export const getRequest = async (req, res)=>{
     }
 }
 
-function get90thDayFromDate(date) {
-    let givenDate = new Date(date); 
-    givenDate.setDate(givenDate.getDate() + 90);  
-    return givenDate.toISOString().split('T')[0];  
-}
-
 export const acceptReq = async (req, res)=>{
     const {_id:donorId} = req.user
     const {id:recipientId} = req.params
@@ -102,10 +96,8 @@ export const confirmReq = async (req, res)=>{
     const {id:donorId} = req.params
 
     try{
-        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"confirmed"},{new:true})
-        const user = await User.findByIdAndUpdate(donorId, {$inc :{donation: 1},available:false,lastDonated:new Date(Date.now()).toISOString().slice('T')[0],nextDonationDate:get90thDayFromDate(new Date(Date.now()).toISOString().slice('T')[0])},{new:true})
-        if(!request) return res.status(404).json({message:"request not found"}) 
-        console.log(user)
+        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"confirmed"},{new:true}) 
+        if(!request) return res.status(404).json({message:"request not found"})  
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){

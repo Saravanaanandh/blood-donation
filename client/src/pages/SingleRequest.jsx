@@ -186,7 +186,13 @@ const SingleRequest = () => {
                         ) :  singleRecipient.requestDetail?.status === "accepted" ? (
                             <span  className="px-4 py-2 rounded-sm flex gap-2  bg-yellow-600 text-white border-yellow-600 shadow-md shadow-yellow-800">Waiting <Clock/></span>
                         ) :
-                        singleRecipient.requestDetail?.status === "confirmed" ? <span className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800">Generate OTP <Smartphone/></span>:<span  className="px-4 py-2 rounded-sm flex gap-2  bg-green-600 text-white border-green-600 shadow-md shadow-green-800">Completed <CheckCircle/></span>  
+                        singleRecipient.requestDetail?.status === "confirmed" ? 
+                        <span 
+                            className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800"
+                            onClick={()=>navigate(`/${singleRecipient.recipient?.recipientId}/otp`)}
+                        >
+                            Generate OTP <Smartphone/>
+                        </span>:<span  className="px-4 py-2 rounded-sm flex gap-2  bg-green-600 text-white border-green-600 shadow-md shadow-green-800">Completed <CheckCircle/></span>  
                     } 
                 </div>
             </div>
