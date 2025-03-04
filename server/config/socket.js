@@ -23,6 +23,18 @@ io.on("connection",(socket)=>{
     if(userId) userSocket[userId] = socket.id
 
     io.emit("getOnlineUsers",Object.keys(userSocket))
+
+    socket.on("sendRequest",(request)=>{
+        console.log(request)
+        io.emit("newRequest",request)
+    })
+    // socket.on("sendBloodRequest", (request) => {
+    //     io.emit("newBloodRequest", request); 
+    // });
+ 
+    // socket.on("acceptRequest", ({ requestId, donorId }) => {
+    //     io.emit("requestAccepted", { requestId, donorId }); 
+    // });
     socket.on("disconnect",()=>{
         console.log(`A user disconnected : ${socket.id}`)
         delete userSocket[userId]

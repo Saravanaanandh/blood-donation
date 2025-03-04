@@ -1,6 +1,9 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.jsx";
 import toast from "react-hot-toast"; 
+import { Socket } from "socket.io-client";
+import { useAuthStore } from "./useAuthStore.jsx";
+import { use } from "react";
 
 export const useRecipientStore = create((set,get)=>({
      
@@ -41,12 +44,12 @@ export const useRecipientStore = create((set,get)=>({
         set({isRequestsFetching:true})
         try{
             const res = await axiosInstance.get('/request/')   
-            const recipient = res.data.requests.map((request, index) => ({
+            const recipients = res.data.requests.map((request, index) => ({
                 request,
                 requestDetail: res.data.requestDetails[index],
                 recipientProfile:res.data.recipientProfile[index]
             }));
-            set({recipients:recipient}) 
+            set({recipients:recipients}) 
         }catch(err){
             console.log(err.response.data.message)
         }finally{
@@ -59,6 +62,10 @@ export const useRecipientStore = create((set,get)=>({
             const res = await axiosInstance.get(`/request/${id}`) 
             set({singleRecipient:res.data}) 
             console.log(get().singleRecipient)
+            const socket = useAuthStore.getState().socket
+            socket.on("newRequest",(requestDetail)=>{
+                console.log(requestDetail)
+            })
         }catch(err){
             console.log(err.response.data.message)
         }finally{
@@ -71,6 +78,9 @@ export const useRecipientStore = create((set,get)=>({
             const res = await axiosInstance.post(`/request/${donorId}`) 
             set({requests:[...get().requests, res.data]})
             toast.success("Request sent Successfully !")
+            const socket = useAuthStore.getState().socket
+            socket.emit("sendRequest",res.data)
+
         }catch(err){
             console.log(err)
             toast.error("something went wrong, try again later !")
@@ -154,5 +164,5 @@ export const useRecipientStore = create((set,get)=>({
         }finally{
             set({isVerifyOtp:false})
         }
-    }
+    },
 }))

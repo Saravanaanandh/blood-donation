@@ -1,7 +1,7 @@
 import {create} from 'zustand'
 import { axiosInstance } from '../lib/axios.jsx'
 import toast from 'react-hot-toast'
-import {io} from 'socket.io-client'
+import {io} from 'socket.io-client' 
 
 const BASE_URL = import.meta.env.MODE === "development"?"http://localhost:5000":"/"
 export const useAuthStore = create((set,get)=>({
@@ -38,8 +38,7 @@ export const useAuthStore = create((set,get)=>({
             set({users:[...get().users, res.data]})
             toast.success("signed up successfully")
             get().connected()
-        }catch(err){
-            
+        }catch(err){ 
             toast.error(err.response.data.message)
         }finally{
             set({isSignUp:false})
@@ -93,7 +92,7 @@ export const useAuthStore = create((set,get)=>({
 
         const socket = io(BASE_URL,{
             query:{
-                userId:get().authUser._id
+                userId:get().authUser._id 
             }
         })
 
