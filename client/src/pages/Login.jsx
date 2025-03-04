@@ -65,7 +65,7 @@ const Login = () => {
                     log in
                 </button>
                 <div className="mt-5">
-                    <p>don&rsquo;t have an account?<Link to='/signup'>sign up</Link>
+                    <p>don&rsquo;t have an account?<Link className="text-violet-800 underline" to='/signup'>sign up</Link>
                     </p>
                 </div>
             </div>

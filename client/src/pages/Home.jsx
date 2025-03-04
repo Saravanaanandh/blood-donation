@@ -3,6 +3,7 @@ import { Link } from "react-router"
 import homepage from './../assets/Landing page.jpg'
 import homepageImg from './../assets/Home.jpg' 
 import Navbar from "../components/Navbar.jsx"
+import logo from './../assets/logo1.png'
 
 const Home = () => {
 
@@ -27,12 +28,11 @@ const Home = () => {
                 { !authUser ? (<div className="sm:text-[1.2rem]">
                 <Link to='/'>
                     <div className="sm:text-[1.2rem] cursor-pointer">
-                        <h1> <strong>GCES <span className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
+                        <h1 className="flex items-center"><img className="mr-3 w-10 inline-block brightness-150" src={logo} alt="" />  <strong>GCES <span className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
                     </div>
                 </Link>
                 </div>):(
-                    <div className="sm:text-[1.2rem] cursor-pointer">
-
+                    <div className="sm:text-[1.2rem] cursor-pointer"> 
                     </div>
                 )}
                 <div className="p-2 sm:p-3"> 

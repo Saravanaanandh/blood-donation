@@ -144,7 +144,7 @@ const Signup = () => {
                     Create Account
                 </button>
                 <div className="mt-2">
-                    <p>Already Registered?<Link to='/login'>login</Link>
+                    <p>Already Registered?<Link className="underline text-violet-800" to='/login'>login</Link>
                     </p>
                 </div> 
             </div>

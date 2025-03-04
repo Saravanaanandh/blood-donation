@@ -188,7 +188,7 @@ const SingleRequest = () => {
                         ) :
                         singleRecipient.requestDetail?.status === "confirmed" ? 
                         <span 
-                            className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800"
+                            className="cursor-pointer flex items-center gap-1 px-3 py-2 rounded-sm  bg-green-700 text-white shadow-md shadow-green-800"
                             onClick={()=>navigate(`/${singleRecipient.recipient?.recipientId}/otp`)}
                         >
                             Generate OTP <Smartphone/>

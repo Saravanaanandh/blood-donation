@@ -6,9 +6,11 @@ import profilePic from "./../assets/user.png";
 import { CheckCheck, CheckCircleIcon, Eye, SendHorizontalIcon, TriangleAlert } from "lucide-react"; 
 import { useAuthStore } from "../store/useAuthStore.jsx";
 import {motion} from 'framer-motion' 
+import { useRecipientStore } from "../store/useRecipientStore.jsx";
 const AllDonors = () => {
   const {authUser} = useAuthStore()
   const { allDonors, donors, getDonor } = useDonorStore(); 
+  const {recipientIds} = useRecipientStore()
 
   const [isAvailable, setIsAvailable] = useState(false);
   const [isPending, setIsPending] = useState(false);
@@ -19,7 +21,7 @@ const AllDonors = () => {
 
   const availableDonors = donors.filter(
     (donor) =>
-      (donor.donorDetail?.available === true) & (donor.requestDetail === null)
+      (donor.donorDetail?.available === true) & (donor.requestDetail === null) & recipientIds.includes(authUser._id)
     
   );
 
@@ -152,8 +154,9 @@ const AllDonors = () => {
         </div>
           )}
           {isAvailable && !availableDonors.length && (
-            <div className="w-full h-full flex justify-center items-center">
+            <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
               <span>No Donors Available!</span>
+              <p>Note: Please check if you have already filled out the Request Form.</p>
             </div>
           )}
           {isAvailable &&

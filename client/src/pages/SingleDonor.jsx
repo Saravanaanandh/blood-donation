@@ -8,17 +8,15 @@ import ToggleButton from './../components/ToggleButton.jsx'
 import { useDonorStore } from "../store/useDonorStore.jsx"
 import { useParams } from "react-router" 
 import { useRecipientStore} from '../store/useRecipientStore.jsx'
-import { useNavigate } from "react-router" 
-import { useAuthStore } from "../store/useAuthStore.jsx"
+import { useNavigate } from "react-router"  
 
 
 const SingleDonor = () => { 
 
     const navigate = useNavigate()
-    const {id:donorId} = useParams() 
-    const {authUser} = useAuthStore()
+    const {id:donorId} = useParams()  
     const {getDonor, singleDonor} = useDonorStore()
-    const {sendRequest,rejectRequest, confirmRequest,recipientIds} = useRecipientStore()
+    const {sendRequest,rejectRequest, confirmRequest} = useRecipientStore()
     
     const [showToggle, setShowToggle] = useState(false);
 
@@ -161,7 +159,7 @@ const SingleDonor = () => {
                                     navigate('/alldonors')
                                 }}
                                 // onClick={()=>{handleSendRequest();navigate('/alldonors')}}  
-                                className="shadow-sm shadow-red-700 px-4 py-2 rounded-sm flex gap-2 bg-red-700 text-white"
+                                className="cursor-pointer text-red-700 border-[1px] hover:shadow-sm hover:shadow-red-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-red-700 hover:text-white"
                             >
                                 Reject <X/>
                             </span>
@@ -171,24 +169,24 @@ const SingleDonor = () => {
                                     navigate('/alldonors')
                                 }}
                                 // onClick={()=>{handleSendRequest();navigate('/alldonors')}}  
-                                className="shadow-sm shadow-green-700 px-4 py-2 rounded-sm flex gap-2 bg-green-700 text-white"
+                                className="cursor-pointer text-green-700 border-[1px] hover:shadow-sm hover:shadow-green-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-green-700 hover:text-white"
                             >
                                 Confirm <CheckCircle/>
                             </span>
                         </div>
                     ) : singleDonor.requestDetail?.status === "confirmed" ? (
-                        <span className="shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-700 text-white">
+                        <span className=" shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-700 text-white">
                             Verify OTP<TabletSmartphoneIcon/>
                         </span>
                     ) : singleDonor.requestDetail?.status === "finalState" ? (
-                        <span className="shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-700 text-white">
+                        <span className="shadow-sm shadow-green-700 px-4 py-2 rounded-sm flex gap-2 bg-green-700 text-white">
                             Completed !<BadgeCheckIcon/>
                         </span>
                     ) : (
                         <span 
-                            onClick={()=>{
-                                recipientIds.includes(authUser._id) ?
-                                handleSendRequest():navigate('/request')
+                            onClick={()=>{ handleSendRequest()
+                                // recipientIds.includes(authUser._id) ?
+                                // handleSendRequest() : navigate('/request')
                             }} 
                             className="px-4 py-2 rounded-sm flex gap-2 cursor-pointer  border-[1px] transition-all duration-300 text-green-700 hover:bg-green-700 hover:text-white"
                         >
