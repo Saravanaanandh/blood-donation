@@ -1,7 +1,7 @@
 import Requests from '../model/DonorRecipient.js'
 import Donor from './../model/Donar.js'
 import User from './../model/User.js'
-
+import {io} from './../config/socket.js'
 export const getAllDonars = async(req, res)=>{
     const {_id:userId} = req.user 
 
@@ -14,8 +14,8 @@ export const getAllDonars = async(req, res)=>{
     );
     const requestDetails = await Promise.all(
         donors.map(donor => Requests.findOne({donorId:donor.donorId}))
-    );
-
+    );  
+    io.emit("allDonors",{donors,requestDetails,donorDetails,count:donors.length})
     res.status(200).json({donors,requestDetails,donorDetails,count:donors.length})
 }
 
@@ -32,6 +32,7 @@ export const getDonar = async (req, res)=>{
         const donorDetail = await User.findOne({_id:donorId})
 
         if(!donor) return res.status(200).json({message:"donar not found"})
+        io.emit("getDonor",{donor,donorDetail,requestDetail})
         res.status(200).json({donor,donorDetail,requestDetail}) 
     }catch(err){
         if(err.name === "CastError"){

@@ -1,15 +1,13 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.jsx";
-import toast from "react-hot-toast"; 
-import { Socket } from "socket.io-client";
-import { useAuthStore } from "./useAuthStore.jsx";
-import { use } from "react";
+import toast from "react-hot-toast";  
+import { useAuthStore } from "./useAuthStore.jsx"; 
 
 export const useRecipientStore = create((set,get)=>({
      
     recipients:[],
     requests:[],
-    recipientIds:[],
+    recipientId:null,
     singleRecipient:{},
     isRequestsFetching:false,
     isSingleRequestFetching:false,
@@ -29,7 +27,7 @@ export const useRecipientStore = create((set,get)=>({
         try{
             const res = await axiosInstance.post('/request/',data) 
             console.log(res.data)
-            set({recipientIds:[...get().recipientIds, res.data.recipientId]})
+            set({recipientId: res.data.recipientId})
             console.log(get().recipientIds)
             toast.success("Recipient Created successfully!")
         }catch(err){
@@ -44,12 +42,54 @@ export const useRecipientStore = create((set,get)=>({
         set({isRequestsFetching:true})
         try{
             const res = await axiosInstance.get('/request/')   
-            const recipients = res.data.requests.map((request, index) => ({
-                request,
-                requestDetail: res.data.requestDetails[index],
-                recipientProfile:res.data.recipientProfile[index]
-            }));
-            set({recipients:recipients}) 
+            const socket = useAuthStore.getState().socket
+            socket.off("newRequest")
+            socket.off("allRequests")
+            socket.off("acceptRequest")
+            socket.off("confirmedRequest")
+            socket.off("rejectRequest")
+            socket.off("completedRequest")
+            socket.on("allRequests",(requestDetail)=>{ 
+                console.log(requestDetail)
+                const recipients = requestDetail.requests.map((request, index) => ({
+                    request,
+                    requestDetail: res.data.requestDetails[index],
+                    recipientProfile:res.data.recipientProfile[index]
+                }));
+                set({recipients:recipients}) 
+            })
+            socket.on("newRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/request/') 
+            })
+            socket.on("acceptRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/request/') 
+            })
+            socket.on("confirmedRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/request/') 
+            })
+            socket.on("rejectRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/request/') 
+            })
+            socket.on("completedRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/request/') 
+            })
+            
+            // const recipients = res.data.requests.map((request, index) => ({
+            //     request,
+            //     requestDetail: res.data.requestDetails[index],
+            //     recipientProfile:res.data.recipientProfile[index]
+            // }));
+            // set({recipients:recipients}) 
         }catch(err){
             console.log(err.response.data.message)
         }finally{
@@ -59,27 +99,80 @@ export const useRecipientStore = create((set,get)=>({
     getRequest:async(id)=>{
         set({isRequestLoading:true})
         try{
-            const res = await axiosInstance.get(`/request/${id}`) 
-            set({singleRecipient:res.data}) 
-            console.log(get().singleRecipient)
-            const socket = useAuthStore.getState().socket
-            socket.on("newRequest",(requestDetail)=>{
-                console.log(requestDetail)
+            const res = await axiosInstance.get(`/request/${id}`)  
+            const socket = useAuthStore.getState().socket 
+            socket.off("acceptRequest")
+            socket.off("confirmedRequest")
+            socket.off("rejectRequest")
+            socket.off("completedRequest") 
+            socket.off("updateProfile")
+            socket.off("getRequest")
+            socket.on("getRequest",(data)=>{ 
+                set({singleRecipient:data})  
             })
+            socket.on("updateProfile",async(updatedDetail)=>{
+                const authUser = useAuthStore.getState().authUser
+                console.log(updatedDetail)
+                if(authUser._id === updatedDetail._id){
+                    set({authUser:updatedDetail}) 
+                } 
+                await axiosInstance.get(`/request/${id}`) 
+            })  
+            console.log(res.data)
+            console.log(get().singleRecipient)
+            socket.on("newRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get(`/request/${id}`) 
+            })
+            socket.on("acceptRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get(`/request/${id}`) 
+            })
+            socket.on("confirmedRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get(`/request/${id}`) 
+            })
+            socket.on("rejectRequest",async(request)=>{
+                console.log(request)
+                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get(`/request/${id}`) 
+            })
+            socket.on("completedRequest",async(requestDetail)=>{
+                console.log(requestDetail)
+                if(requestDetail.request?.donorId !== useAuthStore.getState().authUser._id & requestDetail.request?.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get(`/request/${id}`) 
+            })
+            
         }catch(err){
-            console.log(err.response.data.message)
+            console.log(err) 
         }finally{
             set({isRequestLoading:false})
         }
     }, 
+    UnsubscribeToGetRequest:()=>{
+        const socket = useAuthStore.getState().socket
+        socket.off("acceptRequest")
+        socket.off("rejectRequest")
+        socket.off("confirmedRequest")
+        socket.off("completedRequest")
+    },
     sendRequest:async(donorId)=>{
         set({isSendRequest:true})
         try{
             const res = await axiosInstance.post(`/request/${donorId}`) 
-            set({requests:[...get().requests, res.data]})
-            toast.success("Request sent Successfully !")
+            console.log(res.data)
             const socket = useAuthStore.getState().socket
-            socket.emit("sendRequest",res.data)
+            socket.off("newRequest")
+            socket.on("newRequest",(request)=>{
+                console.log(request)
+                set({requests:[...get().requests, request]})
+                toast.success("Request sent Successfully !")
+            })
+            // const socket = useAuthStore.getState().socket
+            // socket.emit("sendRequest",res.data)
 
         }catch(err){
             console.log(err)
@@ -88,9 +181,13 @@ export const useRecipientStore = create((set,get)=>({
             set({isSendRequest:true})
         } 
     },
+    UnsubscribeTogetAllRequest:()=>{
+        const socket = useAuthStore.getState().socket
+        socket.off("newRequest")
+    },
     acceptRequest:async(id)=>{
         set({isAcceptReq:true})
-        try{ 
+        try{
             await axiosInstance.put(`/request/${id}`) 
             toast.success("Request Accepted Successfully !")
         }catch(err){
@@ -129,7 +226,7 @@ export const useRecipientStore = create((set,get)=>({
         try{
             const res = await axiosInstance.post('/otp/',data)
             console.log(res.data)
-            set({OtpDetail:res.data})
+            set({OtpDetail:res.data.otp})
             toast.success("OTP sent to the Email !")
         }catch(err){
             console.log(err)
@@ -140,23 +237,30 @@ export const useRecipientStore = create((set,get)=>({
     },
     verifyOtp:async(data)=>{
         set({isVerifyOtp:true})
+        
         try{
             console.log(data)
             const res = await axiosInstance.post('/otp/verifyotp',data)
-            if(res.data.status === "VERIFIED"){
-                set({isOtpVerified:true})
-                console.log(res.data)
-                toast.success("otp verified") 
-            }else if(res.data.status === "EXPIRED"){
+            const socket = useAuthStore.getState().socket
+            socket.off("completedRequest")
+            socket.on("completedRequest",(otpDetails)=>{
+                console.log("otpDetails :"+otpDetails) 
                 set({isOtpVerified:false})
-                set({OtpDetail:null})
-                console.log(res.data)
-                toast.error("otp Expired! Send again!") 
-            }else{
-                set({isOtpVerified:false}) 
-                console.log(res.data)
-                toast.error("otp Incorrect") 
-            }
+                if(otpDetails.status === "VERIFIED"){
+                    set({isOtpVerified:true})
+                    console.log(otpDetails) 
+                    toast.success("otp verified") 
+                }else if(otpDetails.status === "EXPIRED"){
+                    set({isOtpVerified:false})
+                    set({OtpDetail:null})
+                    console.log(otpDetails)
+                    toast.error("otp Expired! Send again!") 
+                }else{
+                    set({isOtpVerified:false}) 
+                    console.log(otpDetails)
+                    toast.error("otp Incorrect") 
+                }
+            })
         }catch(err){
             set({isOtpVerified:false})
             console.log(err.response.data.message)

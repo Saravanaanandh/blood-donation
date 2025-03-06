@@ -9,21 +9,22 @@ import { useAuthStore } from "../store/useAuthStore.jsx"
 
 const AllRequests = () => {
 
-    const {allRequests, recipients, getRequest} = useRecipientStore()
+    const {allRequests, recipients, getRequest,UnsubscribeTogetAllRequest} = useRecipientStore()
     const {authUser} = useAuthStore()
     const [isRequests, setIsRequests] = useState(false)
     const [isConfirmedRequests, setIsConfirmedRequests] = useState(false)
     const [isRejectedRequests, setIsRejectedRequests] = useState(false)
     
     useEffect(()=>{
-       allRequests()
-    },[allRequests])
+       allRequests() 
+
+       return ()=>UnsubscribeTogetAllRequest()
+    },[allRequests, UnsubscribeTogetAllRequest])
 
     const pendingRequests = recipients.filter(recipient => (recipient.request?.status === "pending")&(recipient.request?.donorId === authUser._id))
 
     const confirmedRequests = recipients.filter(recipient =>(recipient.request?.status === "accepted")&(recipient.request?.donorId === authUser._id))
     const completedRequests = recipients.filter(recipient => ((recipient.request?.status === "confirmed") | (recipient.request?.status === "finalState")) & (recipient.request.donorId === authUser._id))
-
       
   return ( 
     <div>

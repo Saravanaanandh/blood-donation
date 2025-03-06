@@ -9,12 +9,14 @@ import { useDonorStore } from "../store/useDonorStore.jsx"
 import { useParams } from "react-router" 
 import { useRecipientStore} from '../store/useRecipientStore.jsx'
 import { useNavigate } from "react-router"  
+import { useAuthStore } from "../store/useAuthStore.jsx"
 
 
 const SingleDonor = () => { 
 
     const navigate = useNavigate()
     const {id:donorId} = useParams()  
+    const {UnsubscribeToProfileUpdate} = useAuthStore()
     const {getDonor, singleDonor} = useDonorStore()
     const {sendRequest,rejectRequest, confirmRequest} = useRecipientStore()
     
@@ -30,9 +32,11 @@ const SingleDonor = () => {
     useEffect(() => {
         const fetchDonor = async () => {
             await getDonor(donorId);
+
+            return ()=> UnsubscribeToProfileUpdate()
         }; 
         fetchDonor();
-    }, [donorId, getDonor]);
+    }, []);
      
 
     console.log(singleDonor)

@@ -9,21 +9,40 @@ import {motion} from 'framer-motion'
 import { useRecipientStore } from "../store/useRecipientStore.jsx";
 const AllDonors = () => {
   const {authUser} = useAuthStore()
-  const { allDonors, donors, getDonor } = useDonorStore(); 
-  const {recipientIds} = useRecipientStore()
+  const { allDonors, donors, getDonor,UnsubscribeToAlldonors } = useDonorStore(); 
+  const {recipientId} = useRecipientStore()
 
   const [isAvailable, setIsAvailable] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
   useEffect(() => {
     allDonors();
-  }, [allDonors]);
+
+    return ()=>UnsubscribeToAlldonors()
+  }, []);
 
   const availableDonors = donors.filter(
-    (donor) =>
-      (donor.donorDetail?.available === true) & (donor.requestDetail === null) & recipientIds.includes(authUser._id)
+    (donor) =>{
+      const isAvailable = donor.donorDetail?.available
+      const isRecipientRequest = donor.requestDetail === null ? true : recipientId === authUser._id ? true : false
+      console.log(isAvailable & isRecipientRequest)
+
+      return isAvailable & isRecipientRequest 
+    }
     
+    // (donor.donorDetail?.available === true) & ((!donor.requestDetail?.status ? true : donor.requestDetail.recipientId !== authUser._id ? true:false) & (donor.requestDetail?.status !== "finalState" | donor.requestDetail?.status !== "confirmed" | donor.requestDetail?.status !== "accepted" | donor.requestDetail?.status !== "pending") & recipientIds.includes(authUser._id))
+    //& (donor.requestDetail === null) //& recipientIds.includes(authUser._id)
   );
+  console.log(availableDonors) 
+  //   const availableDonors = donors.filter((donor) => {
+  //     const isAvailable = donor.donorDetail?.available === true;
+  //     const hasNoRequestOrNotForUser =
+  //         !donor.requestDetail?.status || donor.requestDetail.recipientId !== authUser._id;
+  //     const isRecipientValid = recipientIds.some(recipient => recipient === authUser._id);
+
+  //     return isAvailable && hasNoRequestOrNotForUser && isRecipientValid;
+  // });
+
 
   const acceptedDonors = donors.filter(
     (donor) => ((donor.requestDetail?.status === "finalState") | (donor.requestDetail?.status === "confirmed")) & (donor.requestDetail?.recipientId === authUser._id)

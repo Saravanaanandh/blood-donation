@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     bloodType:{
         type:String,
         required:true,
-        enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'],
+        enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',"A1+", "A1-", "A2+", "A2-", "A1B+","A1B-", "A2B+", "A2B-", "BOMBAY BLOOD GROUP"],
         set: value => value.toUpperCase()
     },
     location:{

@@ -22,11 +22,13 @@ const SingleRequest = () => {
     }, []);
     const navigate = useNavigate()
     const {id:recipientId} = useParams()  
-    const {getRequest,singleRecipient,acceptRequest, rejectRequest} = useRecipientStore()
+    const {getRequest,singleRecipient,acceptRequest, rejectRequest,UnsubscribeToGetRequest} = useRecipientStore()
 
     useEffect(()=>{
       getRequest(recipientId)
-    },[recipientId,getRequest]) 
+
+      return ()=>UnsubscribeToGetRequest()
+    },[]) 
     console.log(singleRecipient)
     return (
         <div className="min-h-[100vh]">

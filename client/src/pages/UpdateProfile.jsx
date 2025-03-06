@@ -2,7 +2,7 @@ import { Link } from "react-router"
 import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import Navbar from "../components/Navbar.jsx"
 import { useAuthStore } from "../store/useAuthStore.jsx"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import bannerImg from './../assets/banner.png'
 import { Camera, DropletsIcon, Edit } from "lucide-react"
 import profilePic from './../assets/user.png'
@@ -12,7 +12,7 @@ import editIcon from './../assets/editpng.png'
 
 const UpdateProfile = () => { 
 
-    const {authUser, updateProfile} = useAuthStore()
+    const {authUser, updateProfile,UnsubscribeToProfileUpdate} = useAuthStore() 
     const {allRequests} = useRecipientStore()
     console.log(authUser)
     const [formData, setFormData] = useState({
@@ -30,6 +30,7 @@ const UpdateProfile = () => {
     const [banner, setBanner] = useState(null)
     const [profile, setProfile] = useState(null)
 
+    
     const handleImageChange = async (e)=>{
         const file = e.target.files[0] 
         if(!file) return;
@@ -54,6 +55,7 @@ const UpdateProfile = () => {
             await updateProfile({profile:base64Img})
         } 
     }
+    
  
     const handleEditToggle = async(e)=>{
         const target = e.target
@@ -79,6 +81,11 @@ const UpdateProfile = () => {
         }   
         return;
     }
+    // useEffect(()=>{
+    //     updateProfile(formData)
+
+    //     return ()=>UnsubscribeToProfileUpdate()
+    // },[formData,updateProfile, UnsubscribeToProfileUpdate])
     const handleUpdataInfo = async(e,data)=>{
         if(data === "location"){
             // setFormData({...formData, mobile:parseInt(e.target.value)}) 

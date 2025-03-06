@@ -73,16 +73,30 @@ export const useAuthStore = create((set,get)=>({
     updateProfile:async(data)=>{
         set({isProfileUpdating:true})
         try{
-            const res = await axiosInstance.put('/auth/update-profile', data)
-            set({authUser:res?.data}) 
-            toast.success("profile Updated")
-            get().disconnected()
+            await axiosInstance.put('/auth/update-profile', data)
+            const socket = useAuthStore.getState().socket
+            socket.off("updateProfile")
+            socket.on("updateProfile",(updatedDetail)=>{
+                console.log(updatedDetail)
+                if(get().authUser._id === updatedDetail._id){
+                    set({authUser:updatedDetail}) 
+                    toast.success("profile Updated") 
+                }
+            })
+            socket.on("completedRequest",async(requestDetail)=>{
+                console.log("request Detail: "+requestDetail)
+                await axiosInstance.put('/auth/update-profile', data)
+            })
         }catch(err){ 
             console.log(err)
             toast.error("Please provide the valid details !")
         }finally{
             set({isProfileUpdating:false})
         }
+    },
+    UnsubscribeToProfileUpdate:()=>{
+        const socket = useAuthStore.getState().socket
+        socket.off("updateProfile")
     },
 
     connected:()=>{

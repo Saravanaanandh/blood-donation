@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { useRecipientStore } from "../store/useRecipientStore.jsx";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router"; 
+import { useNavigate, useParams } from "react-router"; 
 
 const OtpPage = () => {
   const navigate = useNavigate();
   const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail } = useRecipientStore();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const {id:recipientId} = useParams()
 
   useEffect(() => {
     if (isOtpVerified) {
@@ -29,8 +30,7 @@ const OtpPage = () => {
     if (!otp) return toast.error("Please enter OTP!");
     if (otp.length > 6) return toast.error("Enter valid OTP");
     try {
-      console.log(otp);
-      await verifyOtp({ otp }); 
+      await verifyOtp({ otp ,recipientId}); 
     } catch (err) {
       console.log(err);
     }

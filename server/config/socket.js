@@ -16,7 +16,9 @@ const io = new Server(server,{
 })
 
 const userSocket = {}
-
+export const getUserId = (Id)=>{
+    return userSocket[Id]
+}
 io.on("connection",(socket)=>{
     console.log(`a user connected : ${socket.id}`)
     const userId = socket.handshake.query.userId
@@ -24,10 +26,10 @@ io.on("connection",(socket)=>{
 
     io.emit("getOnlineUsers",Object.keys(userSocket))
 
-    socket.on("sendRequest",(request)=>{
-        console.log(request)
-        io.emit("newRequest",request)
-    })
+    // socket.on("sendRequest",(request)=>{
+    //     console.log("Request Details On Console :"+request)
+    //     io.emit("newRequest",request)
+    // })
     // socket.on("sendBloodRequest", (request) => {
     //     io.emit("newBloodRequest", request); 
     // });

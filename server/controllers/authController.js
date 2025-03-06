@@ -1,5 +1,6 @@
 import cloudinary from '../config/cloudinary.js'
 import User from './../model/User.js'
+import {io} from './../config/socket.js'
 
 export const signupController = async (req, res)=>{
     const {username,age, gender, bloodType,location,pinCode,mobile, email, password} = req.body 
@@ -53,6 +54,7 @@ export const updateProfileController = async (req, res)=>{
             updatedUser = await User.findOneAndUpdate({email:user.email},{banner:uploadedResponse.secure_url},{new:true})
         } 
         const newUser = updatedUser 
+        io.emit("updateProfile",newUser)
         res.status(200).json(newUser) 
     }catch(err){
         res.status(400).json({message:err.name}) 
