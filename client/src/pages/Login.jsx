@@ -3,6 +3,7 @@ import { Link } from "react-router"
 import toast from "react-hot-toast"
 import { useAuthStore } from "../store/useAuthStore.jsx"
 import loginImg from './../assets/login.jpg'
+import { Eye, EyeOff } from "lucide-react"
 
 const Login = () => {
     
@@ -11,7 +12,7 @@ const Login = () => {
         email:"",
         password:""
     }) 
-
+    const [showPassword, setShowPassword] = useState(false)
     const handleSubmit = async(e)=>{
         e.preventDefault()
 
@@ -51,14 +52,23 @@ const Login = () => {
                 onChange={(e)=> setFormDate({...formData, email:e.target.value})}
                 required
             />
-            <input 
-                type="text" 
-                className="bg-gray-300 sm:w-[25vw] w-[80%] outline-none border-none p-2 rounded-md"
-                placeholder="Enter password"
-                value={formData.password}
-                onChange={(e)=> setFormDate({...formData, password:e.target.value})}
-                required
-            />
+            <div className="relative flex justify-between items-center sm:w-[30vw] w-[80%]">
+
+                <input 
+                    className="bg-gray-300 sm:w-[30vw] w-full outline-none border-none p-2 rounded-md"
+                    type={showPassword ? "text":"password"}
+                    placeholder="Enter Password"
+                    value={formData.password}
+                    onChange={(e) => setFormDate({ ...formData, password:e.target.value })}
+                    required
+                />
+                <div className="absolute right-3 cursor-pointer" onClick={()=>{setShowPassword(!showPassword)}}>
+                {
+                    showPassword ? 
+                    <Eye className="size-4"/> : <EyeOff className="size-4"/>
+                }
+                </div>
+            </div>
             <div className="sm:w-[25vw] w-[80%] text-center">
 
                 <button className="w-full text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-2.5 bg-violet-900 text-white transition-all duration-300 hover:scale-105"  type="submit" onClick={handleSubmit} disabled={!formData.email || !formData.password}>

@@ -60,11 +60,9 @@ const UpdateProfile = () => {
     const handleEditToggle = async(e)=>{
         const target = e.target
         if(isMobileEdit){ 
-            if(!target.classList.contains("Edit")){
-                // if(formData.mobile !== e.target.value){
+            if(!target.classList.contains("Edit")){ 
                     await updateProfile(formData)
-                    setisMobileEdit(false)  
-                // } 
+                    setisMobileEdit(false)   
             }
         }  
         if(isLocationEdit){ 
@@ -80,15 +78,9 @@ const UpdateProfile = () => {
             }
         }   
         return;
-    }
-    // useEffect(()=>{
-    //     updateProfile(formData)
-
-    //     return ()=>UnsubscribeToProfileUpdate()
-    // },[formData,updateProfile, UnsubscribeToProfileUpdate])
+    } 
     const handleUpdataInfo = async(e,data)=>{
-        if(data === "location"){
-            // setFormData({...formData, mobile:parseInt(e.target.value)}) 
+        if(data === "location"){ 
             setFormData({...formData, location:e.target.value}) 
             return;
         }
@@ -118,9 +110,9 @@ const UpdateProfile = () => {
             </div>
             <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-[50vh] sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
-                        <div className=" cursor-pointer relative inline-block"> 
+                        <div className="cursor-pointer relative inline-block"> 
                             <input 
                                 type="file" 
                                 className="hidden"
@@ -129,7 +121,7 @@ const UpdateProfile = () => {
                                 onChange={handleProfileImageChange}
                             />
                             <Camera onClick={()=> profileRef.current.click()} className="p-1 size-5 sm:size-6 bg-gray-300 rounded-full absolute bottom-0 right-0 "/>
-                            <img className=" border-[1px] rounded-full size-20 sm:size-23" src={profile || authUser.profile || profilePic} alt="profile picture" />
+                            <img className="border-[1px] rounded-full size-23" src={profile || authUser.profile || profilePic} alt="profile picture" />
                         </div>
                     </div>
                     <div className="flex flex-col items-center gap-1">
@@ -158,7 +150,7 @@ const UpdateProfile = () => {
                 </div> 
             </div> 
             </div>
-            <div className="flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[80vh] right-[10vw] sm:right-0 mt-6 sm:sm:px-5">
+            <div className="w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[70vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Profile</strong></h1>
                 <ul className="flex flex-col gap-5 sm:w-3/4 my-10 leading-8 sm:leading-10">
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5">

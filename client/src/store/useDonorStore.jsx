@@ -19,8 +19,7 @@ export const useDonorStore = create((set,get)=>({
             const res = await axiosInstance.post('/donate/',data)
             set({donors:[...get().donors, res.data]})
             toast.success("thanks donor!")
-        }catch(err){
-            console.log(err.response.data.message)
+        }catch(err){ 
             toast.error(err.response.data.message)
         }finally{
             set({isCreatingDonor:false})
@@ -34,23 +33,20 @@ export const useDonorStore = create((set,get)=>({
             socket.off("allDonors")
             socket.off("updateProfile")
             socket.on("updateProfile",async(updatedDetail)=>{
-                const authUser = useAuthStore.getState().authUser
-                console.log(updatedDetail)
+                const authUser = useAuthStore.getState().authUser 
                 if(authUser._id === updatedDetail._id){
                     set({authUser:updatedDetail}) 
                 } 
                 await axiosInstance.get('/donate/') 
             })  
             socket.on("allDonors",(donorsInfo)=>{
-                // const donors = [donors]
-                console.log(donorsInfo)
+                // const donors = [donors] 
                 const donorList = donorsInfo.donors.map((donor, index) => ({
                     donor,
                     donorDetail: donorsInfo.donorDetails[index],
                     requestDetail:donorsInfo.requestDetails[index]
                 }));
-                set({donors:donorList})
-                console.log(get().donors)  
+                set({donors:donorList})  
             })
         }catch(err){
             console.log(err.response.data.message)
@@ -73,8 +69,7 @@ export const useDonorStore = create((set,get)=>({
                 set({singleDonor:data})  
             })
             socket.on("updateProfile",async(updatedDetail)=>{
-                const authUser = useAuthStore.getState().authUser
-                console.log(updatedDetail)
+                const authUser = useAuthStore.getState().authUser 
                 if(authUser._id === updatedDetail._id){
                     set({authUser:updatedDetail}) 
                 } 

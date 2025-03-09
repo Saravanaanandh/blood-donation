@@ -142,7 +142,7 @@ const AllRequests = () => {
                 { isRequests && pendingRequests.length>0 && (
                     pendingRequests.map((recipient)=>(
                         <Link className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100" key={recipient.request._id} onClick={()=> getRequest(recipient.request.recipientId)} to={`/allrequests/${recipient.request.recipientId}`}>
-                            <div className="h-full flex justify-between items-center">
+                            <div className="h-full flex max-sm:gap-10 sm:justify-between  items-center">
                                 <div className="flex items-center gap-5">
                                     <div>
                                         <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />
@@ -173,7 +173,7 @@ const AllRequests = () => {
                     isConfirmedRequests && confirmedRequests.length>0 && (
                         confirmedRequests.map((recipient)=>(
                             <Link className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100" key={recipient.request._id} onClick={()=> getRequest(recipient.request.recipientId)} to={`/allrequests/${recipient.request.recipientId}`}>
-                                <div className="h-full flex justify-between items-center">
+                                <div className="h-full flex max-sm:gap-10 sm:justify-between  items-center">
                                     <div className="flex items-center gap-5">
                                         <div>
                                             <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />
@@ -205,7 +205,7 @@ const AllRequests = () => {
                     isRejectedRequests && completedRequests.length>0 && (
                         completedRequests.map((recipient)=>(
                             <Link className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100" key={recipient.request._id} onClick={()=> getRequest(recipient.request.recipientId)} to={`/allrequests/${recipient.request.recipientId}`}>
-                                <div className="h-full flex justify-between items-center">
+                                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                                     <div className="flex items-center gap-5">
                                         <div>
                                             <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />

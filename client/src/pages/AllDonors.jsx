@@ -189,7 +189,7 @@ const AllDonors = () => {
                 }}
                 to={`/alldonors/${donor.donor.donorId}`}
               >
-                <div className="h-full flex justify-between items-center">
+                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img
@@ -240,7 +240,7 @@ const AllDonors = () => {
                 onClick={() => getDonor(donor.donor.donorId)}
                 to={`/alldonors/${donor.donor.donorId}`}
               >
-                <div className="h-full flex justify-between items-center">
+                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img
@@ -291,7 +291,7 @@ const AllDonors = () => {
                 onClick={() => getDonor(donor.donor.donorId)}
                 to={`/alldonors/${donor.donor.donorId}`}
               >
-                <div className="h-full flex justify-between items-center">
+                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img

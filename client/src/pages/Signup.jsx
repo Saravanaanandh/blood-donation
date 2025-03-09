@@ -53,12 +53,12 @@ const Signup = () => {
         <div className="pb-10 flex flex-col items-center w-full min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center" style={{backgroundImage:`url(${signupImg})`}}> 
         <form onSubmit={handleSubmit} className="flex items-center justify-center my-10 max-sm:my-4">
             
-            <div className="flex flex-col gap-1 min-h-auto w-[80vw] px-15 sm:w-[40vw] bg-amber-50 py-10 rounded-2xl max-sm:py-5">
+            <div className="flex flex-col gap-1 min-h-auto w-[85vw] px-15 sm:w-[40vw] bg-amber-50 py-10 rounded-2xl max-sm:py-5">
                 <h1 className="sm:text-[2rem] text-center"><strong>Create Account</strong></h1>
 
                 <label className="text-start w-full">Full Name</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="text" 
                     placeholder="Enter fullname"
                     value={formData.username}
@@ -68,7 +68,7 @@ const Signup = () => {
 
                 <label>Age</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="tel" 
                     placeholder="Enter Age"
                     value={formData.age || ''}
@@ -76,10 +76,10 @@ const Signup = () => {
                     required
                 />
 
-                <label>Blood Type</label>
+                <label>Blood Group</label>
                 <select
             onChange={(e) => setFormData({ ...formData, bloodType: e.target.value })} 
-            className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+            className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
             required
         >
             <option value="">Select Blood Type</option>
@@ -105,7 +105,7 @@ const Signup = () => {
 
                 <label>Gender</label>
                 <select
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}  
                     required
                 >
@@ -116,7 +116,7 @@ const Signup = () => {
 
                 <label>Location</label>
                 <select
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     required
                 >
@@ -164,7 +164,7 @@ const Signup = () => {
 
                 <label>Pincode</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="tel" 
                     placeholder="Enter Pincode"
                     value={formData.pinCode || ""}
@@ -174,7 +174,7 @@ const Signup = () => {
 
                 <label>Mobile Number</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="tel" 
                     placeholder="Enter Mobile No."
                     value={formData.mobile || ""} 
@@ -184,7 +184,7 @@ const Signup = () => {
 
                 <label>Email</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="email" 
                     placeholder="Enter Email"
                     value={formData.email}
@@ -193,7 +193,7 @@ const Signup = () => {
                 />
 
                 <label>Password</label>
-                <div className="relative flex justify-between items-center sm:w-[30vw] w-[80%]">
+                <div className="relative flex justify-between items-center sm:w-[30vw] w-[100%]">
 
                 <input 
                     className="bg-gray-300 sm:w-[30vw] w-full outline-none border-none p-2 rounded-md"
@@ -211,7 +211,7 @@ const Signup = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="text-center my-1"> 
                     <input
                         className="bg-gray-300 mr-2 outline-none border-none p-2 rounded-md"
                         type="checkbox" 
@@ -221,7 +221,7 @@ const Signup = () => {
                     <span>I agree with <a href="#">Terms & Conditions</a></span>
                 </div>
 
-                <div className="sm:w-[30vw] w-[80%] text-center">
+                <div className="sm:w-[30vw] w-[100%] text-center">
                     <button className="w-full text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-2.5 bg-violet-900 text-white transition-all duration-300 hover:scale-105" type="submit" onClick={handleSubmit} disabled={!isChecked}>
                         Create Account
                     </button>

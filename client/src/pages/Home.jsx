@@ -15,7 +15,7 @@ const Home = () => {
             {
                 authUser ? (
                     <div className="relative">
-                        <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" />
+                        <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] max-sm:w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" />
                     </div>
                 ) : (
                     <div className="relative">

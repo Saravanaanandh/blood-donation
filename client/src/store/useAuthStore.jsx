@@ -31,8 +31,7 @@ export const useAuthStore = create((set,get)=>({
 
     signup:async(data)=>{
         set({isSignUp:true})
-        try{
-            console.log(data)
+        try{ 
             const res = await axiosInstance.post('/auth/signup',data)
             set({authUser:res.data})
             set({users:[...get().users, res.data]})
@@ -77,18 +76,15 @@ export const useAuthStore = create((set,get)=>({
             const socket = useAuthStore.getState().socket
             socket.off("updateProfile")
             socket.on("updateProfile",(updatedDetail)=>{
-                console.log(updatedDetail)
                 if(get().authUser._id === updatedDetail._id){
                     set({authUser:updatedDetail}) 
                     toast.success("profile Updated") 
                 }
             })
             socket.on("completedRequest",async(requestDetail)=>{
-                console.log("request Detail: "+requestDetail)
                 await axiosInstance.put('/auth/update-profile', data)
             })
-        }catch(err){ 
-            console.log(err)
+        }catch(err){
             toast.error("Please provide the valid details !")
         }finally{
             set({isProfileUpdating:false})

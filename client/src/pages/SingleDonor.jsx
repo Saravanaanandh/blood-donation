@@ -53,14 +53,14 @@ const SingleDonor = () => {
             </div>
             <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-[40vh] sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className=" cursor-pointer relative inline-block"> 
                             <img className=" border-[1px] rounded-full size-23" src={ singleDonor.donorDetail?.profile || profilePic} alt="profile picture" />
                         </div>
                     </div>
                     <div className="flex flex-col items-center gap-1">
-                        <h1 className="text-[1.2rem]"><strong>{singleDonor.donorDetail?.username}</strong></h1>
+                        <h1 className="text-[1.2rem]"><strong>{singleDonor.donorDetail?.username.toUpperCase()}</strong></h1>
                         <h1 className="">{singleDonor.donorDetail?.email}</h1>
                         <div className="flex gap-3"> 
                             <span>Are You Available : </span>
@@ -86,7 +86,7 @@ const SingleDonor = () => {
                 </div> 
             </div> 
             </div>
-            <div className="flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[70vh] right-[5vw] sm:right-0 mt-6 sm:sm:sm:px-5">
+            <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[60vh] right-0 mt-6 sm:sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Profile</strong></h1>
                 <ul className="flex flex-col gap-5 sm:w-3/4 my-10 leading-10">
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
