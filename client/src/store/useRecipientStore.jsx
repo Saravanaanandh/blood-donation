@@ -26,7 +26,7 @@ export const useRecipientStore = create((set,get)=>({
         set({isCreatingRecipient:true})
         try{
             const res = await axiosInstance.post('/request/',data)  
-            set({recipientId: res.data.recipientId}) 
+            set({recipientId: res.data}) 
             toast.success("Recipient Created successfully!")
         }catch(err){
             console.log(err.response.data.message)

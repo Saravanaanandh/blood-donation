@@ -23,10 +23,11 @@ const AllDonors = () => {
 
   const availableDonors = donors.filter(
     (donor) =>{
+      console.log(recipientId)
       const isAvailable = donor.donorDetail?.available
       const isRecipientRequest = donor.requestDetail === null ? true :  false
-      const isRecipientUser = recipientId === authUser._id ? true : false
-      console.log(isAvailable & isRecipientRequest & isRecipientUser)
+      const isRecipientUser = recipientId ? true : false
+      console.log(isAvailable & isRecipientRequest & isRecipientUser )
 
       return isAvailable & isRecipientRequest & isRecipientUser
     }
