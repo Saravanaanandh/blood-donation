@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router'
 import './App.css'
 import Home from './pages/Home.jsx'
+import LearnMore from './pages/LearnMore.jsx'
 import Login from './pages/Login.jsx'
 import Signup from './pages/Signup.jsx'
 import UpdateProfile from './pages/UpdateProfile.jsx'
@@ -30,8 +31,9 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<Home/>}/>
+        <Route path='/learnmore' element={<LearnMore/>}/>
         <Route path='/login' element={!authUser ? <Login/> : <Navigate to={'/'}/>}/>
-        <Route path='/signup' element={!authUser ? <Signup/> : <Navigate to={'/'}/>}/>
+        <Route path='/signup' element={!authUser ? <Signup/> : <Navigate to={'/'}/>}/> 
         <Route path='/profile' element={authUser ? <UpdateProfile/>:<Navigate to={'/'}/>}/> 
         <Route path='/donate' element={authUser ? <Donate/>:<Navigate to={'/'}/>}/> 
         <Route path='/request' element={authUser ? <Request/>:<Navigate to={'/'}/>}/> 
