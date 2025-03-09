@@ -58,41 +58,41 @@ const AllDonors = () => {
       <h1 className="text-center text-red-600 text-[1.2rem] underline">
         <strong>All Donors</strong>
       </h1>
-      <div className="flex border-[1px] rounded-lg shadow-sm shadow-gray-400 mx-5 my-1">
-        <div className="flex flex-col justify-evenly h-[75vh] w-[15vw]">
+      <div className="min-h-svh flex max-sm:flex-col border-[1px] rounded-lg shadow-sm shadow-gray-400 mx-5 my-1 overflow-y-hidden">
+        <div className="flex sm:flex-col sm:h-[75vh] sm:w-[15vw] w-full">
           <div
-            className="cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+            className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
             onClick={() => {
               setIsAvailable(true);
               setIsAccepted(false);
               setIsPending(false);
             }}
           >
-            <span className="text-[1.2rem]">Available</span>
+            <span className="">Available</span>
           </div>
           <div
-            className=" cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+            className=" text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
             onClick={() => {
               setIsAvailable(false);
               setIsAccepted(false);
               setIsPending(true);
             }}
           >
-            <span className="text-[1.2rem]">Request Sent</span>
+            <span className="flex text-center">Request Sent</span>
           </div>
           <div
-            className="cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+            className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
             onClick={() => {
               setIsAvailable(false);
               setIsAccepted(true);
               setIsPending(false);
             }}
           >
-            <span className="text-[1.2rem]">Accepted</span>
+            <span className="">Accepted</span>
           </div>
         </div>
         <motion.div
-          className={`w-full h-full flex flex-col gap-3 mx-5 p-5 overflow-y-auto`}
+          className={`w-full h-full flex flex-col gap-3 sm:mx-5 p-5 overflow-y-auto`}
           initial={{
             transform: "translateY(200%)",
             opacity: 0,
@@ -198,7 +198,7 @@ const AllDonors = () => {
                         alt=""
                       />
                     </div>
-                    <div>
+                    <div className="max-sm:hidden">
                       <h1>
                         <strong>
                           {" "}
@@ -213,7 +213,12 @@ const AllDonors = () => {
                       </p>
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:flex sm:flex-col sm:items-center">
+                    <h1 className="sm:hidden text-center">
+                      <strong> 
+                        {donor.donorDetail.username.toUpperCase()}
+                      </strong>
+                    </h1>
                     <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm text-green-700 hover:bg-green-700 hover:text-white">
                       Send Request <SendHorizontalIcon className="size-4" />
                     </button>
@@ -244,7 +249,7 @@ const AllDonors = () => {
                         alt=""
                       />
                     </div>
-                    <div>
+                    <div className="max-sm:hidden">
                       <h1>
                         <strong>
                           {" "}
@@ -259,7 +264,12 @@ const AllDonors = () => {
                       </p>
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:flex sm:flex-col sm:items-center">
+                    <h1 className="sm:hidden text-center">
+                      <strong> 
+                        {donor.donorDetail.username.toUpperCase()}
+                      </strong>
+                    </h1>
                     <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${donor.requestDetail?.status === "pending" ? "bg-yellow-400 text-black":"bg-green-400 text-white"}`}>
                       {donor.requestDetail?.status === "accepted" ? "Confirm" : "Pending"} {donor.requestDetail?.status === "pending" ? (<TriangleAlert className="size-4" />):(<CheckCircleIcon className="size-4" />)}
                     </button>
@@ -290,7 +300,7 @@ const AllDonors = () => {
                         alt=""
                       />
                     </div>
-                    <div>
+                    <div className="max-sm:hidden">
                       <h1>
                         <strong>
                           {" "}
@@ -305,7 +315,12 @@ const AllDonors = () => {
                       </p>
                     </div>
                   </div>
-                  <div>
+                  <div className="sm:flex sm:flex-col sm:items-center">
+                    <h1 className="sm:hidden text-center">
+                      <strong> 
+                        {donor.donorDetail.username.toUpperCase()}
+                      </strong>
+                    </h1>
                     <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700 text-white">
                       {donor.requestDetail?.status === "confirmed" ? "view" : "Completed"}
                       {donor.requestDetail?.status === "confirmed" ? (<Eye/>):(<CheckCheck className="size-4" />)}

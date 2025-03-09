@@ -33,12 +33,12 @@ const SingleRequest = () => {
     return (
         <div className="min-h-[100vh]">
             <Navbar/>
-            <div className="relative rounded-lg w-full h-[40vh] bg-no-repeat bg-cover bg-center" style={{backgroundImage:`url(${ singleRecipient.recipientProfile?.banner || bannerImg})`}}>
+            <div className="relative rounded-lg w-full h-[25vh] sm:h-[40vh] bg-no-repeat bg-cover bg-center" style={{backgroundImage:`url(${ singleRecipient.recipientProfile?.banner || bannerImg})`}}>
                  
             </div>
-            <div className="sticky top-22">
+            <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-20 left-10 w-[25vw] h-[40vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-[40vh] sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className=" cursor-pointer relative inline-block"> 
                             <img className=" border-[1px] rounded-full size-23" src={  singleRecipient.recipientProfile?.profile || profilePic} alt="profile picture" />
@@ -71,7 +71,7 @@ const SingleRequest = () => {
                 </div> 
             </div> 
             </div>
-            <div className="flex flex-col items-center justify-center w-4/6 absolute right-0 mt-6 px-5">
+            <div className="flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[70vh] right-[1vw] sm:right-0 mt-6 sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Patients Details</strong></h1>
                 <h1>{singleRecipient.recipient?.isCritical ? (
                     <div className="p-1 px-2 mt-2 bg-red-600 text-white rounded-sm">
@@ -80,37 +80,37 @@ const SingleRequest = () => {
                 ):""}</h1>
                 <ul className="flex flex-col gap-4 w-3/4 my-10 leading-10">
                 
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Name</h3>
                         <p>
                            { singleRecipient.recipient?.patientsName} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Age</h3>
                         <p>
                            { singleRecipient.recipient?.patientsage} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Blood Type </h3>
                         <p>
                            {singleRecipient.recipient?.bloodType} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Required Blood Units </h3>
                         <p>
                            {singleRecipient.recipient?.bloodUnits} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Gender</h3>
                         <p>
                            {singleRecipient.recipient?.gender} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Person Last Donated Date :</h3>
                         <p>
                            {singleRecipient.recipientProfile?.lastDonated || "No donations!"} 
@@ -118,7 +118,7 @@ const SingleRequest = () => {
                     </li>
                     {
                         singleRecipient.recipientProfile?.nextDonationDate ? (
-                            <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                            <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                                 <h3>Suggest to Donate After (90days) </h3>
                                 <p>
                                 {singleRecipient.recipientProfile?.nextDonationDate} 
@@ -126,32 +126,32 @@ const SingleRequest = () => {
                             </li>
                         ) : ("")
                     } 
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Location</h3>
                         <p>
                            {singleRecipient.recipient?.location} 
                         </p>
                     </li>
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>PinCode</h3> 
                         <p>
                            {singleRecipient.recipient?.pinCode} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Email</h3>
                         <p>
                            {singleRecipient.recipient?.email} 
                         </p>
                     </li>
                      
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Attendees Name</h3> 
                         <p>
                           {singleRecipient.recipient?.AttendeesName} 
                         </p>
                     </li>
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Attendees Mobile Number</h3> 
                         <p>
                           {singleRecipient.recipient?.AttendeesPhno} 

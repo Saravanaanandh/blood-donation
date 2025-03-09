@@ -30,30 +30,30 @@ const AllRequests = () => {
     <div>
         <Navbar/>
         <h1 className="text-center text-red-600 text-[1.2rem] underline"><strong>All Requests</strong></h1>
-        <div className="flex border-[1px] rounded-lg shadow-sm shadow-gray-400 mx-5 my-1 overflow-y-hidden">
-            <div className="flex flex-col h-[75vh] w-[15vw]">
-                <div className="cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=>{ setIsRequests(true);
+        <div className="min-h-svh flex max-sm:flex-col border-[1px] rounded-lg shadow-sm shadow-gray-400 mx-5 my-1 overflow-y-hidden">
+            <div className="flex sm:flex-col sm:h-[75vh] sm:w-[15vw] w-full">
+                <div className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=>{ setIsRequests(true);
                 setIsConfirmedRequests(false);
                 setIsRejectedRequests(false)
                 }}>
-                    <span className="text-[1.2rem]">Requests</span>
+                    <span className="">Requests</span>
                 </div> 
-                <div className="cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=> {setIsConfirmedRequests(true);
+                <div className="cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=> {setIsConfirmedRequests(true);
                 setIsRequests(false)
                 setIsRejectedRequests(false)}
                 }>
-                    <span className="text-[1.2rem]">Accepted</span>
+                    <span className="">Accepted</span>
                 </div>
-                <div className="cursor-pointer w-full m-3 flex h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=> {setIsConfirmedRequests(false);
+                <div className="cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400" onClick={()=> {setIsConfirmedRequests(false);
                 setIsRequests(false);
                 setIsRejectedRequests(true)
                 }
                 }>
-                    <span className="text-[1.2rem]">Confirmed</span>
+                    <span className="">Confirmed</span>
                 </div>
             </div>
             <motion.div 
-                className="w-full h-full flex flex-col gap-3 mx-5 p-5 overflow-y-hidden"
+                className="w-full h-full flex flex-col gap-3 sm:mx-5 p-5 overflow-y-hidden"
                 initial={{
                     transform:'translateY(200%)',
                     opacity:0
@@ -147,12 +147,13 @@ const AllRequests = () => {
                                     <div>
                                         <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />
                                     </div>
-                                    <div> 
+                                    <div className="max-sm:hidden"> 
                                         <h1><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
                                         <p className="text-[0.9rem]"> Age : {recipient.requestDetail.patientsage} | Gender : {recipient.requestDetail.gender} | location : {recipient.requestDetail.location} </p>
                                     </div>
                                 </div>
-                                <div>
+                                <div className="sm:flex sm:flex-col sm:items-center">
+                                <h1 className="sm:hidden"><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
                                     <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm text-green-700 hover:bg-green-700 hover:text-white">
                                         Accept <MoveRight className="size-4"/>
                                     </button>
@@ -177,12 +178,13 @@ const AllRequests = () => {
                                         <div>
                                             <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />
                                         </div>
-                                        <div> 
+                                        <div className="max-sm:hidden"> 
                                             <h1><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
                                             <p className="text-[0.9rem]"> Age : {recipient.requestDetail.patientsage} | Gender : {recipient.requestDetail.gender} | location : {recipient.requestDetail.location} </p>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div className="sm:flex sm:flex-col sm:items-center">
+                                    <h1 className="sm:hidden"><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
                                         <button className="flex items-center gap-1 px-3 py-2 rounded-sm  bg-yellow-700 text-white">
                                             Waiting <Clock/>
                                         </button>
@@ -208,13 +210,14 @@ const AllRequests = () => {
                                         <div>
                                             <img className="size-15 rounded-full " src={recipient.recipientProfile.profile || profilePic} alt="" />
                                         </div>
-                                        <div> 
+                                        <div className="max-sm:hidden"> 
                                             <h1><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
-                                            <p className="text-[0.9rem]"> Age : {recipient.requestDetail.patientsage} | Gender : {recipient.requestDetail.gender} | location : {recipient.requestDetail.location} </p>
+                                            <p className="max-sm:hidden text-[0.9rem]"> Age : {recipient.requestDetail.patientsage} | Gender : {recipient.requestDetail.gender} | location : {recipient.requestDetail.location} </p>
                                         </div>
                                     </div>
-                                    <div>
-                                        <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-red-700  text-white">
+                                    <div className="sm:flex sm:flex-col sm:items-center">
+                                        <h1 className="sm:hidden"><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
+                                        <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${ recipient.request.status === "confirmed" ? "bg-red-700" :"bg-green-700"}   text-white`}> 
                                             { recipient.request.status === "confirmed" ? "generate OTP" :"Completed"}
                                             { recipient.request.status === "confirmed" ? (<Smartphone/>) :(<CheckCircle/>)}
                                         </button>

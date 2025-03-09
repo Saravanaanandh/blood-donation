@@ -104,7 +104,7 @@ const UpdateProfile = () => {
     return (
         <div className="min-h-[100vh]" onClick={handleEditToggle}>
             <Navbar/>
-            <div className="relative rounded-lg w-full h-[40vh] bg-no-repeat bg-cover bg-center" style={{backgroundImage:`url(${banner || authUser.banner || bannerImg})`}}>
+            <div className="relative rounded-lg w-full h-[25vh] sm:h-[40vh] bg-no-repeat bg-cover bg-center" style={{backgroundImage:`url(${banner || authUser.banner || bannerImg})`}}>
                 <input 
                     type="file"
                     ref={bannerRef}
@@ -113,12 +113,12 @@ const UpdateProfile = () => {
                     onChange={handleImageChange}  
                 />
                 <div className="cursor-pointer absolute p-1 bg-gray-300 rounded-full bottom-2 right-2 hover:text-white transition-colors duration-300 ease-in-out" onClick={()=>bannerRef.current?.click()}>
-                    <Edit className="size-5"/>
+                    <Edit className="size-3 sm:size-5"/>
                 </div>
             </div>
-            <div className="sticky top-22">
+            <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-20 left-10 w-[25vw] h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-[50vh] sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className=" cursor-pointer relative inline-block"> 
                             <input 
@@ -128,29 +128,29 @@ const UpdateProfile = () => {
                                 accept="/image*"
                                 onChange={handleProfileImageChange}
                             />
-                            <Camera onClick={()=> profileRef.current.click()} className="p-1 size-6 bg-gray-300 rounded-full absolute bottom-0 right-0 "/>
-                            <img className=" border-[1px] rounded-full size-23" src={profile || authUser.profile || profilePic} alt="profile picture" />
+                            <Camera onClick={()=> profileRef.current.click()} className="p-1 size-5 sm:size-6 bg-gray-300 rounded-full absolute bottom-0 right-0 "/>
+                            <img className=" border-[1px] rounded-full size-20 sm:size-23" src={profile || authUser.profile || profilePic} alt="profile picture" />
                         </div>
                     </div>
                     <div className="flex flex-col items-center gap-1">
-                        <h1 className="text-[1.2rem]"><strong>{authUser.username}</strong></h1>
+                        <h1 className="sm:text-[1.2rem]"><strong>{authUser.username}</strong></h1>
                         <h1 className="">{authUser.email}</h1>
-                        <div className="flex gap-3"> 
-                            <span>Are You Available : </span>
+                        <div className="w-full flex justify-between gap-1 sm:gap-3"> 
+                            <span>Available:</span>
                             <ToggleButton 
                                 Available={authUser?.available}
                             />
                         </div> 
-                        <h1 className="flex gap-2 text-[1.2rem]">Donations : {authUser.donation}<span className="text-red-600 "><DropletsIcon/></span></h1>
+                        <h1 className="flex gap-2 text-[1rem] sm:text-[1.2rem]">Donations : {authUser.donation}<span className="text-red-600 "><DropletsIcon className="size-5 sm:size-6"/></span></h1>
                     </div>
                     <div className="w-full flex flex-col gap-2"> 
                         <Link to='/allrequests'>
-                            <button className="cursor-pointer w-full py-1.5   rounded-md text-red-500 border-[1px] border-red-500">
+                            <button className="cursor-pointer w-full sm:py-1.5 py-1  rounded-md text-red-500 border-[1px] border-red-500">
                                 My recipients
                             </button>
                         </Link>
                         <Link to='/alldonors'>
-                            <button className="cursor-pointer w-full py-1.5 bg-red-500 rounded-md text-white" onClick={allRequests}>
+                            <button className="cursor-pointer w-full sm:py-1.5 py-1 bg-red-500 rounded-md text-white" onClick={allRequests}>
                                 My Request
                             </button>
                         </Link> 
@@ -158,22 +158,22 @@ const UpdateProfile = () => {
                 </div> 
             </div> 
             </div>
-            <div className="flex flex-col items-center justify-center w-4/6 absolute right-0 mt-6 px-5">
+            <div className="flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[80vh] right-[10vw] sm:right-0 mt-6 sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Profile</strong></h1>
-                <ul className="flex flex-col gap-5 w-3/4 my-10 leading-10">
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                <ul className="flex flex-col gap-5 sm:w-3/4 my-10 leading-8 sm:leading-10">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5">
                         <h3>Age</h3>
                         <p>
                            {authUser.age} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Blood Type </h3>
                         <p>
                            {authUser.bloodType} 
                         </p>
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Lastly Donated Date :</h3>
                         <p>
                            {authUser.lastDonated ? new Date(authUser.lastDonated).toISOString().split('T')[0] : "No donations!"} 
@@ -181,7 +181,7 @@ const UpdateProfile = () => {
                     </li>
                     {
                         authUser.nextDonationDate ? (
-                            <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                            <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                                 <h3>Suggest to Donate After(90days)</h3>
                                 <p>
                                 {new Date(authUser.nextDonationDate).toISOString().split('T')[0]}
@@ -189,13 +189,13 @@ const UpdateProfile = () => {
                             </li>
                         ) : ("")
                     } 
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Gender</h3>
                         <p>
                            {authUser.gender} 
                         </p>
                     </li>
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Location</h3> 
                         <div className="flex items-center gap-3">
                             <div>
@@ -218,7 +218,7 @@ const UpdateProfile = () => {
                             </button>
                         </div> 
                     </li>
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>PinCode</h3> 
                         <div className="flex items-center gap-3">
                             <div>
@@ -242,14 +242,14 @@ const UpdateProfile = () => {
                             </button>
                         </div> 
                     </li>
-                    <li className="w-full flex justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Email</h3>
                         <p>
                            {authUser.email} 
                         </p>
                     </li>
                      
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black px-5">
+                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Mobile Number</h3> 
                         <div className="flex items-center gap-3">
                             <div>
