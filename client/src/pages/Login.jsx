@@ -52,10 +52,10 @@ const Login = () => {
                 onChange={(e)=> setFormDate({...formData, email:e.target.value})}
                 required
             />
-            <div className="relative flex justify-between items-center sm:w-[30vw] w-[80%]">
+            <div className="relative flex justify-between items-center max-sm:w-[80%]">
 
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-full outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 max-sm:w-full sm:w-[25vw] outline-none border-none p-2 rounded-md"
                     type={showPassword ? "text":"password"}
                     placeholder="Enter Password"
                     value={formData.password}
