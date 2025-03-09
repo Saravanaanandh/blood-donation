@@ -2,7 +2,7 @@ import { Link } from "react-router"
 import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import Navbar from "../components/Navbar.jsx"
 import { useAuthStore } from "../store/useAuthStore.jsx"
-import { useEffect, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import bannerImg from './../assets/banner.png'
 import { Camera, DropletsIcon, Edit } from "lucide-react"
 import profilePic from './../assets/user.png'
