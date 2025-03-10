@@ -130,7 +130,7 @@ const UpdateProfile = () => {
                     <div className="flex flex-col items-center gap-1">
                         <h1 className="sm:text-[1.2rem]"><strong>{authUser.username}</strong></h1>
                         <h1 className="">{authUser.email}</h1>
-                        <div className="w-full flex justify-between gap-1 sm:gap-3"> 
+                        <div className="w-full flex gap-1 sm:gap-3"> 
                             <span>Available:</span>
                             <ToggleButton 
                                 Available={authUser?.available}

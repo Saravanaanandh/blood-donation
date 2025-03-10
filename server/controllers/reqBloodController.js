@@ -34,6 +34,7 @@ export const sendRequest = async(req, res)=>{
         const request = await Requests.create({recipientId, donorId})
         const donorSocketId = getUserId(donorId)
         const recipient = await User.findOne({_id:recipientId})
+        const recipientDetail = await ReqBlood.findOne({recipientId})
         const donor = await User.findOne({_id:donorId})
         if(donorSocketId){
             io.to(donorSocketId).emit("newRequest",{request})
@@ -54,6 +55,7 @@ export const sendRequest = async(req, res)=>{
              <p>Hello <strong>${donor.username}</strong>,</p>
              <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
              <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
+             <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
              <p style="text-align: center; margin-top: 20px;">
                <a href="https://blood-donation-o7z9.onrender.com/" 
                   style="background-color: #d32f2f; color: white; padding: 10px 20px; 
