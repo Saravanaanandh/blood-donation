@@ -6,17 +6,18 @@ import { Loader2Icon } from "lucide-react";
 
 const OtpPage = () => {
   const navigate = useNavigate();
-  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isVerifyOtp } = useRecipientStore();
+  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isSendingOtp,isVerifyOtp,getRequest,singleRecipient } = useRecipientStore();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const {id:recipientId} = useParams()
 
   useEffect(() => {
+    getRequest(recipientId)
     if (isOtpVerified) {
       setOtpDetail(null); // Reset OTP detail after verification
       navigate('/profile'); // Navigate after OTP is verified
     }
-  }, [isOtpVerified, navigate, setOtpDetail]);
+  }, [getRequest,recipientId,isOtpVerified, navigate, setOtpDetail]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -47,16 +48,16 @@ const OtpPage = () => {
               type="email"
               placeholder="Enter Email ID"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setEmail(singleRecipient.email || e.target.value)}
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               type="submit"
               onClick={handleSubmit}
               className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
-              disabled={isVerifyOtp}
+              disabled={isSendingOtp}
             >
-              {isVerifyOtp?(<div className="flex gap-2"><Loader2Icon className="animate-spin"/><span>sending...</span></div>):"Send OTP"}
+              {isSendingOtp?(<div className="flex gap-2"><Loader2Icon className="animate-spin"/><span>sending...</span></div>):"Send OTP"}
             </button>
           </form>
         ) : (
@@ -73,8 +74,9 @@ const OtpPage = () => {
               type="submit"
               onClick={handleOtpSubmit}
               className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-all duration-300"
+              disabled={isVerifyOtp}
             >
-              Verify OTP
+              {isVerifyOtp?(<div className="flex gap-2"><Loader2Icon className="animate-spin"/><span>verifying...</span></div>):"Verify OTP"}
             </button>
           </form>
         )}

@@ -54,6 +54,7 @@ export const createDonor = async (req, res)=>{
             res.status(201).json(updatedDonor) 
         }else{
             const donor = await Donor.create({...req.body,donorId}) 
+            const user = await User.findByIdAndUpdate(donorId, {donorId:donorId})
             res.status(201).json(donor)  
         }
     }catch(err){

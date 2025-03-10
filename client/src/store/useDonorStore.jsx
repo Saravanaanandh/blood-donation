@@ -30,6 +30,12 @@ export const useDonorStore = create((set,get)=>({
         try{
             const res = await axiosInstance.get('/donate/') 
             const socket = useAuthStore.getState().socket
+            socket.off("newRequest")
+            socket.off("allRequests")
+            socket.off("acceptRequest")
+            socket.off("confirmedRequest")
+            socket.off("rejectRequest")
+            socket.off("completedRequest")
             socket.off("allDonors")
             socket.off("updateProfile")
             socket.on("updateProfile",async(updatedDetail)=>{
@@ -47,6 +53,26 @@ export const useDonorStore = create((set,get)=>({
                     requestDetail:donorsInfo.requestDetails[index]
                 }));
                 set({donors:donorList})  
+            })
+            socket.on("newRequest",async(request)=>{ 
+                // if(request.donorId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('donate') 
+            })
+            socket.on("acceptRequest",async(request)=>{ 
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("confirmedRequest",async(request)=>{ 
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("rejectRequest",async(request)=>{ 
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("completedRequest",async(request)=>{ 
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                await axiosInstance.get('/donate/') 
             })
         }catch(err){
             console.log(err.response.data.message)

@@ -19,14 +19,14 @@ const AllDonors = () => {
     allDonors();
 
     return ()=>UnsubscribeToAlldonors()
-  }, []);
+  }, [allDonors,UnsubscribeToAlldonors]);
 
   const availableDonors = donors.filter(
     (donor) =>{
       console.log(recipientId)
       const isAvailable = donor.donorDetail?.available
       const isRecipientRequest = donor.requestDetail === null ? true :  false
-      const isRecipientUser = recipientId ? true : false
+      const isRecipientUser = authUser.recipientId ? true : false
       console.log(isAvailable & isRecipientRequest & isRecipientUser )
 
       return isAvailable & isRecipientRequest & isRecipientUser
@@ -201,11 +201,14 @@ const AllDonors = () => {
                       />
                     </div>
                     <div className="max-sm:hidden">
-                      <h1>
+                      <h1 className="flex gap-3 items-center">
                         <strong>
                           {" "}
                           {donor.donorDetail.username.toUpperCase()}
                         </strong>
+                        <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                       </h1>
                       <p className="text-[0.9rem]">
                         {" "}
@@ -216,10 +219,13 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center">
+                    <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
                       <strong> 
                         {donor.donorDetail.username.toUpperCase()}
                       </strong>
+                      <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                     </h1>
                     <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm text-green-700 hover:bg-green-700 hover:text-white">
                       Send Request <SendHorizontalIcon className="size-4" />
@@ -252,11 +258,14 @@ const AllDonors = () => {
                       />
                     </div>
                     <div className="max-sm:hidden">
-                      <h1>
+                      <h1 className="flex gap-3 items-center">
                         <strong>
                           {" "}
                           {donor.donorDetail.username.toUpperCase()}
                         </strong>
+                        <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                       </h1>
                       <p className="text-[0.9rem]">
                         {" "}
@@ -267,11 +276,15 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center">
+                  <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
                       <strong> 
                         {donor.donorDetail.username.toUpperCase()}
                       </strong>
+                      <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                     </h1>
+
                     <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${donor.requestDetail?.status === "pending" ? "bg-yellow-400 text-black":"bg-green-400 text-white"}`}>
                       {donor.requestDetail?.status === "accepted" ? "Confirm" : "Pending"} {donor.requestDetail?.status === "pending" ? (<TriangleAlert className="size-4" />):(<CheckCircleIcon className="size-4" />)}
                     </button>
@@ -303,11 +316,14 @@ const AllDonors = () => {
                       />
                     </div>
                     <div className="max-sm:hidden">
-                      <h1>
+                      <h1 className="flex gap-3 items-center">
                         <strong>
                           {" "}
                           {donor.donorDetail.username.toUpperCase()}
                         </strong>
+                        <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                       </h1>
                       <p className="text-[0.9rem]">
                         {" "}
@@ -318,11 +334,15 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center">
+                  <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
                       <strong> 
                         {donor.donorDetail.username.toUpperCase()}
                       </strong>
+                      <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
                     </h1>
+
                     <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700 text-white">
                       {donor.requestDetail?.status === "confirmed" ? "view" : "Completed"}
                       {donor.requestDetail?.status === "confirmed" ? (<Eye/>):(<CheckCheck className="size-4" />)}

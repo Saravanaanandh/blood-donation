@@ -15,7 +15,8 @@ export const createRecipients = async (req, res)=>{
             const updatedRecipient = await ReqBlood.findOneAndUpdate({recipientId},{...req.body})
             res.status(201).json(updatedRecipient) 
         }else{
-            const recipient = await ReqBlood.create({...req.body,recipientId}) 
+            const recipient = await ReqBlood.create({...req.body,recipientId})
+            const user = await User.findByIdAndUpdate(recipientId,{recipientId:recipientId}) 
             res.status(201).json(recipient)  
         }
     }catch(err){

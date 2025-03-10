@@ -56,23 +56,23 @@ export const useRecipientStore = create((set,get)=>({
                 set({recipients:recipients}) 
             })
             socket.on("newRequest",async(request)=>{ 
-                if(request.donorId !== useAuthStore.getState().authUser._id) return;
+                // if(request.donorId !== useAuthStore.getState().authUser._id) return;
                 await axiosInstance.get('/request/') 
             })
             socket.on("acceptRequest",async(request)=>{ 
-                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
                 await axiosInstance.get('/request/') 
             })
             socket.on("confirmedRequest",async(request)=>{ 
-                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
                 await axiosInstance.get('/request/') 
             })
             socket.on("rejectRequest",async(request)=>{ 
-                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
                 await axiosInstance.get('/request/') 
             })
             socket.on("completedRequest",async(request)=>{ 
-                if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
+                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
                 await axiosInstance.get('/request/') 
             })
             

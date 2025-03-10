@@ -86,7 +86,7 @@ const SingleDonor = () => {
                 </div> 
             </div> 
             </div>
-            <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[60vh] right-0 mt-6 sm:sm:sm:px-5">
+            <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[70vh] right-0 mt-6 sm:sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Profile</strong></h1>
                 <ul className="flex flex-col gap-5 sm:w-3/4 my-10 leading-10">
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">

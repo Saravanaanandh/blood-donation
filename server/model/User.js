@@ -78,6 +78,12 @@ const userSchema = new mongoose.Schema({
     nextDonationDate:{
         type:String
     },
+    recipientId:{
+        type:mongoose.Types.ObjectId 
+    },
+    donorId:{
+        type:mongoose.Types.ObjectId 
+    },
     weight:String,
     token:String,
 },{timestamps:true})
