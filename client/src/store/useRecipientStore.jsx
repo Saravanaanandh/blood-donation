@@ -223,7 +223,7 @@ export const useRecipientStore = create((set,get)=>({
             const res = await axiosInstance.post('/otp/verifyotp',data)
             const socket = useAuthStore.getState().socket
             socket.off("completedRequest")
-            socket.on("completedRequest",(otpDetails)=>{ 
+            socket.on("completedRequest",(otpDetails)=>{  
                 set({isOtpVerified:false})
                 if(otpDetails.status === "VERIFIED"){
                     set({isOtpVerified:true}) 

@@ -8,6 +8,7 @@ import { Camera, DropletsIcon, Edit } from "lucide-react"
 import profilePic from './../assets/user.png'
 import ToggleButton from './../components/ToggleButton.jsx'
 import editIcon from './../assets/editpng.png'
+import toast from "react-hot-toast"
 
 
 const UpdateProfile = () => { 
@@ -85,10 +86,12 @@ const UpdateProfile = () => {
             return;
         }
         if(data === "mobile"){
+            if(formData.mobile.toString().length !== 10) return toast.error(" Mobile Not valid")
             setFormData({...formData, mobile:parseInt(e.target.value)})  
             return;
         }
         if(data === "pincode"){
+            if(formData.pinCode.toString().length !== 6) return toast.error("pincode Not valid")
             setFormData({...formData, pinCode:parseInt(e.target.value)})  
             return;
         }
@@ -150,7 +153,7 @@ const UpdateProfile = () => {
                 </div> 
             </div> 
             </div>
-            <div className="w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[70vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
+            <div className="w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[80vw] right-[0vw] sm:right-0 mt-6 sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Profile</strong></h1>
                 <ul className="flex flex-col gap-5 sm:w-3/4 my-10 leading-8 sm:leading-10">
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5">

@@ -28,14 +28,18 @@ const Signup = () => {
         if (!formData.username || !formData.age || !formData.gender || !formData.bloodType || !formData.location || !formData.pinCode || !formData.mobile || !formData.email || !formData.password) {
             return toast.error("Please fill all the required fields!");
         }
-
+        if(formData.age > 100) return toast.error("Invalid Age")
+        if(formData.pinCode.toString().length !== 6) return toast.error("Enter valid pincode")
+        if(formData.mobile.toString().length !== 10) return toast.error("Enter valid mobile number")
+        if(!formData.email.includes("@gmail.com")) return toast.error("Enter valid Email")
+        
         try {
             await signup(formData);
         } catch (err) {
             console.log(err.message);
             toast.error("Something went wrong, try again later " + err.message);
         }
-
+        console.log(formData)
         setFormData({
             username: "",
             age: "",
@@ -210,7 +214,7 @@ const Signup = () => {
                   }
                   </div>
                 </div>
-
+                <div>Note: Remember Your password!</div>
                 <div className="text-center my-1"> 
                     <input
                         className="bg-gray-300 mr-2 outline-none border-none p-2 rounded-md"

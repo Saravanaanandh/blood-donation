@@ -28,7 +28,11 @@ const Donate = () => {
         e.preventDefault()
 
         if(!formData.fullname || !formData.dob || !formData.age || !formData.bloodType || !formData.mobile || !formData.gender || !formData.email || !formData.district || !formData.villageCity || !formData.pinCode || !formData.lastSixmonthActivity) return toast.error("please fill the required fields!, because it more helpful for recipients")
-
+        if(formData.age > 100) return toast.error("Invalid Age")
+        if(formData.mobile.toString().length !== 10) return toast.error("Mobile Number Not Valid")
+        if(formData.pinCode.toString().length !== 6) return toast.error("Pincode Not Valid")
+        if(!formData.email.includes("@gmail.com")) return toast.error("Invalid Email")
+        
         try{
             await createDonor(formData) 
         }catch(err){

@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { useRecipientStore } from "../store/useRecipientStore.jsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router"; 
+import { Loader2Icon } from "lucide-react";
 
 const OtpPage = () => {
   const navigate = useNavigate();
-  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail } = useRecipientStore();
+  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isVerifyOtp } = useRecipientStore();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const {id:recipientId} = useParams()
@@ -28,7 +29,7 @@ const OtpPage = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     if (!otp) return toast.error("Please enter OTP!");
-    if (otp.length > 6) return toast.error("Enter valid OTP");
+    if (otp.length !== 6) return toast.error("Enter valid OTP");
     try {
       await verifyOtp({ otp ,recipientId}); 
     } catch (err) {
@@ -53,8 +54,9 @@ const OtpPage = () => {
               type="submit"
               onClick={handleSubmit}
               className="bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition-all duration-300"
+              disabled={isVerifyOtp}
             >
-              Send OTP
+              {isVerifyOtp?(<div className="flex gap-2"><Loader2Icon className="animate-spin"/><span>sending...</span></div>):"Send OTP"}
             </button>
           </form>
         ) : (

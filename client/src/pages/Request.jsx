@@ -3,7 +3,7 @@ import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import toast from "react-hot-toast"
 import Navbar from "../components/Navbar.jsx"
 import requestImg from './../assets/Request Form.jpg' 
-import { useNavigate } from "react-router"
+import { Form, useNavigate } from "react-router"
 const Request = () => {
     const navigate = useNavigate()
     const [isChecked, setIsChecked] = useState(false)
@@ -28,9 +28,16 @@ const Request = () => {
         e.preventDefault()
 
         if(!formData.bloodType || !formData.patientsName || !formData.patientsage || !formData.AttendeesName || !formData.AttendeesPhno || !formData.gender || !formData.email || !formData.location || !formData.pinCode || !formData.reqDate || !formData.bloodUnits) return toast.error("please fill the required fields!, because it more helpful for donors")
-
+        if(formData.patientsage > 100) return toast.error("Invalid Age")
+        if(formData.AttendeesPhno.toString().length !== 10) return toast.error("Mobile Number Not Valid")
+        if(formData.pinCode.toString().length !== 6) return toast.error("Pincode Not Valid")
+        if(formData.reqDate < new Date(Date.now()).toISOString().split('T')[0]) return toast.error("Selected Date is Invalid")
+        if(!formData.email.includes("@gmail.com")) return toast.error("Invalid Email")
+        if (formData.bloodUnits > 10) {
+            return toast.error(`Check! You require ${formData.bloodUnits} units of blood`);
+        }
         try{
-            await createRecipient(formData)
+    await createRecipient(formData)
         }catch(err){
             console.log(err.message)
         }
