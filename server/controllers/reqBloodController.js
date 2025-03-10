@@ -46,12 +46,28 @@ export const sendRequest = async(req, res)=>{
             }
         })
         const mailOptions = {
-            from:process.env.USER_ACCOUNT,
-            to:donor.email,
-            subject:`Incoming Request from ${recipient.username}`,
-            // html:`<div><h1>Gces Blood Line</h1><p>Your OTP is: ${generatedOTP}. It is valid for 5 minutes.</p></div>`,
-            text: `one blood donation request sent for you`
-        }
+    from: process.env.USER_ACCOUNT,
+    to: donor.email,
+    subject:`🩸 Urgent Blood Donation Request from ${recipient.username}`,
+    html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+             <h1 style="color: #d32f2f; text-align: center;">🩸 GCES Blood Line</h1>
+             <p>Hello <strong>${donor.username}</strong>,</p>
+             <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
+             <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
+             <p style="text-align: center; margin-top: 20px;">
+               <a href="https://blood-donation-o7z9.onrender.com/" 
+                  style="background-color: #d32f2f; color: white; padding: 10px 20px; 
+                  text-decoration: none; border-radius: 5px; font-weight: bold;">
+                  View Request
+               </a>
+             </p>
+             <p>Thank you for being a Life-Saver! 💉🩸</p>
+           </div>`,
+    text: `Hello ${donor.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
+    Your contribution can save a precious life.\n\n
+    Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
+    Thank you for your kindness.💉🩸`
+}
         await transporter.sendMail(mailOptions)
         res.status(200).json(request)
     }catch(err){
