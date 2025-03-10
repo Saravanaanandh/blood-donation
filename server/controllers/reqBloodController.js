@@ -3,7 +3,7 @@ import Requests from '../model/DonorRecipient.js'
 import User from '../model/User.js'
 import ReqBlood from './../model/ReqBlood.js'
 import {io, getUserId} from './../config/socket.js'
-
+import nodemailer from 'nodemailer'
 export const createRecipients = async (req, res)=>{
     const {_id:recipientId} = req.user
 
@@ -33,9 +33,26 @@ export const sendRequest = async(req, res)=>{
     try{
         const request = await Requests.create({recipientId, donorId})
         const donorSocketId = getUserId(donorId)
+        const recipient = await User.findOne({_id:recipientId})
+        const donor = await User.findOne({_id:donorId})
         if(donorSocketId){
             io.to(donorSocketId).emit("newRequest",{request})
         }
+        const transporter = nodemailer.createTransport({
+            service:'gmail',
+            auth:{
+                user:process.env.USER_ACCOUNT,
+                pass:process.env.PASSWORD,
+            }
+        })
+        const mailOptions = {
+            from:process.env.USER_ACCOUNT,
+            to:donor.email,
+            subject:`Incoming Request from ${recipient.username}`,
+            // html:`<div><h1>Gces Blood Line</h1><p>Your OTP is: ${generatedOTP}. It is valid for 5 minutes.</p></div>`,
+            text: `one blood donation request sent for you`
+        }
+        await transporter.sendMail(mailOptions)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){

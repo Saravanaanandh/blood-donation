@@ -126,3 +126,26 @@ export const verifyOTP = async(req, res)=>{
         console.log(err)
     }
 }
+
+export const sendMailToDonor = async(req, res)=>{
+    const {_id:userId} = req.user
+    const {email} = req.body 
+    try{
+        const mailOptions = {
+            from:process.env.USER_ACCOUNT,
+            to:email,
+            subject:"Incoming Request",
+            // html:`<div><h1>Gces Blood Line</h1><p>Your OTP is: ${generatedOTP}. It is valid for 5 minutes.</p></div>`,
+            text: `one blood donation request for you`
+        }
+        await transporter.sendMail(mailOptions)
+
+    }catch(err){
+        res.status(400).json({
+            status:"failed",
+            message:"Please try again later",
+            error:err
+        })
+        console.log(err)
+    }
+}
