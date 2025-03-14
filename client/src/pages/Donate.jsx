@@ -80,7 +80,7 @@ const Donate = () => {
                     type="date" 
                     className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1" 
                     value={formData.dob || new Date(Date.now()).toISOString().split('T')[0]} 
-                    onChange={(e) => setFormData({...formData, dob:e.target.value})} required 
+                    onChange={(e) => setFormData({...formData, dob:(e.target.value)})} required 
                 />
                 </div>
                 <div className="flex flex-col gap-1">

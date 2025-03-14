@@ -13,8 +13,14 @@ const AllRequests = () => {
     const {authUser} = useAuthStore()
     const [isRequests, setIsRequests] = useState(false)
     const [isConfirmedRequests, setIsConfirmedRequests] = useState(false)
-    const [isRejectedRequests, setIsRejectedRequests] = useState(false)
-    
+    const [isRejectedRequests, setIsRejectedRequests] = useState(false) 
+
+    useEffect(() => {
+        const timer = setTimeout(() => { 
+        }, 1500);
+
+        return () => clearTimeout(timer); // Cleanup on unmount
+    }, []);
     useEffect(()=>{
        allRequests() 
 
@@ -149,11 +155,11 @@ const AllRequests = () => {
                                     </div>
                                     <div className="max-sm:hidden"> 
                                         <h1><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
-                                        <p className="text-[0.9rem]"> Age : {recipient.requestDetail.patientsage} | Gender : {recipient.requestDetail.gender} | location : {recipient.requestDetail.location} </p>
+                                        <p className="text-[0.9rem]"> Age : {recipient.requestDetail?.patientsage} | Gender : {recipient.requestDetail?.gender} | location : {recipient.requestDetail?.location} </p>
                                     </div>
                                 </div>
                                 <div className="sm:flex sm:flex-col sm:items-center">
-                                <h1 className="sm:hidden"><strong> {recipient.recipientProfile.username.toUpperCase()}</strong></h1>
+                                <h1 className="sm:hidden"><strong> {recipient.recipientProfile?.username.toUpperCase()}</strong></h1>
                                     <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm text-green-700 hover:bg-green-700 hover:text-white">
                                         Accept <MoveRight className="size-4"/>
                                     </button>

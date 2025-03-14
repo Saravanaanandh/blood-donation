@@ -24,10 +24,10 @@ const SingleDonor = () => {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setShowToggle(true);  // Enable rendering after delay
+            setShowToggle(true); 
         }, 1500);
 
-        return () => clearTimeout(timer); // Cleanup on unmount
+        return () => clearTimeout(timer); 
     }, []);
     useEffect(() => {
         const fetchDonor = async () => {
@@ -53,13 +53,13 @@ const SingleDonor = () => {
             </div>
             <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col gap-5 items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className=" cursor-pointer relative inline-block"> 
                             <img className=" border-[1px] rounded-full size-23" src={ singleDonor.donorDetail?.profile || profilePic} alt="profile picture" />
                         </div>
                     </div>
-                    <div className="flex flex-col items-center gap-1">
+                    <div className="flex flex-col justify-center items-center gap-1">
                         <h1 className="text-[1.2rem]"><strong>{singleDonor.donorDetail?.username.toUpperCase()}</strong></h1>
                         <h1 className="">{singleDonor.donorDetail?.email}</h1>
                         <div className="flex gap-3"> 

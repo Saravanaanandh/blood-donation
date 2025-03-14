@@ -57,8 +57,8 @@ export const sendRequest = async(req, res)=>{
              <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
              <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
              <p style="text-align: center; margin-top: 20px;">
-               <a href="https://blood-donation-o7z9.onrender.com/" 
-                  style="background-color: #d32f2f; color: white; padding: 10px 20px; 
+               <a href="https://blood-donation-o7z9.onrender.com/allrequests" 
+                  style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
                   text-decoration: none; border-radius: 5px; font-weight: bold;">
                   View Request
                </a>
