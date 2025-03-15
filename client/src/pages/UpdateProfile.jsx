@@ -145,7 +145,7 @@ const UpdateProfile = () => {
                             </button>
                         </Link>
                         <Link to='/alldonors'>
-                            <button className="cursor-pointer w-full sm:py-1.5 py-1 bg-red-500 rounded-md text-white" onClick={allRequests}>
+                            <button className="cursor-pointer w-full sm:py-1.5 py-1 bg-red-500 rounded-md text-white"> 
                                 My Request
                             </button>
                         </Link> 

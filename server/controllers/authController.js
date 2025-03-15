@@ -43,6 +43,7 @@ export const updateProfileController = async (req, res)=>{
     try{
         const user = req.user
         if(!user) return res.status(401).json({message:"unauthorized User"})
+        console.log({...req.body})
         let updatedUser = await User.findOneAndUpdate({email:user.email},{location, available, tattooIn12, pinCode, mobile, positiveHIVTest,weight},{new:true,runValidators:true})
             
         if(profile){
@@ -57,7 +58,11 @@ export const updateProfileController = async (req, res)=>{
         io.emit("updateProfile",newUser)
         res.status(200).json(newUser) 
     }catch(err){
-        res.status(400).json({message:err.name}) 
+        if(err.name === "ValidationError"){
+            return res.status(400).json({message:"please provide the valid details"})
+        }
+        console.log(err)
+        res.status(500).json({message:err.name})
     }
 }
 

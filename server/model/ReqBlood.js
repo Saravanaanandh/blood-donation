@@ -44,6 +44,47 @@ const reqBloodSchema = new mongoose.Schema({
     },
     location:{
         type:String,
+        enum:[
+            "ariyalur",
+            "chengalpattu",
+            "chennai",
+            "coimbatore",
+            "cuddalore",
+            "dharmapuri",
+            "dindigul",
+            "erode",
+            "kallakurichi",
+            "kancheepuram",
+            "kanniyakumari",
+            "karur",
+            "krishnagiri",
+            "madurai",
+            "mayiladuthurai",
+            "nagapattinam",
+            "namakkal",
+            "nilgiris",
+            "perambalur",
+            "pudukkottai",
+            "ramanathapuram",
+            "ranipet",
+            "salem",
+            "sivaganga",
+            "tenkasi",
+            "thanjavur",
+            "theni",
+            "thoothukudi",
+            "tiruchirappalli",
+            "tirunelveli",
+            "tirupathur",
+            "tiruppur",
+            "tiruvallur",
+            "tiruvannamalai",
+            "tiruvarur",
+            "vellore",
+            "viluppuram",
+            "virudhunagar"
+        ],
+        set:value => value.toLowerCase(),
         required:true
     },
     pinCode:{
@@ -62,7 +103,7 @@ const reqBloodSchema = new mongoose.Schema({
     note:String,
     isCritical:{
         type:Boolean,
-        default:false
+        default:true
     }, 
 },{timestamps:true})
 

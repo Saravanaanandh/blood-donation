@@ -56,7 +56,7 @@ export const useDonorStore = create((set,get)=>({
             })
             socket.on("newRequest",async(request)=>{ 
                 // if(request.donorId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('donate') 
+                await axiosInstance.get('/donate/') 
             })
             socket.on("acceptRequest",async(request)=>{ 
                 // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;

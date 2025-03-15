@@ -17,7 +17,7 @@ const Request = () => {
         email:"",
         location:"",
         pinCode:"",
-        reqDate:"",
+        reqDate:new Date(Date.now()).toISOString().split('T')[0],
         bloodUnits:"",
         isCritical:isChecked,
         note:""
@@ -239,8 +239,8 @@ const Request = () => {
                 <input 
                         type="date" 
                         className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1" 
-                        value={formData.reqDate || new Date(Date.now()).toISOString().split('T')[0]} 
-                        onChange={(e) => setFormData({...formData, reqDate:(e.target.value || new Date(Date.now()).toISOString().split('T')[0])})} required 
+                        value={formData.reqDate || ""} 
+                        onChange={(e) => setFormData({...formData, reqDate:e.target.value})} required 
                 />
              </div>
             <div className="sm:hidden flex flex-col gap-1">
@@ -327,9 +327,9 @@ const Request = () => {
             <div className="sm:hidden flex gap-3">
                 <input 
                     type="checkbox" 
-                    className="w-[15px]"
+                    className="w-[15px] accent-red-600"
                     checked={isChecked}
-                    onChange={()=> setIsChecked(!isChecked)}
+                    onChange={()=> {setIsChecked(!isChecked);setFormData({...formData, isCritical:isChecked})}}
                 /> <span>isCritical</span>
             </div>  
             <div className="sm:hidden flex flex-col gap-1">

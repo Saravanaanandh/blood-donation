@@ -73,7 +73,7 @@ const SingleRequest = () => {
             </div>
             <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[70vh] right-0 mt-6 sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Patients Details</strong></h1>
-                <h1>{singleRecipient.recipient?.isCritical ? (
+                <h1>{(singleRecipient.recipient?.isCritical) ? (
                     <div className="p-1 px-2 mt-2 bg-red-600 text-white rounded-sm">
                         <strong>Emergency</strong> 
                     </div>
