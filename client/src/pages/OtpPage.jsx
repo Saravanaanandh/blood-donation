@@ -84,6 +84,5 @@ const OtpPage = () => {
       </div>
     </div>
   );
-};
-
+}; 
 export default OtpPage;
