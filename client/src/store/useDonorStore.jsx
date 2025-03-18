@@ -44,35 +44,29 @@ export const useDonorStore = create((set,get)=>({
                     set({authUser:updatedDetail}) 
                 } 
                 await axiosInstance.get('/donate/') 
-            })  
-            socket.on("allDonors",(donorsInfo)=>{
-                // const donors = [donors] 
+            })   
+            socket.on("newRequest",async(request)=>{  
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("acceptRequest",async(request)=>{  
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("confirmedRequest",async(request)=>{  
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("rejectRequest",async(request)=>{  
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("completedRequest",async(request)=>{  
+                await axiosInstance.get('/donate/') 
+            })
+            socket.on("allDonors",(donorsInfo)=>{ 
                 const donorList = donorsInfo.donors.map((donor, index) => ({
                     donor,
                     donorDetail: donorsInfo.donorDetails[index],
                     requestDetail:donorsInfo.requestDetails[index]
                 }));
                 set({donors:donorList})  
-            })
-            socket.on("newRequest",async(request)=>{ 
-                // if(request.donorId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('/donate/') 
-            })
-            socket.on("acceptRequest",async(request)=>{ 
-                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('/donate/') 
-            })
-            socket.on("confirmedRequest",async(request)=>{ 
-                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('/donate/') 
-            })
-            socket.on("rejectRequest",async(request)=>{ 
-                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('/donate/') 
-            })
-            socket.on("completedRequest",async(request)=>{ 
-                // if(request.donorId !== useAuthStore.getState().authUser._id | request.recipientId !== useAuthStore.getState().authUser._id) return;
-                await axiosInstance.get('/donate/') 
             })
         }catch(err){
             console.log(err.response.data.message)
