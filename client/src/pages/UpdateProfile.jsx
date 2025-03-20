@@ -13,7 +13,7 @@ import toast from "react-hot-toast"
 
 const UpdateProfile = () => { 
 
-    const {authUser, updateProfile,UnsubscribeToProfileUpdate} = useAuthStore() 
+    const {authUser, updateProfile,UnsubscribeToProfileUpdate,socket,getUser} = useAuthStore() 
     const {allRequests} = useRecipientStore()
     console.log(authUser)
     const [formData, setFormData] = useState({
@@ -31,6 +31,10 @@ const UpdateProfile = () => {
     const [banner, setBanner] = useState(null)
     const [profile, setProfile] = useState(null)
 
+    socket.on("completedRequest",async()=>{
+        await getUser()
+        location.reload()
+    })
     
     const handleImageChange = async (e)=>{
         const file = e.target.files[0] 
@@ -130,7 +134,7 @@ const UpdateProfile = () => {
                     <div className="flex flex-col items-center gap-1">
                         <h1 className="sm:text-[1.2rem]"><strong>{authUser.username}</strong></h1>
                         <h1 className="">{authUser.email}</h1>
-                        <div className="w-full flex gap-1 sm:gap-3"> 
+                        <div className="w-full flex justify-center gap-1 sm:gap-3"> 
                             <span>Available:</span>
                             <ToggleButton 
                                 Available={authUser?.available}

@@ -31,14 +31,11 @@ export const sendRequest = async(req, res)=>{
     const {_id:recipientId} = req.user
     const {id:donorId} = req.params 
     try{
-        const request = await Requests.create({recipientId, donorId})
-        const donorSocketId = getUserId(donorId)
+        const request = await Requests.create({recipientId, donorId}) 
         const recipient = await User.findOne({_id:recipientId})
-        const recipientDetail = await ReqBlood.findOne({recipientId})
         const donor = await User.findOne({_id:donorId})
-        if(donorSocketId){
-            io.to(donorSocketId).emit("newRequest",{request})
-        }
+        const recipientDetail = await ReqBlood.findOne({recipientId}) 
+        
         const transporter = nodemailer.createTransport({
             service:'gmail',
             auth:{
@@ -47,30 +44,32 @@ export const sendRequest = async(req, res)=>{
             }
         })
         const mailOptions = {
-    from: process.env.USER_ACCOUNT,
-    to: donor.email,
-    subject:`🩸 Urgent Blood Donation Request from ${recipient.username}`,
-    html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
-             <h1 style="color: #d32f2f; text-align: center;">🩸 GCES Blood Line</h1>
-             <p>Hello <strong>${donor.username}</strong>,</p>
-             <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
-             <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
-             <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
-             <p style="text-align: center; margin-top: 20px;">
-               <a href="https://blood-donation-o7z9.onrender.com/allrequests" 
-                  style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
-                  text-decoration: none; border-radius: 5px; font-weight: bold;">
-                  View Request
-               </a>
-             </p>
-             <p>Thank you for being a Life-Saver! 💉🩸</p>
-           </div>`,
-    text: `Hello ${donor.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
-    Your contribution can save a precious life.\n\n
-    Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
-    Thank you for your kindness.💉🩸`
-}
+            from: process.env.USER_ACCOUNT,
+            to: donor.email,
+            subject:`🩸 Urgent Blood Donation Request from ${recipient.username}`,
+            html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+                    <h1 style="color: #d32f2f; text-align: center;">🩸 GCES Blood Line</h1>
+                    <p>Hello <strong>${donor.username}</strong>,</p>
+                    <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
+                    <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
+                    <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
+                    <p style="text-align: center; margin-top: 20px;">
+                    <a href="https://blood-donation-o7z9.onrender.com/allrequests" 
+                        style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
+                        text-decoration: none; border-radius: 5px; font-weight: bold;">
+                        View Request
+                    </a>
+                    </p>
+                    <p>Thank you for being a Life-Saver! 💉🩸</p>
+                </div>`,
+            text: `Hello ${donor.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
+            Your contribution can save a precious life.\n\n
+            Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
+            Thank you for your kindness.💉🩸`
+        }
         await transporter.sendMail(mailOptions)
+        
+        io.emit("newRequest",{request}) 
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -147,9 +146,9 @@ export const confirmReq = async (req, res)=>{
         if(!request) return res.status(404).json({message:"request not found"})  
 
         const donorSocketId = getUserId(donorId)
-        if(donorSocketId){
+        // if(donorSocketId){
             io.to(donorSocketId).emit("confirmedRequest",{request})
-        } 
+        // } 
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -169,9 +168,9 @@ export const rejectReq = async (req, res)=>{
         
         const recipientSocketId = getUserId(recipientId)
         const donorSocketId = getUserId(donorId)
-        if(recipientSocketId || donorSocketId){
+        // if(recipientSocketId || donorSocketId){
             io.to(recipientSocketId,donorSocketId).emit("rejectRequest",{request})
-        } 
+        // } 
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){

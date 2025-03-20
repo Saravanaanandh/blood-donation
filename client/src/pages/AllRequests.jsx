@@ -22,13 +22,9 @@ const AllRequests = () => {
   const [isConfirmedRequests, setIsConfirmedRequests] = useState(false);
   const [isRejectedRequests, setIsRejectedRequests] = useState(false);
 
-  useEffect(() => {
-    // const timer = setTimeout(() => {
-      allRequests();
-    // }, 1000);
-
-    return () => {
-      // clearTimeout(timer);
+  useEffect(() => { 
+      allRequests();  
+    return () => { 
       UnsubscribeTogetAllRequest();
     };
   }, [allRequests, UnsubscribeTogetAllRequest]);

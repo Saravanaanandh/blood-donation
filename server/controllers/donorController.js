@@ -51,10 +51,12 @@ export const createDonor = async (req, res)=>{
         const existingDonor = await Donor.findOne({donorId})
         if(existingDonor){
             const updatedDonor = await Donor.findOneAndUpdate({donorId},{...req.body})
+            io.emit("newDonor",updatedDonor)
             res.status(201).json(updatedDonor) 
         }else{
             const donor = await Donor.create({...req.body,donorId}) 
             const user = await User.findByIdAndUpdate(donorId, {donorId:donorId})
+            io.emit("newDonor",donor)
             res.status(201).json(donor)  
         }
     }catch(err){

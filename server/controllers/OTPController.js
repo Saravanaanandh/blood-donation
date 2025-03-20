@@ -81,14 +81,8 @@ export const verifyOTP = async(req, res)=>{
                     console.log(nextDonationDate)
                     const user = await User.findOneAndUpdate({_id:userId}, {$inc :{donation: 1},available:false,lastDonated:lastDonationDate,nextDonationDate:nextDonationDate},{new: true, runValidators: true})
                     const request = await Requests.findOneAndUpdate({donorId:userId, recipientId},{status:"finalState"},{new:true})
-                    if(!request) return res.status(404).json({message:"request not found"})
-                    // const recipientSocketId = getUserId(recipientId)
-                    // const donorSocketId = getUserId(userId)
-                    // console.log(recipientSocketId)
-                    // console.log(donorSocketId)
-                    // if(recipientSocketId || donorSocketId){
-                    io.emit("completedRequest",{request,status:"VERIFIED",message:"otp verified"})
-                    // } 
+                    if(!request) return res.status(404).json({message:"request not found"}) 
+                    io.emit("completedRequest",{request,status:"VERIFIED",message:"otp verified"}) 
                     res.status(200).json({
                         status:"VERIFIED",
                         message:"otp verified"
@@ -97,11 +91,9 @@ export const verifyOTP = async(req, res)=>{
                     console.log("otp verified")
                     await OTP.deleteMany({userId})
                 }else{
-                    const request = await Requests.findOne({donorId:userId, recipientId})
-                    // if(recipientSocketId || donorSocketId){
+                    const request = await Requests.findOne({donorId:userId, recipientId}) 
                         io.emit("completedRequest",{request,status:"PENDING",
-                            message:"otp incorrect"})
-                    // } 
+                            message:"otp incorrect"}) 
                     res.status(200).json({
                         status:"PENDING",
                         message:"otp Incorrect"
@@ -109,11 +101,9 @@ export const verifyOTP = async(req, res)=>{
                     console.log("otp is not match please enter valid otp")
                 } 
             }else{
-                const request = await Requests.findOne({donorId:userId, recipientId})
-                // if(recipientSocketId || donorSocketId){
+                const request = await Requests.findOne({donorId:userId, recipientId}) 
                     io.emit("completedRequest",{request,status:"EXPIRED",
-                        message:"otp expired"})
-                // } 
+                        message:"otp expired"}) 
                 res.status(200).json({
                     status:"EXPIRED",
                     message:"otp expired"

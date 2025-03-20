@@ -6,7 +6,7 @@ import requestImg from './../assets/Request Form.jpg'
 import { useNavigate } from "react-router"
 const Request = () => {
     const navigate = useNavigate()
-    const [isChecked, setIsChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(true)
     const [formData, setFormData] = useState({
         bloodType:"",
         patientsName:"",
@@ -57,6 +57,7 @@ const Request = () => {
             note:""
         })
         navigate('/alldonors')
+        location.reload()
     }
   return (
     <div className="bg-white">
@@ -195,7 +196,7 @@ const Request = () => {
                         type="checkbox" 
                         className="w-[15px]"
                         checked={isChecked}
-                        onChange={()=> setIsChecked(!isChecked)}
+                        onChange={()=> {setIsChecked(!isChecked);setFormData({...formData, isCritical:isChecked})}}
                     /> <span>isCritical</span>
                 </div>  
                 <div className="max-sm:hidden flex flex-col gap-1">

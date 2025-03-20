@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore.jsx";
 import PropTypes from 'prop-types'
+import { useRecipientStore } from "../store/useRecipientStore.jsx";
 const ToggleButton = ({Available,Id}) => {  
   const [isToggled, setIsToggled] = useState(Available);
   const {updateProfile} = useAuthStore()
@@ -12,7 +13,8 @@ const ToggleButton = ({Available,Id}) => {
     setIsToggled(newState)
     console.log("available = "+ newState)
     await updateProfile({available:newState})
-  } 
+  }   
+  
   return (
     <label className={`flex items-center ${isOtherUserProfile ? '': 'cursor-pointer'}`}>
       <input

@@ -31,7 +31,7 @@ const AllDonors = () => {
 
   useEffect(() => {
     // const timer = setTimeout(() => {
-    allDonors();
+      allDonors();
     // }, 1000);
 
     return () => {
@@ -216,7 +216,16 @@ const AllDonors = () => {
               </div>
             </div>
           )} 
-          {isAvailable && availableDonors.length > 0 && (
+          {isAvailable && !authUser.recipientId && (
+            <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
+              <span>No Donors Available!</span>
+              <p>
+                Note: Please check if you have already filled out the
+                Request Form.
+              </p>
+            </div>
+          )}
+          {isAvailable && authUser.recipientId && availableDonors.length > 0 && (
             <div className=" flex justify-evenly items-center">
               <div className="flex max-sm:flex-col gap-2">
                 <label>Age :</label>
@@ -326,21 +335,13 @@ const AllDonors = () => {
               </div>
             </div>
           )} 
-          {isAvailable && (!authUser.donorId && !authUser.recipientId) && (
-            <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
-              <span>No Donors Available!</span>
-              <p>
-                Note: Please check if you have already filled out the
-                Request Form.
-              </p>
-            </div>
-          )}
-          {isAvailable && donors.length > 0 && authUser.donorId && !filteredDonors.length && (
+          
+          {isAvailable && authUser.recipientId && donors.length > 0 && !filteredDonors.length && (
             <div className="w-full h-full flex flex-col gap-5 justify-center items-center mt-10">
               <span>No Donors Available!</span>
             </div>
           )} 
-          {isAvailable && filteredDonors.length>0 && availableDonors.map((donor) => (
+          {isAvailable && authUser.recipientId && filteredDonors.length>0 && filteredDonors.map((donor) => (
             <Link
               className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100"
               key={donor.donor._id}

@@ -82,9 +82,9 @@ export const useAuthStore = create((set,get)=>({
                     toast.success("profile Updated") 
                 }
             })
-            socket.on("completedRequest",async(requestDetail)=>{
-                await axiosInstance.put('/auth/update-profile', data)
-            })
+            // socket.on("completedRequest",async(requestDetail)=>{
+            //     await axiosInstance.put('/auth/update-profile', data)
+            // })
         }catch(err){
             console.log(err)
             toast.error(err.response.data.message)
@@ -95,6 +95,17 @@ export const useAuthStore = create((set,get)=>({
     UnsubscribeToProfileUpdate:()=>{
         const socket = useAuthStore.getState().socket
         socket.off("updateProfile")
+    },
+    getUser:async()=>{
+        set({isGetUser:true})
+        try{
+            const res = await axiosInstance.get('/auth/') 
+            set({authUser:res.data})
+        }catch(err){
+            console.log(err)
+        }finally{
+            set({isGetUser:false})
+        }
     },
 
     connected:()=>{
