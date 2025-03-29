@@ -1,7 +1,7 @@
 import Requests from '../model/DonorRecipient.js'
 import Donor from './../model/Donar.js'
 import User from './../model/User.js'
-import {io} from './../config/socket.js'
+import {getUserId, io} from './../config/socket.js'
 export const getAllDonars = async(req, res)=>{
     const {_id:userId} = req.user 
 
@@ -14,7 +14,8 @@ export const getAllDonars = async(req, res)=>{
     );
     const requestDetails = await Promise.all(
         donors.map(donor => Requests.findOne({donorId:donor.donorId}))
-    );  
+    );
+    const recipientSocketId = getUserId(userId) 
     io.emit("allDonors",{donors,requestDetails,donorDetails,count:donors.length})
     res.status(200).json({donors,requestDetails,donorDetails,count:donors.length})
 }

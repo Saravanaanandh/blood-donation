@@ -3,6 +3,12 @@ import { useRecipientStore } from "../store/useRecipientStore.jsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router"; 
 import { Loader2Icon } from "lucide-react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
 
 const OtpPage = () => {
   const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isSendingOtp,isVerifyOtp,getRequest,singleRecipient } = useRecipientStore();
@@ -71,10 +77,30 @@ const OtpPage = () => {
               onChange={(e) => setOtp(e.target.value)}
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            {/* <InputOTP 
+              maxLength={6}
+              value={otp}
+              onChange={(value) => {
+                  setOtp(value); 
+                  console.log("Current OTP:", value);
+              }}
+            >
+              <InputOTPGroup>
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+              </InputOTPGroup>
+              <InputOTPSeparator />
+              <InputOTPGroup>
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+              </InputOTPGroup>
+            </InputOTP> */}
             <button
               type="submit"
               onClick={handleOtpSubmit}
-              className="bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition-all duration-300"
+              className="bg-green-500 text-white py-2 px-5 rounded-lg hover:bg-green-600 transition-all duration-300"
               disabled={isVerifyOtp}
             >
               {isVerifyOtp?(<div className="flex justify-center items-center gap-2"><Loader2Icon className="animate-spin"/><span>verifying...</span></div>):"Verify OTP"}

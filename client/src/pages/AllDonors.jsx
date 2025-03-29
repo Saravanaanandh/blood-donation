@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { useRecipientStore } from "../store/useRecipientStore.jsx";
 const AllDonors = () => {
   const { authUser } = useAuthStore();
-  const { allDonors, donors, getDonor, UnsubscribeToAlldonors } =
+  const { allDonors, donors, getDonor } =
     useDonorStore();
   const { recipientId } = useRecipientStore();
 
@@ -32,13 +32,8 @@ const AllDonors = () => {
   useEffect(() => {
     // const timer = setTimeout(() => {
       allDonors();
-    // }, 1000);
-
-    return () => {
-      // clearTimeout(timer);
-      UnsubscribeToAlldonors();
-    };
-  }, [allDonors, UnsubscribeToAlldonors]);
+    // }, 1000); 
+  }, [allDonors]);
   console.log(authUser);
   console.log(filter);
 

@@ -9,16 +9,16 @@ const Donate = () => {
     const navigate = useNavigate()
     const [isChecked, setIsChecked] = useState(false)
     const [formData, setFormData] = useState({
-        fullname:"",
-        dob:"",
-        age:"",
-        gender:"",
-        bloodType:"",
-        district:"",
-        villageCity:"", 
-        pinCode:"",
-        mobile:"",
-        email:"",
+        // fullname:"",
+        // dob:"",
+        // age:"",
+        // gender:"",
+        // bloodType:"",
+        // district:"",
+        // villageCity:"", 
+        // pinCode:"",
+        // mobile:"",
+        // email:"",
         donatePre:isChecked,
         lastSixmonthActivity:"", 
     })
@@ -27,11 +27,15 @@ const Donate = () => {
     const handleSubmit = async (e)=>{
         e.preventDefault()
 
-        if(!formData.fullname || !formData.dob || !formData.age || !formData.bloodType || !formData.mobile || !formData.gender || !formData.email || !formData.district || !formData.villageCity || !formData.pinCode || !formData.lastSixmonthActivity) return toast.error("please fill the required fields!, because it more helpful for recipients")
-        if(formData.age > 100) return toast.error("Invalid Age")
-        if(formData.mobile.toString().length !== 10) return toast.error("Mobile Number Not Valid")
-        if(formData.pinCode.toString().length !== 6) return toast.error("Pincode Not Valid")
-        if(!formData.email.includes("@gmail.com")) return toast.error("Invalid Email")
+        if(
+            // !formData.fullname || !formData.dob || !formData.age || !formData.bloodType || !formData.mobile || !formData.gender || !formData.email || !formData.district || !formData.villageCity || !formData.pinCode ||
+            !formData.lastSixmonthActivity
+
+        ) return toast.error("please fill the required fields!, because it more helpful for recipients")
+        // if(formData.age > 100) return toast.error("Invalid Age")
+        // if(formData.mobile.toString().length !== 10) return toast.error("Mobile Number Not Valid")
+        // if(formData.pinCode.toString().length !== 6) return toast.error("Pincode Not Valid")
+        // if(!formData.email.includes("@gmail.com")) return toast.error("Invalid Email")
         
         try{
             await createDonor(formData) 
@@ -39,16 +43,16 @@ const Donate = () => {
             console.log(err.message)
         }
         setFormData({
-            fullname:"",
-            dob:"",
-            age:"",
-            gender:"",
-            bloodType:"",
-            district:"",
-            villageCity:"", 
-            pinCode:"",
-            mobile:"",
-            email:"",
+            // fullname:"",
+            // dob:"",
+            // age:"",
+            // gender:"",
+            // bloodType:"",
+            // district:"",
+            // villageCity:"", 
+            // pinCode:"",
+            // mobile:"",
+            // email:"",
             donatePre:isChecked,
             lastSixmonthActivity:"", 
         })
@@ -63,7 +67,7 @@ const Donate = () => {
                 <p>Your Donation is a Gift of Hop and Healing</p>
             </div>
             <form onSubmit={handleSubmit} className="sm:w-3/5 flex flex-col gap-3  p-5 backdrop:blur-sm border-[1px] border-black rounded-2xl shadow-sm shadow-black">
-                <div className="flex flex-col gap-1">
+                {/* <div className="flex flex-col gap-1">
                     <label>Full Name:</label>
                     <input 
                         className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
@@ -132,56 +136,56 @@ const Donate = () => {
                     <option value="A2B-">A2B-</option>
                     <option value="Bombay Blood Group">Bombay Blood Group</option>
                     </select> 
-                    </div>
-                    <div className="flex flex-col gap-1">
-                    <label>District:</label>
-                    <select
-                        onChange={(e)=> setFormData({...formData, district:e.target.value})} 
-                        className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
-                        required
-                    >
-                        <option value="">Select District</option>
-                        <option value="Ariyalur">Ariyalur</option>
-                        <option value="Chengalpattu">Chengalpattu</option>
-                        <option value="Chennai">Chennai</option>
-                        <option value="Coimbatore">Coimbatore</option>
-                        <option value="Cuddalore">Cuddalore</option>
-                        <option value="Dharmapuri">Dharmapuri</option>
-                        <option value="Dindigul">Dindigul</option>
-                        <option value="Erode">Erode</option>
-                        <option value="Kallakurichi">Kallakurichi</option>
-                        <option value="Kanchipuram">Kanchipuram</option>
-                        <option value="Kanyakumari">Kanyakumari</option>
-                        <option value="Karur">Karur</option>
-                        <option value="Krishnagiri">Krishnagiri</option>
-                        <option value="Madurai">Madurai</option>
-                        <option value="Mayiladuthurai">Mayiladuthurai</option>
-                        <option value="Nagapattinam">Nagapattinam</option>
-                        <option value="Namakkal">Namakkal</option>
-                        <option value="Nilgiris">Nilgiris</option>
-                        <option value="Perambalur">Perambalur</option>
-                        <option value="Pudukkottai">Pudukkottai</option>
-                        <option value="Ramanathapuram">Ramanathapuram</option>
-                        <option value="Ranipet">Ranipet</option>
-                        <option value="Salem">Salem</option>
-                        <option value="Sivaganga">Sivaganga</option>
-                        <option value="Tenkasi">Tenkasi</option>
-                        <option value="Thanjavur">Thanjavur</option>
-                        <option value="Theni">Theni</option>
-                        <option value="Thoothukudi">Thoothukudi</option>
-                        <option value="Tiruchirappalli">Tiruchirappalli</option>
-                        <option value="Tirunelveli">Tirunelveli</option>
-                        <option value="Tirupathur">Tirupathur</option>
-                        <option value="Tiruppur">Tiruppur</option>
-                        <option value="Tiruvallur">Tiruvallur</option>
-                        <option value="Tiruvannamalai">Tiruvannamalai</option>
-                        <option value="Tiruvarur">Tiruvarur</option>
-                        <option value="Vellore">Vellore</option>
-                        <option value="Viluppuram">Viluppuram</option>
-                        <option value="Virudhunagar">Virudhunagar</option>
-                    </select>
-                    </div>
-                    <div className="flex flex-col gap-1">
+                </div>
+                <div className="flex flex-col gap-1">
+                <label>District:</label>
+                <select
+                    onChange={(e)=> setFormData({...formData, district:e.target.value})} 
+                    className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
+                    required
+                >
+                    <option value="">Select District</option>
+                    <option value="Ariyalur">Ariyalur</option>
+                    <option value="Chengalpattu">Chengalpattu</option>
+                    <option value="Chennai">Chennai</option>
+                    <option value="Coimbatore">Coimbatore</option>
+                    <option value="Cuddalore">Cuddalore</option>
+                    <option value="Dharmapuri">Dharmapuri</option>
+                    <option value="Dindigul">Dindigul</option>
+                    <option value="Erode">Erode</option>
+                    <option value="Kallakurichi">Kallakurichi</option>
+                    <option value="Kanchipuram">Kanchipuram</option>
+                    <option value="Kanyakumari">Kanyakumari</option>
+                    <option value="Karur">Karur</option>
+                    <option value="Krishnagiri">Krishnagiri</option>
+                    <option value="Madurai">Madurai</option>
+                    <option value="Mayiladuthurai">Mayiladuthurai</option>
+                    <option value="Nagapattinam">Nagapattinam</option>
+                    <option value="Namakkal">Namakkal</option>
+                    <option value="Nilgiris">Nilgiris</option>
+                    <option value="Perambalur">Perambalur</option>
+                    <option value="Pudukkottai">Pudukkottai</option>
+                    <option value="Ramanathapuram">Ramanathapuram</option>
+                    <option value="Ranipet">Ranipet</option>
+                    <option value="Salem">Salem</option>
+                    <option value="Sivaganga">Sivaganga</option>
+                    <option value="Tenkasi">Tenkasi</option>
+                    <option value="Thanjavur">Thanjavur</option>
+                    <option value="Theni">Theni</option>
+                    <option value="Thoothukudi">Thoothukudi</option>
+                    <option value="Tiruchirappalli">Tiruchirappalli</option>
+                    <option value="Tirunelveli">Tirunelveli</option>
+                    <option value="Tirupathur">Tirupathur</option>
+                    <option value="Tiruppur">Tiruppur</option>
+                    <option value="Tiruvallur">Tiruvallur</option>
+                    <option value="Tiruvannamalai">Tiruvannamalai</option>
+                    <option value="Tiruvarur">Tiruvarur</option>
+                    <option value="Vellore">Vellore</option>
+                    <option value="Viluppuram">Viluppuram</option>
+                    <option value="Virudhunagar">Virudhunagar</option>
+                </select>
+                </div>
+                <div className="flex flex-col gap-1">
                     <label>Village/city:</label>
                 <input 
                     type="text" 
@@ -214,7 +218,7 @@ const Donate = () => {
                     required
                 /> 
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1"> 
                     <label>Email:</label>
                 <input 
                     className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
@@ -224,37 +228,33 @@ const Donate = () => {
                     onChange={(e)=> setFormData({...formData, email:e.target.value})}
                     required
                 /> 
-                </div>
+                </div> */}
                 <div className="flex flex-col gap-1">
                     <label>Last Six Months Activity:</label>
                 <select
                     className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
                     onChange={(e)=> setFormData({...formData, lastSixmonthActivity:e.target.value})}  
                     required
-                >
-                    <option>select :</option>
-                    <option value={"tattooing"}>tattooing</option>
-                    <option value={"piercing"}>piercing</option> 
-                    <option value={"dental extraction"}>dental extraction</option> 
-                    <option value={"no"}>no</option> 
+                > 
+                    <option value={"tattooing"}>Tattooing</option>
+                    <option value={"piercing"}>Piercing</option> 
+                    <option value={"dental extraction"}>Dental extraction</option> 
+                    <option value={"affected by covid"}>Affected by Covid-19</option> 
+                    <option value={"heavy feaver"}>Heavy Fever</option> 
+                    <option value={"no"} selected>No</option> 
                 </select> 
                 </div>
-
-                <div className="ml-[5vw] w-full flex gap-5">
-                    <input 
-                        type="checkbox" 
-                        className="px-5" 
-                        checked={isChecked}
-                        onChange={()=> {
-                            setIsChecked(!isChecked)
-                            setFormData({...formData, donatePre:isChecked})
-                        }}
-                        required
-                    /> 
-                    <span>Donate previously</span>
+                <div className="flex flex-col gap-1">
+                    <label>Donate Previously:</label>
+                <select
+                    className="border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
+                    onChange={(e)=> setFormData({...formData, donatePre:e.target.value})}  
+                    required
+                > 
+                    <option value={"yes"} selected>Yes</option>
+                    <option value={"no"}>No</option>  
+                </select> 
                 </div>  
-                
-
                 <button 
                     type="submit" 
                     className="bg-red-500 px-5 py-2 border-[1px] border-black rounded-md text-white hover:shadow-lg shadow-red-400 transition-all duration-300"

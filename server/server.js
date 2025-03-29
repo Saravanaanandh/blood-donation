@@ -15,7 +15,7 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
-    origin:["http://192.168.190.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost","https://bloodline.gces1.duckdns.org"], 
+    origin:["http://192.168.190.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","https://bloodline.gces1.duckdns.org"], 
     methods: "GET,POST,PATCH,PUT,DELETE",
     allowedHeaders: ["Content-Type"],
     credentials:true

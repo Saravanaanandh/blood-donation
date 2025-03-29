@@ -92,19 +92,19 @@ const SingleDonor = () => {
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Age</h3>
                         <p>
-                           {singleDonor.donor?.age} 
+                           {singleDonor.donorDetail?.age} 
                         </p>
                     </li>
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Blood Type </h3>
                         <p>
-                           {singleDonor.donor?.bloodType} 
+                           {singleDonor.donorDetail?.bloodType} 
                         </p>
                     </li>
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Gender</h3>
                         <p>
-                           {singleDonor.donor?.gender} 
+                           {singleDonor.donorDetail?.gender} 
                         </p>
                     </li>
                     <li className="w-full flex justify-between border-b-[1px] border-b-black sm:px-5">
@@ -126,38 +126,32 @@ const SingleDonor = () => {
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Location</h3>
                         <p>
-                           {singleDonor.donor?.district} 
+                           {singleDonor.donorDetail?.location} 
                         </p>
-                    </li>
-                    <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
-                        <h3>Village</h3>
-                        <p>
-                           {singleDonor.donor?.villageCity} 
-                        </p>
-                    </li>
+                    </li> 
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>PinCode</h3> 
                         <p>
-                           {singleDonor.donor?.pinCode} 
+                           {singleDonor.donorDetail?.pinCode} 
                         </p>
                     </li>
                     <li className=" w-full flex justify-between border-b-[1px] border-b-black text-wrap flex-wrap sm:px-5">
                         <h3>Email</h3>
                         <p>
-                           {singleDonor.donor?.email} 
+                           {singleDonor.donorDetail?.email} 
                         </p>
                     </li>
                      
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Mobile Number</h3> 
                         <p>
-                          {singleDonor.donor?.mobile} 
+                          {singleDonor.donorDetail?.mobile} 
                         </p>
                     </li>
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">
                         <h3>Previously Donate</h3> 
                         <p>
-                          {(singleDonor.donor?.donatePre) ? 'Yes':'No'} 
+                          {(singleDonor.donor?.donatePre) === 'yes' ? 'Yes':'No'} 
                         </p>
                     </li>
                     <li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5">

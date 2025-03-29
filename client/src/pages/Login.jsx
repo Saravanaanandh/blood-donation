@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router"
 import toast from "react-hot-toast"
 import { useAuthStore } from "../store/useAuthStore.jsx"
-import loginImg from './../assets/login.jpg'
+import loginImg from './../assets/loginbg2.gif'
 import { Eye, EyeOff } from "lucide-react"
 
 const Login = () => {
@@ -42,8 +42,8 @@ const Login = () => {
             </div> 
         </div>
         <form onSubmit={handleSubmit} className="h-screen flex items-center justify-center my-0 max-sm:my-0">
-            <div className="flex flex-col items-center gap-5 min-h-auto w-[80vw] sm:w-[40vw] bg-amber-50 py-10 rounded-2xl max-sm:py-5">
-            <h1 className="sm:text-[2rem]"><strong>Access Account</strong></h1>
+            <div className="flex flex-col items-center gap-5 min-h-auto w-[80vw] sm:w-[40vw]  py-10 rounded-2xl max-sm:py-5">
+            <h1 className="sm:text-[2rem] text-white"><strong>Access Account</strong></h1>
             <input 
                 type="email" 
                 className="bg-gray-300 sm:w-[25vw] w-[80%] outline-none border-none p-2 rounded-md"

@@ -38,7 +38,7 @@ const SingleRequest = () => {
             </div>
             <div className="sm:sticky top-22">
             <div className="relative">
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] max-sm:gap-5 h-auto sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] max-sm:gap-5 h-auto rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className=" cursor-pointer relative inline-block"> 
                             <img className=" border-[1px] rounded-full size-23" src={  singleRecipient.recipientProfile?.profile || profilePic} alt="profile picture" />

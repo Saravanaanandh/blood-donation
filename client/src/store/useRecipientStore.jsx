@@ -64,6 +64,7 @@ export const useRecipientStore = create((set,get)=>({
                 socket.on(event, async () => {
                     const updatedRes = await axiosInstance.get('/request/');
                     set({ requests: updatedRes.data });
+                    location.reload()
                 });
             });
     
@@ -113,13 +114,13 @@ export const useRecipientStore = create((set,get)=>({
     sendRequest: async (donorId) => {
         set({ isSendRequest: true });
         try {
-            const res = await axiosInstance.post(`/request/${donorId}`);
             const socket = useAuthStore.getState().socket;
-    
             socket.off("newRequest");
+            const res = await axiosInstance.post(`/request/${donorId}`);
+    
             socket.on("newRequest", async (request) => { 
-                set({ requests: [...get().requests, request] });
-                toast.success("Request sent Successfully!");
+                set({ requests: [...get().requests, request]})
+                toast.success("Request sent Successfully!")
             });
     
         } catch (err) {
@@ -193,21 +194,21 @@ export const useRecipientStore = create((set,get)=>({
         set({isVerifyOtp:true})
         
         try{ 
-            const res = await axiosInstance.post('/otp/verifyotp',data)
             const socket = useAuthStore.getState().socket
             socket.off("completedRequest")
+            const res = await axiosInstance.post('/otp/verifyotp',data)
             socket.on("completedRequest",(otpDetails)=>{  
                 set({isOtpVerified:false})
                 if(otpDetails.status === "VERIFIED"){
                     set({isOtpVerified:true}) 
                     toast.success("otp verified") 
-                }else if(otpDetails.status === "EXPIRED"){
+                }else if(otpDetails.status === "PENDING"){
+                    set({isOtpVerified:false})  
+                    toast.error("otp Incorrect") 
+                }else{
                     set({isOtpVerified:false})
                     set({OtpDetail:null}) 
                     toast.error("otp Expired! Send again!") 
-                }else{
-                    set({isOtpVerified:false})  
-                    toast.error("otp Incorrect") 
                 }
             })
         }catch(err){

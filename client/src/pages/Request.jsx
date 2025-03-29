@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import toast from "react-hot-toast"
 import Navbar from "../components/Navbar.jsx"
-import requestImg from './../assets/Request Form.jpg' 
+import requestImg from './../assets/requestBgImg.jpeg' 
 import { useNavigate } from "react-router"
 const Request = () => {
     const navigate = useNavigate()
@@ -60,7 +60,7 @@ const Request = () => {
         location.reload()
     }
   return (
-    <div className="bg-white">
+    <div>
     <div className="min-h-[100vh]" > 
         <div className="relative">
             <img className="max-sm:hidden absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] right-0 top-[24vh]" src={requestImg} alt="blood donation picture" />

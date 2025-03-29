@@ -15,7 +15,7 @@ import profilePic from "./../assets/user.png";
 import { useAuthStore } from "../store/useAuthStore.jsx";
 
 const AllRequests = () => {
-  const { allRequests, recipients, getRequest, UnsubscribeTogetAllRequest } =
+  const { allRequests, recipients, getRequest } =
     useRecipientStore();
   const { authUser } = useAuthStore();
   const [isRequests, setIsRequests] = useState(false);
@@ -23,11 +23,8 @@ const AllRequests = () => {
   const [isRejectedRequests, setIsRejectedRequests] = useState(false);
 
   useEffect(() => { 
-      allRequests();  
-    return () => { 
-      UnsubscribeTogetAllRequest();
-    };
-  }, [allRequests, UnsubscribeTogetAllRequest]);
+      allRequests();   
+  }, [allRequests]);
 
   const pendingRequests = recipients.filter(
     (recipient) =>
