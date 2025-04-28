@@ -167,7 +167,7 @@ const Home = () => {
                         >
                             <Link to='/login' className="inline-block">
                                 <button className="text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
-                                    sign in
+                                    log in
                                 </button>  
                             </Link>
                             <Link to='/signup'  className="inline-block">
