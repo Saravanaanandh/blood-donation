@@ -1,10 +1,15 @@
-import http from 'http'
+// import http from 'http'
+import fs from 'fs';  // <-- Import fs at the top of your file
+import https from 'https';
 import express from 'express'
 import { Server } from 'socket.io'
 
 const app = express()
-
-const server = http.createServer(app)
+const options = {
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+    key: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/gces2.duckdns.org.key'),
+  };
+const server = https.createServer(options,app)
 
 const io = new Server(server,{
     cors:{

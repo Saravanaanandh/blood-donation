@@ -1,0 +1,746 @@
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+a user connected : MPXTc8GVAMboHt-kAAAB
+A user disconnected : MPXTc8GVAMboHt-kAAAB
+a user connected : lNUJniOvqv36Nfk9AAAD
+A user disconnected : lNUJniOvqv36Nfk9AAAD
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+a user connected : NjELLQl3gGj-3xcQAAAB
+A user disconnected : NjELLQl3gGj-3xcQAAAB
+a user connected : 5yxk263-khbUuCeoAAAD
+A user disconnected : 5yxk263-khbUuCeoAAAD
+a user connected : fScfe95DEXcpfrpvAAAF
+A user disconnected : fScfe95DEXcpfrpvAAAF
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-01.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-01.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+{
+  username: 'Sheik Mohideen ',
+  age: 35,
+  gender: 'MALE',
+  bloodType: 'A1+',
+  location: 'Tiruchirappalli',
+  pinCode: 620011,
+  mobile: 9080998394,
+  email: 'sheikmohideen.h@gmail.com',
+  password: 'Sheik123'
+}
+a user connected : OPCqrnMPP7tetQQ-AAAB
+A user disconnected : OPCqrnMPP7tetQQ-AAAB
+a user connected : vTwXjfbFt3iWD1ZkAAAD
+A user disconnected : vTwXjfbFt3iWD1ZkAAAD
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7
+    cert: fs.readFileSync('C:/Users/Administrator/.acme.sh/gces2.duckdns.org_ecc/fullchain.cer'),
+          ^
+
+ReferenceError: fs is not defined
+    at file:///C:/Users/Administrator/Documents/blood-donation/server/config/socket.js:7:11
+    at ModuleJob.run (node:internal/modules/esm/module_job:274:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:644:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:116:5)
+
+Node.js v22.15.0
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-02.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-01.zp923.mongodb.net
+
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected cluster0-shard-00-00.zp923.mongodb.net
+a user connected : D7IoZHDmkwtE8-4eAAAB
+A user disconnected : D7IoZHDmkwtE8-4eAAAB
+a user connected : -DpCeJJs1LFmSvbjAAAD
+A user disconnected : -DpCeJJs1LFmSvbjAAAD
+a user connected : spmeHymLvRw1K_GCAAAF
+A user disconnected : spmeHymLvRw1K_GCAAAF
+a user connected : 4ydeo_SmmUiXAThuAAAH
+A user disconnected : 4ydeo_SmmUiXAThuAAAH
+a user connected : EbgFWttdY2JVNzVQAAAK
+A user disconnected : EbgFWttdY2JVNzVQAAAK
+a user connected : cDVYjNJOMd4rJP6qAAAM
+a user connected : cMZ0J-pvIGFaroXQAAAO
+A user disconnected : cMZ0J-pvIGFaroXQAAAO
+a user connected : O9AEhvuriDv5y9YXAAAR
+a user connected : J_DU0VTQHbaggReNAAAT
+A user disconnected : J_DU0VTQHbaggReNAAAT
+a user connected : D29Zt1KILs2E5EupAAAV
+A user disconnected : D29Zt1KILs2E5EupAAAV
+a user connected : fCv6N6vXHpvH4vk9AAAX
+A user disconnected : fCv6N6vXHpvH4vk9AAAX
+a user connected : F6BUPMEkaMCNXUpmAAAZ
+a user connected : 25ic7dDwamI1wbCwAAAb
+A user disconnected : cDVYjNJOMd4rJP6qAAAM
+A user disconnected : O9AEhvuriDv5y9YXAAAR
+a user connected : umKFbgQKHy7dQI-9AAAd
+A user disconnected : F6BUPMEkaMCNXUpmAAAZ
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected 210.16.91.250
+a user connected : S7s_piH2pxZ2aWWDAAAC
+a user connected : 7msX-adaPqdfpexAAAAE
+A user disconnected : 7msX-adaPqdfpexAAAAE
+a user connected : Rusply7BTjlK_cwyAAAG
+a user connected : dl-nIKiRu_qH4bSvAAAJ
+A user disconnected : Rusply7BTjlK_cwyAAAG
+A user disconnected : dl-nIKiRu_qH4bSvAAAJ
+a user connected : _pt3tOAz9_cYtowuAAAL
+A user disconnected : _pt3tOAz9_cYtowuAAAL
+a user connected : C8Sp9WehF_MhJqn-AAAN
+a user connected : VpxBPN5Z1s2ATpokAAAP
+a user connected : xPyVx2L_m5qm5RyJAAAR
+A user disconnected : C8Sp9WehF_MhJqn-AAAN
+A user disconnected : xPyVx2L_m5qm5RyJAAAR
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected 210.16.91.250
+a user connected : KeKGYHqWEgxdjzc2AAAC
+a user connected : IHkT2XcaDCTGrJtJAAAD
+Terminate batch job (Y/N)? 
+> blood_donation_project@1.0.0 start
+> npm run start --prefix server
+
+
+> blood-donation-app@1.0.0 start
+> node server.js
+
+server running on PORT 5555
+MongoDB connected 210.16.91.250
+a user connected : tK18d1jykIKZ8ZVvAAAC
+a user connected : H01ORqxEeviapGEDAAAD
+a user connected : PBe36ONQLz3XdQaIAAAF

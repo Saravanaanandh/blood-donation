@@ -15,7 +15,7 @@ import earth from './../assets/heart2.png'
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import homeBgImg from './../assets/bloodbg.gif' 
+// import homeBgImg from './../assets/bloodbg.gif' 
 import {
     AlertDialog,
     AlertDialogAction,
@@ -130,8 +130,8 @@ const Home = () => {
                         animate={{scale:1,opacity:1}}
                         transition={{type:'tween',duration:1,delay:0.2}}
                     >   
-                        <img className="-z-10 absolute top-0 left-0 min-w-dvw h-dvh object-cover object-center" src={homeBgImg} alt="" />
-                        {/* <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] max-sm:w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" /> */}
+                        {/* <img className="-z-10 absolute top-0 left-0 min-w-dvw h-dvh object-cover object-center" src={homeBgImg} alt="" /> */}
+                        <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] max-sm:w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" />
                     </motion.div>
                 ) : (
                     <motion.div 
