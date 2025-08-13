@@ -1,26 +1,26 @@
 import {create} from 'zustand'
 import { axiosInstance } from '../lib/axios.jsx'
-import toast from 'react-hot-toast'
-import {io} from 'socket.io-client' 
+import toast from 'react-hot-toast' 
 
-const BASE_URL = import.meta.env.MODE === "development"?"http://localhost:5000":"/"
+// const BASE_URL = import.meta.env.MODE === "development"?"http://localhost:5000":"/"
 export const useAuthStore = create((set,get)=>({
 
     authUser:null,
-    users:[], 
-    onlineUsers:[],
-    socket:null,
+    users:[],  
     isSignUp:false,
     isLogin:false,
     isLogout:false,
     isCheckAuth:true,
     isUserLoading:false,
+    isUserAsRecipient: false,
+    isUserAsDonor: false,
     
     checkAuth:async()=>{ 
         try{
             const res = await axiosInstance.get('/auth/check-auth')
-            set({authUser:res?.data}) 
-            get().connected()
+            const isRecipient = res.data.recipientId ? true : false
+            const isDonor = res.data.donorId ? true : false 
+            set({authUser:res.data, isUserAsDonor: isDonor, isUserAsRecipient:isRecipient})  
         }catch(err){
             console.log(err.response.data.message) 
             set({authUser:null})
@@ -35,22 +35,19 @@ export const useAuthStore = create((set,get)=>({
             const res = await axiosInstance.post('/auth/signup',data)
             set({authUser:res.data})
             set({users:[...get().users, res.data]})
-            toast.success("signed up successfully")
-            get().connected()
+            toast.success("signed up successfully") 
         }catch(err){ 
             toast.error(err.response.data.message)
         }finally{
             set({isSignUp:false})
         }
     },
-
     login:async(data)=>{
         set({isLogin:true})
         try{
             const res = await axiosInstance.post('/auth/login',data)
             set({authUser:res.data})
-            toast.success("logged in successfully!") 
-            get().connected()
+            toast.success("logged in successfully!")  
         }catch(err){
             toast.error(err.response.data.message)
         }finally{
@@ -71,68 +68,28 @@ export const useAuthStore = create((set,get)=>({
     },
     updateProfile:async(data)=>{
         set({isProfileUpdating:true})
-        try{
-            console.log(data)
+        try{ 
             const res = await axiosInstance.put('/auth/update-profile', data)
             set({authUser:res.data})
-            const socket = useAuthStore.getState().socket
-            socket.off("updateProfile")
-            socket.on("updateProfile",(updatedDetail)=>{
-                if(get().authUser._id === updatedDetail._id){
-                    set({authUser:updatedDetail}) 
-                    toast.success("profile Updated") 
-                }
-            })
-            socket.on("completedRequest",async(requestDetail)=>{
-                await axiosInstance.put('/auth/update-profile', data)
-                location.reload()
-            })
+            toast.success("profile updated")
         }catch(err){
             console.log(err)
             toast.error(err.response.data.message)
         }finally{
             set({isProfileUpdating:false})
         }
-    },
-    UnsubscribeToProfileUpdate:()=>{
-        const socket = useAuthStore.getState().socket
-        socket.off("updateProfile")
-    },
+    }, 
     getUser:async()=>{
         set({isGetUser:true})
         try{
             const res = await axiosInstance.get('/auth/') 
-            set({authUser:res.data})
+            const isRecipient = res.data.recipientId ? true : false
+            const isDonor = res.data.donorId ? true : false 
+            set({authUser:res.data, isUserAsDonor: isDonor, isUserAsRecipient:isRecipient}) 
         }catch(err){
             console.log(err)
         }finally{
             set({isGetUser:false})
         }
-    },
-
-    connected:()=>{
-        const {authUser} = get()
-
-        if(!authUser || get().socket?.connected) return;
-
-        const socket = io(BASE_URL,{
-            query:{
-                userId:get().authUser._id 
-            }
-        })
-
-        socket.connect()
-        set({socket:socket})
-
-        socket.on("getOnlineUsers",(userIds)=>{
-            set({onlineUsers:userIds})
-        })
-    },
-    disconnected:()=>{
-        if(get().socket?.connected){
-            get().socket.disconnect()
-        }
     }
-
-    
 }))

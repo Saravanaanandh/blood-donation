@@ -12,13 +12,16 @@ import toast from "react-hot-toast"
 import { motion } from "framer-motion" 
 
 const UpdateProfile = () => {  
-    const {authUser, updateProfile,UnsubscribeToProfileUpdate,socket,getUser} = useAuthStore() 
+    const {authUser, updateProfile} = useAuthStore() 
     const {allRequests} = useRecipientStore()
     console.log(authUser)
     const [formData, setFormData] = useState({
+        weight:authUser.weight,
         location:authUser.location,
         pinCode:authUser.pinCode,
-        mobile:authUser.mobile
+        mobile:authUser.mobile,
+        tattooIn12:authUser.tattooIn12,
+        positiveHIVTest:authUser.positiveHIVTest
     })
     const bannerRef = useRef()
     const profileRef = useRef() 
@@ -26,14 +29,11 @@ const UpdateProfile = () => {
     const [isMobileEdit, setisMobileEdit] = useState(false)
     const [isLocationEdit, setIsLocationEdit] = useState(false)
     const [isPincodeEdit, setIsPincodeEdit] = useState(false)
+    const [isWeightEdit, setIsWeightEdit] = useState(false)
 
     const [banner, setBanner] = useState(null)
-    const [profile, setProfile] = useState(null)
-    const [otp, setOtp] = useState("")
-
-    socket.on("completedRequest",async()=>{
-        await getUser() 
-    })
+    const [profile, setProfile] = useState(null) 
+    const [pincode, setPincode] = useState()
     
     const handleImageChange = async (e)=>{
         const file = e.target.files[0] 
@@ -70,9 +70,15 @@ const UpdateProfile = () => {
             }
         }  
         if(isLocationEdit){ 
-            if(!target.classList.contains("Edit")){ 
+            if(!target.classList.contains("Edit") ){ 
                 await updateProfile(formData)
                 setIsLocationEdit(false)   
+            }
+        }   
+        if(isWeightEdit){ 
+            if(!target.classList.contains("Edit")){ 
+                await updateProfile(formData)
+                setIsWeightEdit(false)   
             }
         }   
         if(isPincodeEdit){ 
@@ -96,6 +102,10 @@ const UpdateProfile = () => {
         if(data === "pincode"){
             if(formData.pinCode.toString().length !== 6) return toast.error("pincode Not valid")
             setFormData({...formData, pinCode:parseInt(e.target.value)})  
+            return;
+        }
+        if(data === "weight"){
+            setFormData({...formData, weight:e.target.value}) 
             return;
         }
     }
@@ -186,16 +196,16 @@ const UpdateProfile = () => {
                         <h1 className="flex gap-2 text-[1rem] sm:text-[1.2rem]">Donations : {authUser.donation}<span className="text-red-600 "><DropletsIcon className="size-5 sm:size-6"/></span></h1>
                     </div>
                     <div className="w-full flex flex-col gap-2"> 
-                        <Link to='/allrequests'>
-                            <button className="cursor-pointer w-full sm:py-1.5 py-1  rounded-md text-red-500 border-[1px] border-red-500">
-                                My recipients
-                            </button>
-                        </Link>
                         <Link to='/alldonors'>
-                            <button className="cursor-pointer w-full sm:py-1.5 py-1 bg-red-500 rounded-md text-white"> 
-                                My Request
+                            <button className="cursor-pointer w-full sm:py-1.5 py-1  rounded-md text-red-500 border-[1px] border-red-500"> 
+                                Donors
                             </button>
                         </Link> 
+                        <Link to='/allrequests' >
+                            <button className="cursor-pointer w-full sm:py-1.5 py-1 bg-red-500 rounded-md text-white">
+                                Recipients
+                            </button>
+                        </Link>
                     </div> 
                 </div> 
             </motion.div> 
@@ -292,19 +302,7 @@ const UpdateProfile = () => {
                            {authUser.age} 
                         </motion.p>
                     </motion.li>
-                    <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
-                        variants={constVarients}
-                    >
-                        <motion.h3
-                            variants={subVarients1}
-                        >Age</motion.h3>
-                        <motion.p
-                            variants={subVarients2}
-                        >
-                           {authUser.age} 
-                        </motion.p>
-                    </motion.li>  
+                     
                     <motion.li 
                         className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5"
                         variants={constVarients}
@@ -316,13 +314,51 @@ const UpdateProfile = () => {
                             <div>
                                 {
                                     isLocationEdit ? (
-                                        <input 
-                                            className="Edit outline-none border-b-[1px] w-[10vw]"
-                                            type="text" 
-                                            value={formData.location || ""}
-                                            autoFocus 
-                                            onChange={(e)=>handleUpdataInfo(e,"location")}
-                                        />
+                                        <select
+                                        className="Edit max-sm:w-20 border-[1px] rounded-md "
+                                        onChange={(e) =>
+                                            setFormData({ ...formData, location: e.target.value })
+                                        }
+                                        > 
+                                        <option value="Ariyalur">Ariyalur</option>
+                                        <option value="Chengalpattu">Chengalpattu</option>
+                                        <option value="Chennai">Chennai</option>
+                                        <option value="Coimbatore">Coimbatore</option>
+                                        <option value="Cuddalore">Cuddalore</option>
+                                        <option value="Dharmapuri">Dharmapuri</option>
+                                        <option value="Dindigul">Dindigul</option>
+                                        <option value="Erode">Erode</option>
+                                        <option value="Kallakurichi">Kallakurichi</option>
+                                        <option value="Kanchipuram">Kanchipuram</option>
+                                        <option value="Kanyakumari">Kanyakumari</option>
+                                        <option value="Karur">Karur</option>
+                                        <option value="Krishnagiri">Krishnagiri</option>
+                                        <option value="Madurai">Madurai</option>
+                                        <option value="Mayiladuthurai">Mayiladuthurai</option>
+                                        <option value="Nagapattinam">Nagapattinam</option>
+                                        <option value="Namakkal">Namakkal</option>
+                                        <option value="Nilgiris">Nilgiris</option>
+                                        <option value="Perambalur">Perambalur</option>
+                                        <option value="Pudukkottai">Pudukkottai</option>
+                                        <option value="Ramanathapuram">Ramanathapuram</option>
+                                        <option value="Ranipet">Ranipet</option>
+                                        <option value="Salem">Salem</option>
+                                        <option value="Sivaganga">Sivaganga</option>
+                                        <option value="Tenkasi">Tenkasi</option>
+                                        <option value="Thanjavur">Thanjavur</option>
+                                        <option value="Theni">Theni</option>
+                                        <option value="Thoothukudi">Thoothukudi</option>
+                                        <option value="Tiruchirappalli">Tiruchirappalli</option>
+                                        <option value="Tirunelveli">Tirunelveli</option>
+                                        <option value="Tirupathur">Tirupathur</option>
+                                        <option value="Tiruppur">Tiruppur</option>
+                                        <option value="Tiruvallur">Tiruvallur</option>
+                                        <option value="Tiruvannamalai">Tiruvannamalai</option>
+                                        <option value="Tiruvarur">Tiruvarur</option>
+                                        <option value="Vellore">Vellore</option>
+                                        <option value="Viluppuram">Viluppuram</option>
+                                        <option value="Virudhunagar">Virudhunagar</option>
+                                        </select>
                                     ) : (
                                         <motion.p
                                             variants={subVarients2}
@@ -337,6 +373,7 @@ const UpdateProfile = () => {
                             </button>
                         </motion.div> 
                     </motion.li>
+                    
                     <motion.li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5" variants={constVarients}>
                         <motion.h3
                             variants={subVarients1}
@@ -344,15 +381,15 @@ const UpdateProfile = () => {
                         <motion.div className="flex items-center gap-3" variants={subVarients2}>
                             <div>
                                 {
-                                    isPincodeEdit ? (
-                                        <input 
-                                            className="Edit outline-none border-b-[1px] w-[10vw]"
-                                            type="text" 
-                                            placeholder={`${formData.pinCode ? '': "600012"}`}
-                                            value={formData.pinCode || ""}
-                                            autoFocus 
-                                            onChange={(e)=>handleUpdataInfo(e,"pincode")} 
-                                        />
+                                    isPincodeEdit ? ( 
+                                            <input 
+                                                className="Edit outline-none border-b-[1px] w-[10vw]"
+                                                type="text" 
+                                                placeholder={`${formData.pinCode ? '': "600012"}`}
+                                                value={formData.pinCode || ""}
+                                                autoFocus  
+                                                onChange={e => setFormData({...formData, pinCode:e.target.value})}
+                                            />  
                                     ) : (
                                         <motion.p
                                             variants={subVarients2}
@@ -363,6 +400,38 @@ const UpdateProfile = () => {
                                 }
                             </div> 
                             <button className="EditIcon size-4 cursor-pointer" onClick={()=> setIsPincodeEdit(!isPincodeEdit)}>
+                              <img className="EditIcon" src={editIcon}/>
+                            </button>
+                        </motion.div> 
+                    </motion.li>
+                    <motion.li 
+                        className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5"
+                        variants={constVarients}
+                    >
+                        <motion.h3
+                            variants={subVarients1}
+                        >Weights</motion.h3>
+                        <motion.div className="flex items-center gap-3" variants={subVarients2}>
+                            <div>
+                                {
+                                    isWeightEdit ? (
+                                        <input 
+                                            className="Edit outline-none border-b-[1px] w-[10vw]"
+                                            type="text" 
+                                            value={formData.weight || 0}
+                                            autoFocus 
+                                            onChange={(e)=>handleUpdataInfo(e,"weight")}
+                                        />
+                                    ) : (
+                                        <motion.p
+                                            variants={subVarients2}
+                                        >
+                                        {authUser.weight} 
+                                        </motion.p>
+                                    )
+                                }
+                            </div> 
+                            <button className="EditIcon size-4 cursor-pointer" onClick={()=> setIsWeightEdit(!isWeightEdit)}>
                               <img className="EditIcon" src={editIcon}/>
                             </button>
                         </motion.div> 
@@ -395,7 +464,7 @@ const UpdateProfile = () => {
                                             placeholder={`${formData.mobile ? '': "+91 "}`}
                                             value={formData.mobile || ""}
                                             autoFocus 
-                                            onChange={(e)=>handleUpdataInfo(e,"mobile")} 
+                                            onChange={(e)=>setFormData({...formData, mobile:e.target.value})} 
                                         />
                                     ) : (
                                         <motion.p

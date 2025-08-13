@@ -2,7 +2,7 @@
 import Navbar from "../components/Navbar.jsx" 
 import { useEffect,useState} from "react"
 import bannerImg from './../assets/banner.png'
-import { BadgeCheckIcon, CheckCheck, CheckCircle, DropletsIcon, Mail, SendHorizonal, TabletSmartphoneIcon, TriangleAlertIcon, X } from "lucide-react"
+import { BadgeCheckIcon, CheckCheck, CheckCircle, Clock, DropletsIcon, Mail, SendHorizonal, TabletSmartphoneIcon, TriangleAlertIcon, X } from "lucide-react"
 import profilePic from './../assets/user.png'
 import ToggleButton from './../components/ToggleButton.jsx' 
 import { useDonorStore } from "../store/useDonorStore.jsx"
@@ -16,7 +16,7 @@ const SingleDonor = () => {
 
     const navigate = useNavigate()
     const {id:donorId} = useParams()  
-    const {UnsubscribeToProfileUpdate} = useAuthStore()
+    const {isUserAsRecipient} = useAuthStore()
     const {getDonor, singleDonor} = useDonorStore()
     const {sendRequest,rejectRequest, confirmRequest} = useRecipientStore()
     
@@ -25,26 +25,22 @@ const SingleDonor = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowToggle(true); 
-        }, 1500);
+        }, 500);
 
         return () => clearTimeout(timer); 
     }, []);
-    useEffect(() => {
-        const fetchDonor = async () => {
-            await getDonor(donorId);
-
-            return ()=> UnsubscribeToProfileUpdate()
-        }; 
-        fetchDonor();
-    }, []);
+    useEffect(() => { 
+        getDonor(donorId);  
+    }, [donorId]);
      
 
     console.log(singleDonor)
-    const handleSendRequest = async()=>{
-      await sendRequest(donorId)
+    const handleSendRequest = async(id)=>{
+        
+      await sendRequest(id)
       navigate('/alldonors')
     }
-
+    console.log(isUserAsRecipient)
     return (
         <div className="min-h-[100vh]">
             <Navbar/>
@@ -63,12 +59,12 @@ const SingleDonor = () => {
                         <h1 className="text-[1.2rem]"><strong>{singleDonor.donorDetail?.username.toUpperCase()}</strong></h1>
                         <h1 className="">{singleDonor.donorDetail?.email}</h1>
                         <div className="flex gap-3"> 
-                            <span>Are You Available : </span>
+                            <span> Available : </span>
                             {
                                 !showToggle && (
                                     <ToggleButton 
                                         Available={singleDonor?.donorDetail?.available}
-                                        Id={singleDonor.donor?.donorId}
+                                        Id={singleDonor.donor?._id}
                                     /> 
                                 )
                             }
@@ -76,7 +72,7 @@ const SingleDonor = () => {
                                 showToggle && (
                                     <ToggleButton 
                                         Available={singleDonor?.donorDetail?.available}
-                                        Id={singleDonor.donor?.donorId}
+                                        Id={singleDonor.donor?._id}
                                     /> 
                                 )
                             }
@@ -163,7 +159,7 @@ const SingleDonor = () => {
                 </ul>
                 <button className="mb-10"> 
                   <div className="">
-                    {singleDonor.requestDetail?.status === "pending" ? (
+                    {singleDonor.requestDetail?.status === "prepending" ? (
                         <span className="shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-500 text-black">
                             Pending <TriangleAlertIcon/>
                         </span>
@@ -171,44 +167,45 @@ const SingleDonor = () => {
                         <div className="flex gap-5">
                             <span 
                                 onClick={()=>{
-                                    rejectRequest(donorId);
+                                    rejectRequest(singleDonor.requestDetail?._id);
                                     navigate('/alldonors')
-                                }}
-                                // onClick={()=>{handleSendRequest();navigate('/alldonors')}}  
-                                className="cursor-pointer text-red-700 border-[1px] hover:shadow-sm hover:shadow-red-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-red-700 hover:text-white"
+                                }}  
+                                className="cursor-pointer text-red-700 border-[1px] hover:shadow-sm hover:shadow-red-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-red-700 hover:text-white items-center"
                             >
                                 Reject <X/>
                             </span>
                             <span 
                                 onClick={()=>{
-                                    confirmRequest(donorId);
+                                    confirmRequest(singleDonor.requestDetail?._id);
                                     navigate('/alldonors')
-                                }}
-                                // onClick={()=>{handleSendRequest();navigate('/alldonors')}}  
-                                className="cursor-pointer text-green-700 border-[1px] hover:shadow-sm hover:shadow-green-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-green-700 hover:text-white"
+                                }}  
+                                className="cursor-pointer text-green-700 border-[1px] hover:shadow-sm hover:shadow-green-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-green-700 hover:text-white items-center"
                             >
                                 Confirm <CheckCircle/>
                             </span>
                         </div>
-                    ) : singleDonor.requestDetail?.status === "confirmed" ? (
+                    ) : singleDonor.requestDetail?.status === "pending" ? (
                         <span className=" shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-700 text-white">
+                            Waiting <Clock/>
+                        </span>
+                    ) : singleDonor.requestDetail?.status === "confirmed" ? (
+                        <span className=" shadow-sm shadow-green-700 px-4 py-2 rounded-sm flex gap-2 bg-green-700 text-white">
                             Verify OTP<TabletSmartphoneIcon/>
                         </span>
                     ) : singleDonor.requestDetail?.status === "finalState" ? (
                         <span className="shadow-sm shadow-green-700 px-4 py-2 rounded-sm flex gap-2 bg-green-700 text-white">
                             Completed !<BadgeCheckIcon/>
                         </span>
-                    ) : (
-                        <span 
-                            onClick={()=>{ handleSendRequest()
-                                // recipientIds.includes(authUser._id) ?
-                                // handleSendRequest() : navigate('/request')
-                            }} 
-                            className="px-4 py-2 rounded-sm flex gap-2 cursor-pointer  border-[1px] transition-all duration-300 text-green-700 hover:bg-green-700 hover:text-white"
+                    ) : isUserAsRecipient == true ? (
+                        <button 
+                            disabled={!isUserAsRecipient}
+                            onClick={()=>{ handleSendRequest(singleDonor.donorDetail?._id)}} 
+                            className={`px-4 py-2 rounded-sm flex gap-2 ${isUserAsRecipient ? "cursor-pointer":"cursor-not-allowed"}  border-[1px] transition-all duration-300 text-green-700 hover:bg-green-700 hover:text-white`}
                         >
                             Send Request <SendHorizonal/>
-                        </span>
-                    )}
+                        </button>
+                    ) :""
+                    }
                   </div>
                 </button>
             </div>

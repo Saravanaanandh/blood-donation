@@ -1,39 +1,31 @@
 
-import Requests from '../model/DonorRecipient.js'
+import Completed from '../model/Completed.js'
+import Donor from '../model/Donar.js'
+import Requests from '../model/Request.js'
 import User from '../model/User.js'
-import ReqBlood from './../model/ReqBlood.js'
-import {io, getUserId} from './../config/socket.js'
+import ReqBlood from '../model/Recipient.js' 
 import nodemailer from 'nodemailer'
-export const createRecipients = async (req, res)=>{
-    const {_id:recipientId} = req.user
-
-    if(!recipientId) return res.status(401).json({message:"unauthorized user"})
-
-    try{
-        const existingRecipient = await ReqBlood.findOne({recipientId})
-        if(existingRecipient){
-            const updatedRecipient = await ReqBlood.findOneAndUpdate({recipientId},{...req.body})
-            res.status(201).json(updatedRecipient) 
-        }else{
-            const recipient = await ReqBlood.create({...req.body,recipientId})
-            const user = await User.findByIdAndUpdate(recipientId,{recipientId:recipientId}) 
-            res.status(201).json(recipient)  
-        }
-    }catch(err){
-        if(err.name === "ValidationError"){
-            return res.status(400).json({message:"please provide the valid details"})
-        }
-        res.status(500).json({message:err.name})
-    }
-}
+import mongoose from 'mongoose'
+import DeletedReq from '../model/Deleted.js'
 
 export const sendRequest = async(req, res)=>{
     const {_id:recipientId} = req.user
     const {id:donorId} = req.params 
+    const redirectPage = "http://localhost:5173/allrequests" || "https://blood-donation-o7z9.onrender.com/allrequests"
+    if(!recipientId) return res.status(401).json({message:"unauthorized user"})
+    if(!req.user.recipientId || !mongoose.isValidObjectId(req.user.recipientId)) return res.status(400).json({message:"You're not a recipient, so cant send request"})
     try{
+        const donor = await Donor.findOne({donorId})
+        if(!donor) return res.status(404).json({message:"Donor not found"})
+        if(recipientId === donorId) return res.status(400).json({message:"cant send request"})
+
+        const existingRequest = await Requests.findOne({recipientId, donorId, status:{$ne:"finalState"}})
+        if(existingRequest) return res.status(200).json({message:"already request was sent to donor!"})
+
         const request = await Requests.create({recipientId, donorId}) 
+
+        //for binding with mail
         const recipient = await User.findOne({_id:recipientId})
-        const donor = await User.findOne({_id:donorId})
         const recipientDetail = await ReqBlood.findOne({recipientId}) 
         
         const transporter = nodemailer.createTransport({
@@ -45,16 +37,16 @@ export const sendRequest = async(req, res)=>{
         })
         const mailOptions = {
             from: process.env.USER_ACCOUNT,
-            to: donor.email,
+            to: recipient.email,
             subject:`🩸 Urgent Blood Donation Request from ${recipient.username}`,
             html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
                     <h1 style="color: #d32f2f; text-align: center;">🩸 GCES Blood Line</h1>
-                    <p>Hello <strong>${donor.username}</strong>,</p>
+                    <p>Hello <strong>${recipient.username}</strong>,</p>
                     <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
                     <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
                     <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
                     <p style="text-align: center; margin-top: 20px;">
-                    <a href="https://blood-donation-o7z9.onrender.com/allrequests" 
+                    <a href=${redirectPage}
                         style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
                         text-decoration: none; border-radius: 5px; font-weight: bold;">
                         View Request
@@ -62,18 +54,16 @@ export const sendRequest = async(req, res)=>{
                     </p>
                     <p>Thank you for being a Life-Saver! 💉🩸</p>
                 </div>`,
-            text: `Hello ${donor.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
+            text: `Hello ${recipient.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
             Your contribution can save a precious life.\n\n
             Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
             Thank you for your kindness.💉🩸`
         }
-        await transporter.sendMail(mailOptions)
-        
-        io.emit("newRequest",{request}) 
+        await transporter.sendMail(mailOptions) 
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
-            return res.status(400).json({message:"please provide the valid recipient id"})
+            return res.status(400).json({message:"please provide the valid donor id"})
         }
         res.status(404).json({message:err.name})
     }
@@ -81,33 +71,39 @@ export const sendRequest = async(req, res)=>{
 
 
 export const getAllRequests = async (req, res)=>{
-    const {_id:donorId} = req.user
+    const {_id:userId,donorId,recipientId} = req.user 
+    if(!userId) return res.status(400).json({message:"Unauthorized user"})
 
-    const requests = await Requests.find({donorId})
+    if(!donorId && !recipientId) return res.status(400).json({message:"You're neither a donor nor a recipient, so no requests come to you"})
+
+    const requests = await Requests.find({$or:[{donorId:userId},{recipientId:userId}]})
     if(!requests) return res.status(200).json({message:"no requests"}) 
     
-    const requestDetails = await Promise.all(
-        requests.map(request => ReqBlood.findOne({recipientId:request.recipientId}))
+    const donorProfile = await Promise.all(
+        requests.map(request => User.findOne({_id:request.donorId}).select('-password'))
     ); 
     const recipientProfile = await Promise.all(
-        requests.map(request => User.findOne({_id:request.recipientId}))
-    );
-    io.emit("allRequests",{requests,requestDetails,recipientProfile,count:requests.length})   
-    res.status(200).json({requests,requestDetails,recipientProfile,count:requests.length})
+        requests.map(request => User.findOne({_id:request.recipientId}).select('-password'))
+    );  
+    res.status(200).json({requests,donorProfile,recipientProfile,count:requests.length})
 }
 
 export const getRequest = async (req, res)=>{
-    const {_id:donorId} = req.user
-    const {id:recipientId} = req.params
-    if(!recipientId) return res.status(400).json({message:"no recipient selected"})
+    const {_id:userId,donorId, recipientId} = req.user
+    const {id:requestId} = req.params
+
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!donorId && !recipientId) return res.status(400).json({message:"You're neither a donor nor a recipient, so no requests come to you"})
+    if(!requestId) return res.status(400).json({message:"No requests found"}) 
 
     try{
-        const requestDetail = await Requests.findOne({recipientId,donorId})
-        const recipient = await ReqBlood.findOne({recipientId})
-        if(!recipient) return res.status(404).json({message:"recipient not found"}) 
-        const recipientProfile = await User.findOne({_id:recipientId})
-        io.emit("getRequest",{recipient,requestDetail,recipientProfile})
-        res.status(200).json({recipient,requestDetail,recipientProfile}) 
+        const request = await Requests.findOne({_id:requestId}) 
+        if(!request) return res.status(400).json({message:"Request does not exists"})
+        const recipientDetail = await ReqBlood.findOne({recipientId:request.recipientId}) 
+        if(!recipientDetail) return res.status(404).json({message:"recipient not found"}) 
+        const donor = await Donor.findOne({donorId:request.donorId})  
+        const donorDetail = await User.findOne({_id:request.donorId}).select('-password')  
+        res.status(200).json({request,recipientDetail,donor, donorDetail}) 
     }catch(err){
         if(err.name === "CastError"){
             return res.status(400).json({message:"please provide the valid recipient id"})
@@ -117,17 +113,14 @@ export const getRequest = async (req, res)=>{
 }
 
 export const acceptReq = async (req, res)=>{
-    const {_id:donorId} = req.user
-    const {id:recipientId} = req.params
-
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
+ 
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!requestId) return res.status(400).json({message:"recipient id invalid"})
     try{
-        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"accepted"},{new:true})
-        if(!request) return res.status(404).json({message:"request not found"})
-            
-        const recipientSocketId = getUserId(recipientId)
-        if(recipientSocketId){
-            io.to(recipientSocketId).emit("acceptRequest",{request})
-        }
+        const request = await Requests.findOneAndUpdate({_id:requestId,recipientId:{$ne: userId},status:"prepending"},{status:"accepted"},{new:true})
+        if(!request) return res.status(404).json({message:"request not found"}) 
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -138,17 +131,33 @@ export const acceptReq = async (req, res)=>{
 }
 
 export const confirmReq = async (req, res)=>{
-    const {_id:recipientId} = req.user
-    const {id:donorId} = req.params
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
 
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!requestId) return res.status(400).json({message:"request Not found"})
     try{
-        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"confirmed"},{new:true}) 
-        if(!request) return res.status(404).json({message:"request not found"})  
+        const request = await Requests.findOneAndUpdate({_id:requestId,donorId:{$ne: userId},status:"accepted"},{status:"pending"},{new:true}) 
+        if(!request) return res.status(404).json({message:"request not found"})   
+        res.status(200).json(request)
+    }catch(err){
+        if(err.name === "CastError"){
+            return res.status(400).json({message:"please provide the valid recipient id"})
+        }
+        res.status(404).json({message:err.name})
+    }
+}
 
-        const donorSocketId = getUserId(donorId)
-        // if(donorSocketId){
-            io.to(donorSocketId).emit("confirmedRequest",{request})
-        // } 
+export const confirmedReq = async (req, res)=>{
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
+
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!requestId) return res.status(400).json({message:"request Not found"})
+    try{
+        const request = await Requests.findOneAndUpdate({_id:requestId,recipientId:{$ne: userId},status:"pending"},{status:"confirmed"},{new:true}) 
+        if(!request) return res.status(404).json({message:"request not found"}) 
+        await ReqBlood.findOneAndUpdate({recipientId: request.recipientId},{isDonorFinded:true}, {new:true})
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -159,18 +168,17 @@ export const confirmReq = async (req, res)=>{
 }
 
 export const rejectReq = async (req, res)=>{
-    const {_id:donorId} = req.user
-    const {id:recipientId} = req.params
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
+
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!requestId) return res.status(400).json({message:"request Not found"})
 
     try{
-        const request = await Requests.findOneAndUpdate({donorId, recipientId},{status:"rejected"},{new:true})
+        const request = await Requests.findOneAndUpdate({_id:requestId,recipientId:{$ne: userId}, status:"prepending"},{status:"rejected"},{new:true})
         if(!request) return res.status(404).json({message:"request not found"})
-        
-        const recipientSocketId = getUserId(recipientId)
-        const donorSocketId = getUserId(donorId)
-        // if(recipientSocketId || donorSocketId){
-            io.to(recipientSocketId,donorSocketId).emit("rejectRequest",{request})
-        // } 
+        await Completed.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
+        await Requests.deleteOne({_id:requestId,status:"rejected"})
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -180,3 +188,58 @@ export const rejectReq = async (req, res)=>{
     }
 }
 
+export const rejectAcceptedReq = async (req, res)=>{
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
+
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    if(!requestId) return res.status(400).json({message:"request Not found"})
+
+    try{
+        const request = await Requests.findOneAndUpdate({_id:requestId,donorId:{$ne: userId}, status:"accepted"},{status:"rejected"},{new:true})
+        if(!request) return res.status(404).json({message:"request not found"})
+        await Completed.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
+        await Requests.deleteOne({_id:requestId,status:"rejected"})
+        res.status(200).json(request)
+    }catch(err){
+        if(err.name === "CastError"){
+            return res.status(400).json({message:"please provide the valid recipient id"})
+        }
+        res.status(404).json({message:err.name})
+    }
+}
+
+export const deleteRequest = async(req, res)=>{
+    const {_id:userId} = req.user
+    const {id:requestId} = req.params
+
+    if(!userId) return res.status(400).json({message:"Unauthorized User"})
+    try{
+        const request = await Requests.findOne({_id:requestId,recipientId:userId})
+        if(!request) return res.status(400).json({message:"request only deleted by recipient"})
+        const deletedReq = await Requests.findOneAndDelete({_id:requestId, recipientId:userId,status:{$ne:"confirmed"}})
+        if(!deletedReq) return res.status(404).json({message:"request cant be deleted, because it was confirmed"})
+        await DeletedReq.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
+        return res.status(200).json({message:"request was deleted!"})
+    }catch(err){
+        return res.status(500).json({message:"cant delete the request, try again later"})
+    }
+}
+
+export const completedRequests = async(req, res)=>{
+    const {_id:userId} = req.user
+    if(!userId) return res.status(401).json({message:"Unauthorized user"})
+    
+    try{
+        const requests = await Completed.find({$or:[{donorId:userId},{recipientId:userId}],status:"finalState"})
+        const donorDetail = await Promise.all(
+            requests.map(request => User.findById(request.donorId).select('-password')
+        ))
+        const recipientDetail = await Promise.all(
+            requests.map(request => User.findById(request.recipientId).select('-password')
+        ))
+        res.status(200).json({requests, donorDetail, recipientDetail, count:requests.length})
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
+}

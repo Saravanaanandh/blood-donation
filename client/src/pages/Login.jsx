@@ -50,6 +50,7 @@ const Login = () => {
                 placeholder="Enter email"
                 value={formData.email}
                 onChange={(e)=> setFormDate({...formData, email:e.target.value})}
+                autoComplete="on"
                 required
             />
             <div className="relative flex justify-between items-center max-sm:w-[80%]">

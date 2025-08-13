@@ -1,11 +1,11 @@
 import mongoose from "mongoose"; 
 
-
 const reqBloodSchema = new mongoose.Schema({
     recipientId:{
         type:mongoose.Types.ObjectId,
         ref:'User',
-        required:true
+        required:true,
+        unique:true
     },
     bloodType:{
         type:String,
@@ -59,11 +59,21 @@ const reqBloodSchema = new mongoose.Schema({
         required:true,
         default:1
     },
+    hospitalInfo:String,
     note:String,
     isCritical:{
         type:Boolean,
         default:true
-    }, 
+    },
+    isDonorFinded:{
+        type:Boolean,
+        default:false
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now,
+        expires:30*24*60*60
+    },
 },{timestamps:true})
 
 const ReqBlood = mongoose.model("ReqBlood",reqBloodSchema)

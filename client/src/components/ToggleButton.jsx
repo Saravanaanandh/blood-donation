@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuthStore } from "../store/useAuthStore.jsx";
-import PropTypes from 'prop-types'
-import { useRecipientStore } from "../store/useRecipientStore.jsx";
+import PropTypes from 'prop-types' 
 const ToggleButton = ({Available,Id}) => {  
   const [isToggled, setIsToggled] = useState(Available);
   const {updateProfile} = useAuthStore()
@@ -19,8 +18,7 @@ const ToggleButton = ({Available,Id}) => {
     <label className={`flex items-center ${isOtherUserProfile ? '': 'cursor-pointer'}`}>
       <input
         type="checkbox"
-        className="sr-only"
-        // checked={available}
+        className={`sr-only ${isOtherUserProfile ? "cursor-not-allowed":"cursor-pointer"}`} 
         checked={Available || ""}
         disabled={isOtherUserProfile ? true : false}
         onChange={() => !isOtherUserProfile ? handleChange() : ""}

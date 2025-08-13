@@ -29,15 +29,9 @@ const RequestMe = () => {
     const handleSubmit = async (e)=>{
         e.preventDefault()
 
-        if(
-          // !formData.bloodType || !formData.patientsName || !formData.patientsage || !formData.AttendeesName || !formData.AttendeesPhno || !formData.gender || !formData.email || !formData.location || !formData.pinCode ||
-           !formData.reqDate || !formData.bloodUnits || !formData.AttendeesName || !formData.AttendeesPhno
-          ) return toast.error("please fill the required fields!, because it more helpful for donors")
-        // if(formData.patientsage > 100) return toast.error("Invalid Age")
-        if(formData.AttendeesPhno.toString().length !== 10) return toast.error("Mobile Number Not Valid")
-        // if(formData.pinCode.toString().length !== 6) return toast.error("Pincode Not Valid")
-        if(formData.reqDate < new Date(Date.now()).toISOString().split('T')[0]) return toast.error("Selected Date is Invalid")
-        // if(!formData.email.includes("@gmail.com")) return toast.error("Invalid Email")
+        if( !formData.reqDate || !formData.bloodUnits || !formData.AttendeesName || !formData.AttendeesPhno ) return toast.error("please fill the required fields!, because it more helpful for donors") 
+        if(formData.AttendeesPhno.toString().length !== 10) return toast.error("Mobile Number Not Valid") 
+        if(formData.reqDate < new Date(Date.now()).toISOString().split('T')[0]) return toast.error("Selected Date is Invalid") 
         if (formData.bloodUnits > 10) {
             return toast.error(`Check! You require ${formData.bloodUnits} units of blood`);
         }
@@ -46,23 +40,15 @@ const RequestMe = () => {
         }catch(err){
             console.log(err.message)
         }
-        setFormData({
-            // bloodType:"",
-            // patientsName:"",
-            // patientsage:"",
+        setFormData({ 
             AttendeesName:"",
-            AttendeesPhno:"",
-            // gender:"",
-            // email:"",
-            // location:"",
-            // pinCode:"",
+            AttendeesPhno:"", 
             reqDate:"",
             bloodUnits:"",
             isCritical:isChecked,
             note:""
         })
-        navigate('/alldonors')
-        location.reload()
+        navigate('/alldonors') 
     }
   return (
     <div>

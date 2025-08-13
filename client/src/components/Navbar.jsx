@@ -25,7 +25,7 @@ const Navbar = () => {
     >
         <Link to='/'>
             <div className="text-[0.9rem] sm:text-[1.2rem] cursor-pointer">
-                <h1 className="flex items-center"><img className="mr-3 w-6 sm:w-10 inline-block drop-shadow-lg"   src={logo} alt="" /> <strong className="">GCES <span  style={{textShadow:'0 0 2px #000'}} className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
+                <h1 className="flex items-center"><img className="mr-3 w-6 sm:w-10 inline-block drop-shadow-lg"   src={logo} alt="" /> <strong className="">GCES <span className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
             </div>
         </Link>
         <div className="flex items-center"> 

@@ -1,10 +1,13 @@
 import express from 'express'
 import {
     acceptReq,
-    confirmReq,
-    createRecipients, 
+    completedRequests,
+    confirmReq, 
+    confirmedReq, 
+    deleteRequest, 
     getAllRequests, 
-    getRequest, 
+    getRequest,  
+    rejectAcceptedReq,  
     rejectReq, 
     sendRequest
 } from './../controllers/reqBloodController.js' 
@@ -13,11 +16,13 @@ const router = express.Router()
 
 router.get('/',getAllRequests)
 router.get('/:id',getRequest)
-router.put('/:id',acceptReq)
-router.put('/reject/:id',rejectReq)
-
-router.post('/',createRecipients)
+router.get('/completed',completedRequests)
 router.post('/:id',sendRequest)
-router.put('/confirm/:id',confirmReq)
+router.put('/:id',acceptReq)
+router.put('/:id/reject',rejectReq) 
+router.put('/:id/confirm',confirmReq)
+router.put('/:id/rejected',rejectAcceptedReq)  
+router.put('/:id/confirmed',confirmedReq)
+router.delete('/:id',deleteRequest)
 
 export default router

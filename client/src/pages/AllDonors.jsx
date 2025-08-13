@@ -6,22 +6,22 @@ import profilePic from "./../assets/user.png";
 import {
   CheckCheck,
   CheckCircleIcon,
-  Eye,
+  Eye, 
   SendHorizontalIcon,
+  TabletSmartphoneIcon,
   TriangleAlert,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore.jsx";
-import { motion } from "framer-motion";
-import { useRecipientStore } from "../store/useRecipientStore.jsx";
+import { motion } from "framer-motion"; 
+
 const AllDonors = () => {
-  const { authUser } = useAuthStore();
-  const { allDonors, donors, getDonor } =
-    useDonorStore();
-  const { recipientId } = useRecipientStore();
+  const { authUser,isUserAsRecipient,isUserAsDonor } = useAuthStore();
+  const { allDonors, donors, getDonor } = useDonorStore(); 
 
   const [isAvailable, setIsAvailable] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [filter, setFilter] = useState({
     fromage: 0,
     toage: 100,
@@ -29,23 +29,14 @@ const AllDonors = () => {
     bloodType: "",
   }); 
 
-  useEffect(() => {
-    // const timer = setTimeout(() => {
-      allDonors();
-    // }, 1000); 
-  }, [allDonors]);
-  console.log(authUser);
-  console.log(filter);
-  console.log(donors)
+  useEffect(() => { 
+      allDonors(); 
+  }, [allDonors]); 
 
-  const availableDonors = donors.filter((donor) => {
-    console.log(recipientId);
-    const isAvailable = donor.donorDetail?.available;
-    const isRecipientRequest = donor.requestDetail === null ? true : false;
-    const isRecipientUser = authUser.recipientId ? true : false;
-    console.log(donor.donorDetail);
-    console.log(isAvailable & isRecipientRequest & isRecipientUser);
-    return isAvailable & isRecipientRequest & isRecipientUser;
+  const availableDonors = donors.filter((donor) => { 
+    const isAvailableDonor = donor.donorDetail?.available;
+    const isRecipientRequest = donor.requestDetail === null ? true : false; 
+    return isAvailableDonor && isRecipientRequest
   });
   const filteredDonors = availableDonors.filter((donor) => {
     return (
@@ -56,22 +47,17 @@ const AllDonors = () => {
       (filter.bloodType === "" ||
         donor.donorDetail?.bloodType === filter.bloodType)
     );
-  });
-  console.log(availableDonors);
+  }); 
+ 
+  const prependingRequests = donors.filter((donor) => (donor.requestDetail?.status === "prepending"));
 
   const acceptedDonors = donors.filter(
     (donor) =>
-      ((donor.requestDetail?.status === "finalState") |
-        (donor.requestDetail?.status === "confirmed")) &
-      (donor.requestDetail?.recipientId === authUser._id)
-  );
-  const pendingRequests = donors.filter(
-    (donor) =>
-      ((donor.requestDetail?.status === "pending") |
-        (donor.requestDetail?.status === "accepted")) &
-      (donor.requestDetail?.recipientId === authUser._id)
-  );
-
+      ((donor.requestDetail?.status === "accepted") | (donor.requestDetail?.status === "pending"))
+  )
+   
+  const completedRequests = donors.filter((donor) => ((donor.requestDetail?.status === "confirmed")|(donor.requestDetail?.status === "finalState")))
+ 
   return (
     <div>
       <Navbar />
@@ -79,36 +65,54 @@ const AllDonors = () => {
         <strong>All Donors</strong>
       </h1>
       <div className="min-h-svh flex max-sm:flex-col border-[1px] rounded-lg shadow-sm shadow-gray-400 mx-5 my-1 overflow-y-hidden">
-        <div className="flex sm:flex-col sm:h-[75vh] sm:w-[15vw] w-full">
-          <div
-            className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
-            onClick={() => {
-              setIsAvailable(true);
-              setIsAccepted(false);
-              setIsPending(false);
-            }}
-          >
-            <span className="">Available</span>
+        <div className="flex flex-col sm:h-[75vh] sm:w-[15vw] w-full">
+          <div className="flex sm:flex-col">
+            <div
+              className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+              onClick={() => {
+                setIsAvailable(true);
+                setIsAccepted(false);
+                setIsPending(false);
+                setIsCompleted(false);
+              }}
+            >
+              <span>Available</span>
+            </div>
+            <div
+              className=" text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+              onClick={() => {
+                setIsAvailable(false);
+                setIsAccepted(false);
+                setIsCompleted(false);
+                setIsPending(true);
+              }}
+            >
+              <span className="flex text-center">Request Sent</span>
+            </div>
           </div>
-          <div
-            className=" text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
-            onClick={() => {
-              setIsAvailable(false);
-              setIsAccepted(false);
-              setIsPending(true);
-            }}
-          >
-            <span className="flex text-center">Request Sent</span>
-          </div>
-          <div
-            className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
-            onClick={() => {
-              setIsAvailable(false);
-              setIsAccepted(true);
-              setIsPending(false);
-            }}
-          >
-            <span className="">Accepted</span>
+          <div className="flex sm:flex-col">
+            <div
+              className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+              onClick={() => {
+                setIsAvailable(false);
+                setIsAccepted(true);
+                setIsCompleted(false);
+                setIsPending(false);
+              }}
+            >
+              <span className="">Accepted</span>
+            </div>
+            <div
+              className="text-[1rem] sm:text-[1.2rem] cursor-pointer w-full m-3 flex h-[8vh] sm:h-[18vh] items-center justify-center rounded-lg shadow-sm shadow-gray-400"
+              onClick={() => {
+                setIsAvailable(false);
+                setIsAccepted(false);
+                setIsPending(false);
+                setIsCompleted(true);
+              }}
+            >
+              <span className="">Completed</span>
+            </div>
           </div>
         </div>
         <motion.div
@@ -123,7 +127,7 @@ const AllDonors = () => {
           }}
           transition={{ type: "spring", duration: 2, delay: 1 }}
         >
-          {!isAvailable && !isPending && !isAccepted && (
+          {!isAvailable && !isPending && !isAccepted && !isCompleted && (
             <div className="w-full flex flex-col gap-3 justify-center items-center overflow-y-hidden">
               <motion.h1 className="font-bold text-[1.2rem] font-mono text-center">
                 📌 Menu Instructions
@@ -211,17 +215,15 @@ const AllDonors = () => {
                 </motion.div>
               </div>
             </div>
-          )} 
-          {isAvailable && !authUser.recipientId && (
-            <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
-              <span>No Donors Available!</span>
-              <p>
-                Note: Please check if you have already filled out the
-                Request Form.
-              </p>
-            </div>
-          )}
-          {isAvailable && authUser.recipientId && availableDonors.length > 0 && (
+          )}  
+          {
+            isAvailable && !availableDonors.length && (
+              <div className="w-full h-full flex flex-col gap-5 justify-center items-center">
+                <span>No Donors Available!</span> 
+              </div>
+            )
+          }
+          {isAvailable && availableDonors.length > 0 && (
             <div className=" flex justify-evenly items-center">
               <div className="flex max-sm:flex-col gap-2">
                 <label>Age :</label>
@@ -332,19 +334,19 @@ const AllDonors = () => {
             </div>
           )} 
           
-          {isAvailable && authUser.recipientId && donors.length > 0 && !filteredDonors.length && (
+          {isAvailable && availableDonors.length > 0 && !filteredDonors.length && (
             <div className="w-full h-full flex flex-col gap-5 justify-center items-center mt-10">
-              <span>No Donors Available!</span>
+              <span>No Donors Found!</span>
             </div>
           )} 
-          {isAvailable && authUser.recipientId && filteredDonors.length>0 && filteredDonors.map((donor) => (
+          {isAvailable && filteredDonors.length > 0 && filteredDonors.map((donor) => (
             <Link
-              className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100"
+              className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
               key={donor.donor._id}
-              onClick={() => {
-                getDonor(donor.donor.donorId);
-              }}
-              to={`/alldonors/${donor.donor.donorId}`}
+              // onClick={() => {
+              //   getDonor(donor.donor.donorId);
+              // }}
+              to={`/alldonors/${donor.donor._id}`}
             >
               <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                 <div className="flex items-center gap-5">
@@ -382,26 +384,35 @@ const AllDonors = () => {
                       {donor.donorDetail.bloodType}
                     </div>
                   </h1>
-                  <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm text-green-700 hover:bg-green-700 hover:text-white">
-                    Send Request <SendHorizontalIcon className="size-4" />
-                  </button>
+                  {
+                    isUserAsRecipient ? (
+                      <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
+                        Send Request <SendHorizontalIcon className="size-4" />
+                      </button>
+                    ):(
+                      <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
+                        View <Eye className="size-4" />
+                      </button>
+                    )
+                  }
+                  
                 </div>
               </div>
             </Link>
           ))}  
-          {isPending && !pendingRequests.length && (
+          {isPending && !prependingRequests.length && (
             <div className="w-full h-full flex justify-center items-center">
               <span>No Pending Requests !</span>
             </div>
           )}
           {isPending &&
-            pendingRequests.length > 0 &&
-            pendingRequests.map((donor) => (
+            prependingRequests.length > 0 &&
+            prependingRequests.map((donor) => (
               <Link
-                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100"
+                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
                 key={donor.donor._id}
-                onClick={() => getDonor(donor.donor.donorId)}
-                to={`/alldonors/${donor.donor.donorId}`}
+                // onClick={() => getDonor(donor.donor.donorId)}
+                to={`/alldonors/${donor.donor._id}`}
               >
                 <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
@@ -441,20 +452,9 @@ const AllDonors = () => {
                     </h1>
 
                     <button
-                      className={`flex items-center gap-1 px-3 py-2 rounded-sm ${
-                        donor.requestDetail?.status === "pending"
-                          ? "bg-yellow-400 text-black"
-                          : "bg-green-400 text-white"
-                      }`}
-                    >
-                      {donor.requestDetail?.status === "accepted"
-                        ? "Confirm"
-                        : "Pending"}{" "}
-                      {donor.requestDetail?.status === "pending" ? (
-                        <TriangleAlert className="size-4" />
-                      ) : (
-                        <CheckCircleIcon className="size-4" />
-                      )}
+                      className={`flex items-center gap-1 px-3 py-2 rounded-sm bg-yellow-500 text-black`}
+                    > 
+                      Pending <TriangleAlert className="size-4" />
                     </button>
                   </div>
                 </div>
@@ -469,10 +469,77 @@ const AllDonors = () => {
             acceptedDonors.length > 0 &&
             acceptedDonors.map((donor) => (
               <Link
-                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100"
+                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
                 key={donor.donor._id}
-                onClick={() => getDonor(donor.donor.donorId)}
-                to={`/alldonors/${donor.donor.donorId}`}
+                // onClick={() => getDonor(donor.donor.donorId)}
+                to={`/alldonors/${donor.donor._id}`}
+              >
+                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+                  <div className="flex items-center gap-5">
+                    <div>
+                      <img
+                        className="size-15 rounded-full "
+                        src={donor.donorDetail.profile || profilePic}
+                        alt=""
+                      />
+                    </div>
+                    <div className="max-sm:hidden">
+                      <h1 className="flex gap-3 items-center">
+                        <strong>
+                          {" "}
+                          {donor.donorDetail.username.toUpperCase()}
+                        </strong>
+                        <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                          {donor.donorDetail.bloodType}
+                        </div>
+                      </h1>
+                      <p className="text-[0.9rem]">
+                        {" "}
+                        Age : {donor.donorDetail.age} | Gender :{" "}
+                        {donor.donorDetail.gender} | location :{" "}
+                        {donor.donorDetail.location}{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="sm:flex sm:flex-col sm:items-center">
+                    <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                      <strong>
+                        {donor.donorDetail.username.toUpperCase()}
+                      </strong>
+                      <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
+                        {donor.donorDetail.bloodType}
+                      </div>
+                    </h1>
+
+                    <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${ donor.requestDetail?.status === "accepted"
+                        ? "bg-green-700 text-white"
+                        : "bg-yellow-500 text-black"}`}>
+                        {donor.requestDetail?.status === "accepted"
+                          ? "confirm"
+                          : "Pending"}
+                      {donor.requestDetail?.status === "pending" ? (
+                        <TriangleAlert />
+                      ) : (
+                        <SendHorizontalIcon className="size-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </Link>
+          ))}
+          {isCompleted && !completedRequests.length && (
+            <div className="w-full h-full flex justify-center items-center">
+              <span>You didn't complete any requests!</span>
+            </div>
+          )}
+          {isCompleted &&
+            completedRequests.length > 0 &&
+            completedRequests.map((donor) => (
+              <Link
+                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
+                key={donor.donor._id}
+                // onClick={() => getDonor(donor.donor.donorId)}
+                to={`/alldonors/${donor.donor._id}`}
               >
                 <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
@@ -513,18 +580,18 @@ const AllDonors = () => {
 
                     <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700 text-white">
                       {donor.requestDetail?.status === "confirmed"
-                        ? "view"
+                        ? "Verify OTP"
                         : "Completed"}
                       {donor.requestDetail?.status === "confirmed" ? (
-                        <Eye />
+                        <TabletSmartphoneIcon className="size-4" />
                       ) : (
-                        <CheckCheck className="size-4" />
-                      )}
+                        <CheckCircleIcon />
+                      )} 
                     </button>
                   </div>
                 </div>
               </Link>
-            ))}
+          ))}
         </motion.div>
       </div>
     </div>

@@ -14,8 +14,13 @@ const requestSchema = new mongoose.Schema({
     },
     status:{
         type:String, 
-        enum:["accepted","rejected","pending","confirmed","finalState"],
-        default:"pending", 
+        enum:["prepending","accepted","rejected","pending","confirmed","finalState"],
+        default:"prepending", 
+    },
+    createdAt:{
+        type:Date,
+        default:Date.now,
+        expires:30*24*60*60
     }
 },{timestamps:true})
 

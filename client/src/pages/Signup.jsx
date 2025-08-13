@@ -28,18 +28,17 @@ const Signup = () => {
         if (!formData.username || !formData.age || !formData.gender || !formData.bloodType || !formData.location || !formData.pinCode || !formData.mobile || !formData.email || !formData.password) {
             return toast.error("Please fill all the required fields!");
         }
-        if(formData.age > 100) return toast.error("Invalid Age")
+        if(formData.age > 100 && formData.age <= 0) return toast.error("Invalid Age")
         if(formData.pinCode.toString().length !== 6) return toast.error("Enter valid pincode")
         if(formData.mobile.toString().length !== 10) return toast.error("Enter valid mobile number")
-        if(!formData.email.includes("@gmail.com")) return toast.error("Enter valid Email")
+        if(!/^[a-zA-Z0-9._%+-]+@(gmail|outlook|gces)\.(com|edu\.in)$/.test(formData.email)) return toast.error("Enter valid Email")
         
         try {
             await signup(formData);
         } catch (err) {
             console.log(err.message);
             toast.error("Something went wrong, try again later " + err.message);
-        }
-        console.log(formData)
+        } 
         setFormData({
             username: "",
             age: "",
@@ -67,6 +66,7 @@ const Signup = () => {
                     placeholder="Enter fullname"
                     value={formData.username}
                     onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    autoComplete="on"
                     required
                 />
 
@@ -77,39 +77,42 @@ const Signup = () => {
                     placeholder="Enter Age"
                     value={formData.age || ''}
                     onChange={(e) => setFormData({ ...formData, age: parseInt(e.target.value) })}
+                    autoComplete="on"
                     required
                 />
 
                 <label>Blood Group</label>
                 <select
-            onChange={(e) => setFormData({ ...formData, bloodType: e.target.value })} 
-            className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
-            required
-        >
-            <option value="">Select Blood Type</option>
-            <option value="A+">A+</option>
-            <option value="A-">A-</option>
-            <option value="B+">B+</option>
-            <option value="B-">B-</option>
-            <option value="O+">O+</option>
-            <option value="O-">O-</option>
-            <option value="AB+">AB+</option>
-            <option value="AB-">AB-</option>
-            <option value="A1+">A1+</option>
-            <option value="A1-">A1-</option>
-            <option value="A2+">A2+</option>
-            <option value="A2-">A2-</option>
-            <option value="A1B+">A1B+</option>
-            <option value="A1B-">A1B-</option>
-            <option value="A2B+">A2B+</option>
-            <option value="A2B-">A2B-</option>
-            <option value="Bombay Blood Group">Bombay Blood Group</option>
-        </select>
+                    onChange={(e) => setFormData({ ...formData, bloodType: e.target.value })} 
+                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
+                    autoComplete="on" 
+                    required
+                >
+                    <option value="">Select Blood Type</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="A1+">A1+</option>
+                    <option value="A1-">A1-</option>
+                    <option value="A2+">A2+</option>
+                    <option value="A2-">A2-</option>
+                    <option value="A1B+">A1B+</option>
+                    <option value="A1B-">A1B-</option>
+                    <option value="A2B+">A2B+</option>
+                    <option value="A2B-">A2B-</option>
+                    <option value="Bombay Blood Group">Bombay Blood Group</option>
+                </select>
 
 
                 <label>Gender</label>
                 <select
                     className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
+                    autoComplete="on"
                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}  
                     required
                 >
@@ -122,6 +125,7 @@ const Signup = () => {
                 <select
                     className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                    autoComplete="on"
                     required
                 >
                     <option value="">Select District</option>
@@ -173,6 +177,7 @@ const Signup = () => {
                     placeholder="Enter Pincode"
                     value={formData.pinCode || ""}
                     onChange={(e) => setFormData({ ...formData, pinCode: parseInt(e.target.value) })}
+                    autoComplete="on"
                     required
                 />
 
@@ -183,6 +188,7 @@ const Signup = () => {
                     placeholder="Enter Mobile No."
                     value={formData.mobile || ""} 
                     onChange={(e) => setFormData({ ...formData, mobile: parseInt(e.target.value) })}
+                    autoComplete="on" 
                     required
                 />
 
@@ -193,6 +199,7 @@ const Signup = () => {
                     placeholder="Enter Email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    autoComplete="on"
                     required
                 />
 
@@ -204,7 +211,7 @@ const Signup = () => {
                     type={showPassword ? "text":"password"}
                     placeholder="Enter Password"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })} 
                     required
                 />
                 <div className="absolute right-3 cursor-pointer" onClick={()=>{setShowPassword(!showPassword)}}>

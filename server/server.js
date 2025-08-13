@@ -6,6 +6,7 @@ import authRouter from './routes/auth.route.js'
 import bloodReqRouter from './routes/reqBlood.route.js'
 import donorRouter from './routes/donor.route.js'
 import otpRouter from './routes/otp.route.js'
+import recipientRouter from './routes/recipient.route.js'
 import { verifyJWT } from './middleware/auth.middleware.js'
 import cors from 'cors'
 import path from 'path'
@@ -15,7 +16,7 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
-    origin:["http://192.168.190.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","https://bloodline.gces1.duckdns.org"], 
+    origin:["http://192.168.47.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","https://bloodline.gces1.duckdns.org"], 
     methods: "GET,POST,PATCH,PUT,DELETE",
     allowedHeaders: ["Content-Type"],
     credentials:true
@@ -26,8 +27,10 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(cookieParser())
 
 const __dirname = path.resolve()
+ 
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/request',verifyJWT,bloodReqRouter)
+app.use('/api/v1/recipient',verifyJWT,recipientRouter)
 app.use('/api/v1/donate',verifyJWT,donorRouter)
 app.use('/api/v1/otp',verifyJWT, otpRouter)
 

@@ -37,7 +37,7 @@ const Request = () => {
             return toast.error(`Check! You require ${formData.bloodUnits} units of blood`);
         }
         try{
-    await createRecipient(formData)
+            await createRecipient(formData)
         }catch(err){
             console.log(err.message)
         }
@@ -56,8 +56,7 @@ const Request = () => {
             isCritical:isChecked,
             note:""
         })
-        navigate('/alldonors')
-        location.reload()
+        navigate('/alldonors') 
     }
   return (
     <div>
@@ -238,10 +237,10 @@ const Request = () => {
             <div className="flex flex-col gap-1">
                 <label>Blood Required Date:</label>
                 <input 
-                        type="date" 
-                        className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1" 
-                        value={formData.reqDate || ""} 
-                        onChange={(e) => setFormData({...formData, reqDate:e.target.value})} required 
+                    type="date" 
+                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1" 
+                    value={formData.reqDate || ""} 
+                    onChange={(e) => setFormData({...formData, reqDate:e.target.value})} required 
                 />
              </div>
             <div className="sm:hidden flex flex-col gap-1">

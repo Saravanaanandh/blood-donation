@@ -14,8 +14,7 @@ import { useNavigate } from "react-router"
 import earth from './../assets/heart2.png'
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
-import homeBgImg from './../assets/bloodbg.gif' 
+import * as THREE from "three"; 
 import {
     AlertDialog,
     AlertDialogAction,
@@ -109,15 +108,14 @@ const Home = () => {
     const [isClick, setIsClick] = useState(false)
     const navigate = useNavigate(); 
     const reqRef = useRef()
-      const handleClick = (e,to, delay) => {  
+    const handleClick = (e,to, delay) => {  
         e.preventDefault()
         setIsClick(true)
         setTimeout(() => {
-          navigate(to);
-          setIsClick(false)
-        }, delay);
-
-      };
+            navigate(to);
+            setIsClick(false)
+        }, delay); 
+    };
     
     const {authUser} = useAuthStore()
     return ( 
@@ -130,8 +128,8 @@ const Home = () => {
                         animate={{scale:1,opacity:1}}
                         transition={{type:'tween',duration:1,delay:0.2}}
                     >   
-                        <img className="-z-10 absolute top-0 left-0 min-w-dvw h-dvh object-cover object-center" src={homeBgImg} alt="" />
-                        {/* <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] max-sm:w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" /> */}
+                        {/* <img className="-z-10 absolute top-0 left-0 min-w-dvw h-dvh object-cover object-center" src={homeBgImg} alt="" /> */}
+                        <img className="absolute -z-10 sm:right-20 sm:top-36 cover center w-[30vw] max-sm:w-[50vw] right-0 top-[34vh]" src={homepageImg} alt="blood donation picture" />
                     </motion.div>
                 ) : (
                     <motion.div 
@@ -145,52 +143,46 @@ const Home = () => {
                 )
             }</div>
             { authUser && <Navbar/>}
-            <div className="max-w-full flex justify-between items-center px-5 pt-5 sm:pl-10 pl-5">
-                { !authUser ? (<div className="sm:text-[1.2rem]">
-                <Link to='/'>
-                    <div className="sm:text-[1.2rem] cursor-pointer">
-                        <h1 className="flex items-center"><img className="mr-3 w-10 inline-block brightness-150" src={logo} alt="" />  <strong>GCES <span className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
-                    </div>
-                </Link>
-                </div>):(
-                    <div className=" sm:text-[1.2rem] cursor-pointer"> 
-                    </div>
-                )}
-                <div className=" p-2 sm:p-3"> 
+            <div className="w-full flex items-center px-5 pt-5 sm:pl-10 pl-5"> 
+                <div className="w-full p-2 sm:p-3"> 
                 {
                     !authUser && (
                         <motion.div 
-                            className="flex gap-3 sm:gap-8"
+                            className="flex justify-between gap-3 sm:gap-8"
                             initial={{translateY: '-100px',opacity:0}}
                             animate={{translateY:0,opacity:1}}
                             transition={{type:'tween',duration:1.2, delay:0.2}}
                         >
-                            <Link to='/login' className="inline-block">
-                                <button className="text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
-                                    log in
-                                </button>  
+                            <Link to='/'>
+                                <div className="sm:text-[1.2rem] cursor-pointer">
+                                    <h1 className="flex items-center"><img className="mr-3 w-10 inline-block brightness-150" src={logo} alt="" />  <strong>GCES <span className={authUser ? "text-red-500":"text-blue-400"}>BLOOD LINE</span></strong></h1>
+                                </div>
                             </Link>
-                            <Link to='/signup'  className="inline-block">
-                                <button className="text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-3 bg-violet-900 text-white transition-all duration-300 hover:scale-105" > 
-                                    Sign up
-                                </button>  
-                            </Link>
+                            <div className="sm:text-[1.2rem] flex gap-5">
+                                <Link to='/login' className="inline-block">
+                                    <button className="cursor-pointer text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
+                                        log in
+                                    </button>  
+                                </Link>
+                                <Link to='/signup'  className=" inline-block">
+                                    <button className="cursor-pointer text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-3 bg-violet-900 text-white transition-all duration-300 hover:scale-105" > 
+                                        Sign up
+                                    </button>  
+                                </Link>
+                            </div> 
                         </motion.div>
                     )
                 }
                 {
-                    authUser && (
-                        <div 
-                            className="w-full h-full" 
-                        > 
-                            <div className="w-full flex flex-col gap-10">
+                    authUser && ( 
+                            <div className=" flex flex-col gap-10">
                                 <motion.div 
-                                    className="w-[70vw] max-sm:mt-10 sm:w-[70vw] flex flex-col gap-5"
+                                    className="w-[50vw] max-sm:mt-10 sm:w-[70vw] flex flex-col gap-5"
                                     initial={{translateX: '-100px',opacity:0}}
                                     animate={{translateX:0,opacity:1}}
                                     transition={{type:'tween',duration:1.6, delay:0.6}}
                                 >
-                                    <h1 className="text-[1.7rem] sm:text-[2.2rem] text-red-500 " style={{textShadow:'0 0 2px #000'}}><strong>A Small Drop Can Make a Big Difference! 
+                                    <h1 className="text-[1.7rem] sm:text-[2.2rem] text-red-500 "><strong>A Small Drop Can Make a Big Difference! 
                                     <AnimatedHeart 
 
                                         className="absolute inline-block w-[100px] max-sm:top-[15vh]"
@@ -205,23 +197,23 @@ const Home = () => {
                                     </p>
                                 </motion.div>
                                 <motion.div 
-                                    className="w-full sm:mt-5 flex justify-center gap-8 sm:pr-96 sm:gap-16"
+                                    className="w-full sm:my-5 flex justify-center gap-8 sm:pr-96 sm:gap-16"
                                     initial={{translateY:'100vh',scale:0,opacity:0}}
                                     animate={{translateY:0,scale:1,opacity:1}}
                                     transition={{type:'tween',duration:2,delay:1.5}}
                                 >
                                     <div to='/donate' onClick={(e)=>handleClick(e,"/donate",1500)}>
-                                        <Button className="text-nowrap cursor-pointer rounded-md transition-all duration-200 text-red-600  px-2 sm:px-4 py-1 sm:py-2 w-40 h-40 flex flex-col items-center justify-around bg-white"> 
-                                            <motion.span animate={{translateY:[0, 10,0]}} transition={{repeat: Infinity, repeatType: "reverse", duration: 1, ease: "easeInOut"}}><img className="size-25 hover:size-28 duration-200" src={blood} alt="" /></motion.span>
-                                            <span className="font-extrabold">Donate Now</span>
+                                        <Button className="text-nowrap cursor-pointer rounded-md transition-all duration-200 text-red-600  px-2 sm:px-4 py-1 sm:py-2 w-32 h-32 flex flex-col items-center justify-around bg-white"> 
+                                            <motion.span animate={{translateY:[0, 10,0]}} transition={{repeat: Infinity, repeatType: "reverse", duration: 1, ease: "easeInOut"}}><img className="size-20 duration-200" src={blood} alt="" /></motion.span>
+                                            <span className="font-extrabold">Donate</span>
                                         </Button>
                                     </div>
                                     <div>
-                                        <Button onClick={()=>reqRef?.current?.click()} className="text-nowrap bg-white cursor-pointer transition-all duration-200 rounded-md text-red-600 px-2 sm:px-4 py-1 sm:py-2 w-40 h-40 flex flex-col items-center justify-around "> 
-                                        <span><img className="size-25 hover:size-28 duration-200 object-center object-scale-down" src={blood2} alt="" /></span>  
+                                        <Button onClick={()=>reqRef?.current?.click()} className="text-nowrap bg-white cursor-pointer transition-all duration-200 rounded-md text-red-600 px-2 sm:px-4 py-1 sm:py-2 w-32 h-32 flex flex-col items-center justify-around "> 
+                                        <span><img className="size-20 duration-200 object-center object-scale-down" src={blood2} alt="" /></span>  
                                         <AlertDialog>
                                         <AlertDialogTrigger asChild>
-                                            <Button variant="outline" ref={reqRef} className="font-extrabold">Request Blood</Button>
+                                            <Button variant="outline" ref={reqRef} className="font-extrabold">Request </Button>
                                             </AlertDialogTrigger>
                                             <AlertDialogContent>
                                                 <AlertDialogHeader>
@@ -232,7 +224,7 @@ const Home = () => {
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                 <AlertDialogCancel onClick={(e)=>handleClick(e,"/requestme",1500)}className="border-[1px] border-red-500 text-red-500 hover:text-red-500">For Me</AlertDialogCancel>
-                                                <AlertDialogAction onClick={(e)=>handleClick(e,"/request",1500)}className="bg-red-500 hover:bg-red-600">For My Friend</AlertDialogAction>
+                                                <AlertDialogAction onClick={(e)=>handleClick(e,"/request",1500)}className="bg-red-500 hover:bg-red-600">Others</AlertDialogAction>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialog>
@@ -252,8 +244,7 @@ const Home = () => {
                                         autoplay
                                     /> 
                                 </BloodDriver>
-                            </div>
-                        </div>
+                            </div> 
                     )
                 }
                 </div> 
@@ -266,12 +257,12 @@ const Home = () => {
                             <p className="w-[40vw] sm:text-[1.2rem]">Our non-profit platform connects blood donors with those in need, making life-saving donations easier and faster for everyone 🚑❤️</p>
                             <div className="flex gap-5">
                                 <Link to='/login'>
-                                    <button className="text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
+                                    <button className="cursor-pointer text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
                                         Get Started
                                     </button>  
                                 </Link>
                                 <Link to='/learnmore'>
-                                    <button className="text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-3 bg-violet-900 text-white transition-all duration-300 hover:scale-105" > 
+                                    <button className="cursor-pointer text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-3 bg-violet-900 text-white transition-all duration-300 hover:scale-105" > 
                                         Learn More
                                     </button>  
                                 </Link> 

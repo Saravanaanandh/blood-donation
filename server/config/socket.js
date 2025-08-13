@@ -8,7 +8,7 @@ const server = http.createServer(app)
 
 const io = new Server(server,{
     cors:{
-        origin:["https://blood-donation-o7z9.onrender.com","http://localhost:5173"], 
+        origin:["https://blood-donation-o7z9.onrender.com","http://localhost:5173","http://localhost:5000/"], 
         methods: "GET,POST,PATCH,PUT,DELETE",
         allowedHeaders: ["Content-Type"],
         credentials:true
@@ -24,7 +24,7 @@ io.on("connection",(socket)=>{
     const userId = socket.handshake.query.userId
     if(userId) userSocket[userId] = socket.id
 
-    io.emit("getOnlineUsers",Object.keys(userSocket))
+    // io.emit("getOnlineUsers",Object.keys(userSocket))
 
     // socket.on("sendRequest",(request)=>{
     //     console.log("Request Details On Console :"+request)

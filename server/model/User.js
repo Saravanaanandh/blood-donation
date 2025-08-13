@@ -1,157 +1,99 @@
 import mongoose from 'mongoose'
 import bcrypt, { genSalt } from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+ 
 
-// import { DataTypes } from 'sequelize'
-// import sequelize from './../config/dbConn.js'
-
-const userSchema = new mongoose.Schema({
-// const User = sequelize.define("User",{
-    // id:{
-    //     type:DataTypes.INTEGER,
-    //     autoIncrement:true,
-    //     primaryKey:true
-    // },
+const userSchema = new mongoose.Schema({ 
     username:{
         type:String,
         required:true,
-        maxlength:30
-        // type:DataTypes.STRING,
-        // allowNull:false
+        maxlength:30 
     },
     age:{
         type:Number,
-        required:true
-        // type:DataTypes.INTEGER,
-        // allowNull:false
+        required:true 
     },
     gender:{
         type:String,
         enum:["MALE","FEMALE"],
         set:value => value.toUpperCase(),
-        required:true
-        // type:DataTypes.ENUM("MALE","FEMALE"),
-        // allowNull:false,
-        // set(value){
-        //     this.setDataValue("gender",value.toUpperCase())
-        // }
+        required:true 
     },
     bloodType:{
         type:String,
         required:true,
         enum: ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',"A1+", "A1-", "A2+", "A2-", "A1B+","A1B-", "A2B+", "A2B-", "BOMBAY BLOOD GROUP"],
-        set: value => value.toUpperCase()
-        // type:DataTypes.ENUM('A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',"A1+", "A1-", "A2+", "A2-", "A1B+","A1B-", "A2B+", "A2B-", "BOMBAY BLOOD GROUP"),
-        // allowNull:false,
-        // set(value){
-        //     this.setDataValue("bloodType", value.toUpperCase())
-        // }
+        set: value => value.toUpperCase() 
     },
     location:{
         type:String,
-        required:true
-        // type:DataTypes.STRING,
-        // allowNull:false
+        required:true 
     },
     pinCode:{
         type:Number,
-        required:true
-        // type:DataTypes.INTEGER,
-        // allowNull:false
+        length:6,
+        required:true 
     },
     mobile:{
         type:Number,
         required:true,
-        maxlength:12
-        // type:DataTypes.BIGINT,
-        // allowNull:false,
-        // validate:{
-        //     min:1000000000,
-        //     max:9999999999
-        // }
-        
+        length:10 
     },
     email:{
         type:String,
         required:true,
         match:/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        unique:true 
-        // type:DataTypes.STRING,
-        // allowNull:false,
-        // unique:true,
-        // validate:{
-        //     isEmail:true
-        // }
+        unique:true  
     },
     password:{
         type:String,
         required:true,
-        minlength:6
-        // type:DataTypes.STRING,
-        // allowNull:false,
-        // validate:{
-        //     len:[6,20]
-        // }
+        minlength:6 
     },
     donation:{
         type:Number,
-        default:0
-        // type:DataTypes.INTEGER,
-        // defaultValue:0
+        default:0 
     },
     available:{
         type:Boolean, 
-        default:true
-        // type:DataTypes.BOOLEAN,
-        // defaultValue:true
+        default:false 
+    },
+    weight:{
+        type:Number,
+        default:0
     },
     profile:{
         type:String,
-        dafault:""
-        // type:DataTypes.STRING,
-        // defaultValue:""
+        dafault:"" 
     },
     banner:{
         type:String,
-        dafault:""
-        // type:DataTypes.STRING,
-        // defaultValue:""
+        dafault:"" 
     },
     tattooIn12:{
         type:Boolean,
-        dafault:false
-        // type:DataTypes.BOOLEAN,
-        // defaultValue:false
+        dafault:false 
     },
     positiveHIVTest:{
         type:Boolean,
-        dafault:false
-        // type:DataTypes.BOOLEAN,
-        // defaultValue:false
+        dafault:false 
     },
     lastDonated:{
-        type:String
-        // type:DataTypes.STRING
+        type:String 
     },
     nextDonationDate:{
-        type:String
-        // type:DataTypes.STRING 
+        type:String 
     },
     recipientId:{
-        type:mongoose.Types.ObjectId 
-        // type:DataTypes.UUID
+        type:mongoose.Types.ObjectId  
     },
     donorId:{
-        type:mongoose.Types.ObjectId 
-        // type:DataTypes.UUID
+        type:mongoose.Types.ObjectId  
     },
-    weight:String,
-    token:String,
-    // token:DataTypes.STRING
+    token:String
 },{timestamps:true})
 
-userSchema.pre('save',async function(next){
-    // User.beforeCreate(async function(user){
+userSchema.pre('save',async function(next){ 
     const salt = await bcrypt.genSalt(10)
     this.password = await bcrypt.hash(this.password, salt)
     next()
@@ -172,18 +114,5 @@ userSchema.methods.comparePassword = async function(candidatePassword){
 }
 
 const User = mongoose.model('User',userSchema)
-
-// User.prototype.createJWT = function () {
-//     return jwt.sign(
-//       { userId: this.id }, // `this.id` refers to the Sequelize user ID
-//       process.env.JWT_SECRET,
-//       { expiresIn: "30d" }
-//     );
-//   };
-  
-//   // Instance method to compare passwords
-//   User.prototype.comparePassword = async function (candidatePassword) {
-//     return await bcrypt.compare(candidatePassword, this.password);
-//   };
 
 export default User

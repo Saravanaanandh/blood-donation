@@ -1,20 +1,22 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.jsx";
-import toast from "react-hot-toast";  
-import { useAuthStore } from "./useAuthStore.jsx"; 
+import toast from "react-hot-toast";   
 
 export const useRecipientStore = create((set,get)=>({
      
     recipients:[],
+    recipient:{},
     requests:[],
-    recipientId:null,
-    singleRecipient:{},
+    request:{},
+    OtpDetail:null,  
     isRequestsFetching:false,
+    isRecipientFetching:false,
+    isRecipientLoading:false,
+    isRequestLoading:false,
     isSingleRequestFetching:false,
     isSendRequest:false,
     isAcceptReq:false,
     isRejectRequest:false,
-    OtpDetail:null, 
     setOtpDetail:(data)=>{
         set({OtpDetail:data})
     },
@@ -25,126 +27,99 @@ export const useRecipientStore = create((set,get)=>({
     createRecipient:async(data)=>{
         set({isCreatingRecipient:true})
         try{
-            const res = await axiosInstance.post('/request/',data)  
-            set({recipientId: res.data}) 
+            const res = await axiosInstance.post('/recipient/',data)  
+            set({recipients: [...get().recipients,res.data]}) 
             toast.success("Recipient Created successfully!")
         }catch(err){
             console.log(err.response.data.message)
-            toast.error(err.name)
+            toast.error(err)
         }finally{
             set({isCreatingRecipient:false})
         }
+    }, 
+    allRecipients: async () => {
+        set({ isRecipientFetching: true });
+        try {
+            
+            const res = await axiosInstance.get('/recipient/'); 
+            const recipients = res.data.recipients.map((recipient, index) => ({
+                recipient,
+                recipientProfile: res.data.recipientProfile[index],
+                request: res.data.requests[index]
+            })); 
+            set({recipients});   
+    
+        } catch (err) {
+            console.log(err.response?.data?.message || err);
+        } finally {
+            set({ isRecipientFetching: false });
+        }
+    }, 
+    getRecipient: async (id) => {
+        set({ isRecipientLoading: true });
+        try { 
+            const res = await axiosInstance.get(`/recipient/${id}`); 
+            set({ recipient: res.data })  //{recipientDetail,request,recipientProfile}
+        } catch (err) {
+            console.log(err);
+        } finally {
+            set({ isRecipientLoading: false });
+        }
     },
-
+    deleteRecipient:async()=>{
+        try{
+            await axiosInstance.delete('/recipient/')
+        }catch(err){
+            console.log(err.response.data.message)
+        }
+    },
     allRequests: async () => {
         set({ isRequestsFetching: true });
         try {
-            const socket = useAuthStore.getState().socket;
             
-            // Unsubscribe before adding new listeners
-            ["newRequest", "allRequests", "acceptRequest", "confirmedRequest", "rejectRequest", "completedRequest"]
-                .forEach(event => socket.off(event));
-    
-            const res = await axiosInstance.get('/request/');
-            
-            socket.on("allRequests", (requestDetail) => { 
-                const recipients = requestDetail.requests.map((request, index) => ({
-                    request,
-                    requestDetail: res.data.requestDetails[index],
-                    recipientProfile: res.data.recipientProfile[index]
-                }));
-    
-                set({ 
-                    recipients: recipients,
-                    requests: requestDetail.requests // Keep the request state updated
-                });  
-            });
-    
-            ["newRequest", "acceptRequest", "confirmedRequest", "rejectRequest", "completedRequest"].forEach(event => {
-                socket.on(event, async () => {
-                    const updatedRes = await axiosInstance.get('/request/');
-                    set({ requests: updatedRes.data });
-                    location.reload()
-                });
-            });
-    
+            const res = await axiosInstance.get('/request/'); 
+            const requests = res.data.requests.map((request, index) => ({
+                request,
+                donorProfile: res.data.donorProfile[index],
+                recipientProfile: res.data.recipientProfile[index]
+            })); 
+            set({ requests });    
         } catch (err) {
             console.log(err.response?.data?.message || err);
         } finally {
             set({ isRequestsFetching: false });
         }
     },
-    
     getRequest: async (id) => {
         set({ isRequestLoading: true });
-        try {
-            const socket = useAuthStore.getState().socket;
-    
-            ["acceptRequest", "confirmedRequest", "rejectRequest", "completedRequest", "updateProfile", "getRequest"]
-                .forEach(event => socket.off(event));
-    
-            const res = await axiosInstance.get(`/request/${id}`);
-    
-            socket.on("updateProfile", async (updatedDetail) => {
-                const authUser = useAuthStore.getState().authUser;
-                if (authUser._id === updatedDetail._id) {
-                    set({ authUser: updatedDetail });
-                }
-                await axiosInstance.get(`/request/${id}`);
-            });
-    
-            ["newRequest", "acceptRequest", "confirmedRequest", "rejectRequest", "completedRequest"].forEach(event => {
-                socket.on(event, async () => {
-                    const updatedRes = await axiosInstance.get(`/request/${id}`);
-                    set({ singleRecipient: updatedRes.data });
-                });
-            });
-    
-            socket.on("getRequest", (data) => { 
-                set({ singleRecipient: data });  
-            });
-    
+        try { 
+            const res = await axiosInstance.get(`/request/${id}`); 
+            set({ request: res.data})  
         } catch (err) {
             console.log(err);
         } finally {
             set({ isRequestLoading: false });
         }
     },
-    
     sendRequest: async (donorId) => {
         set({ isSendRequest: true });
-        try {
-            const socket = useAuthStore.getState().socket;
-            socket.off("newRequest");
-            const res = await axiosInstance.post(`/request/${donorId}`);
-    
-            socket.on("newRequest", async (request) => { 
-                set({ requests: [...get().requests, request]})
-                toast.success("Request sent Successfully!")
-            });
-    
+        try { 
+            const res = await axiosInstance.post(`/request/${donorId}`); 
+            set({ requests: [...get().requests, res.data]})
+            toast.success("Request sent Successfully!")  
         } catch (err) {
             console.log(err);
             toast.error("Something went wrong, try again later!");
         } finally {
             set({ isSendRequest: false });
         }
-    },
-    
-    UnsubscribeToGetRequest: () => {
-        const socket = useAuthStore.getState().socket;
-        ["acceptRequest", "rejectRequest", "confirmedRequest", "completedRequest"].forEach(event => socket.off(event));
-    },
-    
-    UnsubscribeTogetAllRequest: () => {
-        const socket = useAuthStore.getState().socket;
-        socket.off("newRequest");
-    },
+    }, 
     
     acceptRequest:async(id)=>{
         set({isAcceptReq:true})
         try{
-            await axiosInstance.put(`/request/${id}`) 
+            const res = await axiosInstance.put(`/request/${id}`) 
+            set({ request: res.data}) 
             toast.success("Request Accepted Successfully !")
         }catch(err){
             console.log(err.response.data.message)
@@ -156,7 +131,21 @@ export const useRecipientStore = create((set,get)=>({
     confirmRequest:async(id)=>{
         set({isAcceptReq:true})
         try{ 
-            await axiosInstance.put(`/request/confirm/${id}`) 
+            const res = await axiosInstance.put(`/request/${id}/confirm`)
+            set({ request: res.data})  
+            toast.success("Donor confirmed Successfully !")
+        }catch(err){
+            console.log(err.response.data.message)
+            toast.error("something went wrong !")
+        }finally{
+            set({isAcceptReq:false})
+        }
+    },
+    confirmedRequest:async(id)=>{
+        set({isAcceptReq:true})
+        try{ 
+            const res = await axiosInstance.put(`/request/${id}/confirmed`) 
+            set({ request: res.data}) 
             toast.success("Donor confirmed Successfully !")
         }catch(err){
             console.log(err.response.data.message)
@@ -168,7 +157,8 @@ export const useRecipientStore = create((set,get)=>({
     rejectRequest:async(id)=>{
         set({isRejectRequest:true})
         try{ 
-            await axiosInstance.put(`/request/reject/${id}`) 
+            const res = await axiosInstance.put(`/request/${id}/reject`) 
+            set({ request: res.data}) 
             toast.success("Request Rejected !")
         }catch(err){
             console.log(err.response.data.message)
@@ -177,10 +167,33 @@ export const useRecipientStore = create((set,get)=>({
             set({isRejectRequest:false})
         }
     },
-    sendOtp:async(data)=>{
+    rejectAcceptedRequest:async(id)=>{
+        set({isRejectRequest:true})
+        try{ 
+            const res = await axiosInstance.put(`/request/${id}rejected`) 
+            set({request:res.data})
+            toast.success("Request Rejected !")
+        }catch(err){
+            console.log(err.response.data.message)
+            toast.error("something went wrong !")
+        }finally{
+            set({isRejectRequest:false})
+        }
+    },
+    deleteRequest:async(id)=>{
+        try{
+            await axiosInstance.delete(`/request/${id}`)
+        }catch(err){
+            console.log(err.response.data.message)
+        }
+    },
+    completedRequests:async()=>{
+        
+    },
+    sendOtp:async(id,data)=>{
         set({isSendingOtp:true})
         try{
-            const res = await axiosInstance.post('/otp/',data) 
+            const res = await axiosInstance.post(`/otp/${id}/send`,data) 
             set({OtpDetail:res.data.otp})
             toast.success("OTP sent to the Email !")
         }catch(err){
@@ -190,27 +203,20 @@ export const useRecipientStore = create((set,get)=>({
             set({isSendingOtp:false})
         }
     },
-    verifyOtp:async(data)=>{
-        set({isVerifyOtp:true})
-        
-        try{ 
-            const socket = useAuthStore.getState().socket
-            socket.off("completedRequest")
-            const res = await axiosInstance.post('/otp/verifyotp',data)
-            socket.on("completedRequest",(otpDetails)=>{  
-                set({isOtpVerified:false})
-                if(otpDetails.status === "VERIFIED"){
-                    set({isOtpVerified:true}) 
-                    toast.success("otp verified") 
-                }else if(otpDetails.status === "PENDING"){
-                    set({isOtpVerified:false})  
-                    toast.error("otp Incorrect") 
-                }else{
-                    set({isOtpVerified:false})
-                    set({OtpDetail:null}) 
-                    toast.error("otp Expired! Send again!") 
-                }
-            })
+    verifyOtp:async(id,data)=>{
+        set({isVerifyOtp:true}) 
+        try{  
+            const res = await axiosInstance.post(`/otp/${id}/verifyotp`,data) 
+            if(res.data.status === "VERIFIED"){
+                set({isOtpVerified:true,OtpDetail:null}) 
+                toast.success("otp verified") 
+            }else if(res.data.status === "PENDING"){
+                set({isOtpVerified:false})  
+                toast.error("otp Incorrect") 
+            }else if(res.data.status === "EXPIRED"){
+                set({isOtpVerified:false,OtpDetail:null})  
+                toast.error("otp Expired! Send again!") 
+            } 
         }catch(err){
             set({isOtpVerified:false})
             console.log(err.response.data.message)

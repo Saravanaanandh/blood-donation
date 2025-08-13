@@ -1,10 +1,8 @@
 import cloudinary from '../config/cloudinary.js'
-import User from './../model/User.js'
-import {io} from './../config/socket.js'
+import User from './../model/User.js' 
 
 export const signupController = async (req, res)=>{
     const {username,age, gender, bloodType,location,pinCode,mobile, email, password} = req.body 
-    console.log({username,age, gender, bloodType,location,pinCode,mobile, email, password})
     if(!username || !email || !gender || !password || !age || !bloodType || !location || !pinCode || !mobile) return res.status(400).json({message:"please fill required fields"})
     try{ 
         const duplicateUser = await User.findOne({email})
@@ -42,8 +40,7 @@ export const updateProfileController = async (req, res)=>{
     const {location, available, profile, banner, tattooIn12, pinCode, mobile, positiveHIVTest,weight} = req.body
     try{
         const user = req.user
-        if(!user) return res.status(401).json({message:"unauthorized User"})
-        console.log({...req.body})
+        if(!user) return res.status(401).json({message:"unauthorized User"}) 
         let updatedUser = await User.findOneAndUpdate({email:user.email},{location, available, tattooIn12, pinCode, mobile, positiveHIVTest,weight},{new:true,runValidators:true})
             
         if(profile){
@@ -54,8 +51,7 @@ export const updateProfileController = async (req, res)=>{
             const uploadedResponse = await cloudinary.uploader.upload(banner)
             updatedUser = await User.findOneAndUpdate({email:user.email},{banner:uploadedResponse.secure_url},{new:true})
         } 
-        const newUser = updatedUser 
-        io.emit("updateProfile",newUser)
+        const newUser = updatedUser  
         res.status(200).json(newUser) 
     }catch(err){
         if(err.name === "ValidationError"){
@@ -73,7 +69,7 @@ export const logoutController = async (req, res)=>{
     if(!user) return res.status(404).json({message:"user not found"}) 
     user.token = ""
 
-    res.clearCookie('jwt','',{httpOnly:true, secure:true, sameSite:"None"})
+    res.clearCookie('jwt',{httpOnly:true, secure:true, sameSite:"None"})
     res.status(204).json({message:"user logout successfully"})
 } 
 

@@ -2,44 +2,44 @@ import { useState, useEffect } from "react";
 import { useRecipientStore } from "../store/useRecipientStore.jsx";
 import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router"; 
-import { Loader2Icon } from "lucide-react";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp"
-
+import { Loader2Icon } from "lucide-react"; 
 const OtpPage = () => {
-  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isSendingOtp,isVerifyOtp,getRequest,singleRecipient } = useRecipientStore();
+  const { sendOtp, OtpDetail, verifyOtp,isOtpVerified,setOtpDetail,isSendingOtp,isVerifyOtp,getRequest,recipient } = useRecipientStore();
   const navigate = useNavigate();
-  const {id:recipientId} = useParams()
+  const {id:requestId} = useParams() 
   useEffect(() => {
-    getRequest(recipientId)
+    getRequest(requestId)
     if (isOtpVerified) {
       setOtpDetail(null); // Reset OTP detail after verification
       navigate('/profile'); // Navigate after OTP is verified
     }
-  }, [getRequest,recipientId,isOtpVerified, navigate, setOtpDetail]);
-  const [email, setEmail] = useState(singleRecipient.recipient?.email);
+    if(OtpDetail){
+      setTimeout(()=>{
+        setOtpDetail(null)
+        navigate('/profile')
+      },5*60*1000)
+    }
+  }, [isOtpVerified,OtpDetail]); 
+  const [email, setEmail] = useState(recipient.recipientDetail?.email);
   const [otp, setOtp] = useState("");
-
-  console.log(singleRecipient)
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await sendOtp({ email });
+      await sendOtp(requestId,{ email });
     } catch (err) {
       console.log(err);
     }
   };
+  console.log(OtpDetail)
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     if (!otp) return toast.error("Please enter OTP!");
-    if (otp.length !== 6) return toast.error("Enter valid OTP");
+    if (otp.length !== 6) return toast.error("OTP Must be 6 digits");
+    if(!/^\d{6}$/.test(otp)) return toast.error("Invalid OTP")
     try {
-      await verifyOtp({ otp ,recipientId}); 
+      await verifyOtp(requestId,{ otp }); 
     } catch (err) {
       console.log(err);
     }
@@ -49,7 +49,7 @@ const OtpPage = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-2xl shadow-lg w-96 animate-fade-in-up">
         {!OtpDetail ? (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-center">Enter Your Email</h2>
             <input
               type="email"
@@ -68,14 +68,16 @@ const OtpPage = () => {
             </button>
           </form>
         ) : (
-          <form onSubmit={handleOtpSubmit} className="flex flex-col gap-4">
+          <form className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-center">Enter OTP</h2>
+            <p className="text-gray-700">OTP sent to {email}:</p>
             <input
               type="text"
               placeholder="Enter OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
             {/* <InputOTP 
               maxLength={6}
