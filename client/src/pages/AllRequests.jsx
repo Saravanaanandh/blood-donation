@@ -17,7 +17,7 @@ import profilePic from "./../assets/user.png";
 import { useAuthStore } from "../store/useAuthStore.jsx";
 
 const AllRequests = () => {
-  const { allRequests, recipients,requests, getRequest,allRecipients,getRecipient } = useRecipientStore();
+  const { allRequests, recipients,requests, getRequest,allRecipients,getRecipient,deleteRequest } = useRecipientStore();
   const { authUser,isUserAsRecipient } = useAuthStore();
   const [isRecipients, setIsRecipients] = useState(false);
   const [isRequests, setIsRequests] = useState(false);

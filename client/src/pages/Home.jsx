@@ -214,19 +214,19 @@ const Home = () => {
                                         <AlertDialog>
                                         <AlertDialogTrigger asChild>
                                             <Button variant="outline" ref={reqRef} className="font-extrabold">Request </Button>
-                                            </AlertDialogTrigger>
-                                            <AlertDialogContent>
-                                                <AlertDialogHeader>
-                                                <AlertDialogTitle>For whom are you going to request?</AlertDialogTitle>
-                                                <AlertDialogDescription>
-                                                    Note: Please select the correct recipient for the blood request.
-                                                </AlertDialogDescription>
-                                                </AlertDialogHeader>
-                                                <AlertDialogFooter>
-                                                <AlertDialogCancel onClick={(e)=>handleClick(e,"/requestme",1500)}className="border-[1px] border-red-500 text-red-500 hover:text-red-500">For Me</AlertDialogCancel>
-                                                <AlertDialogAction onClick={(e)=>handleClick(e,"/request",1500)}className="bg-red-500 hover:bg-red-600">Others</AlertDialogAction>
-                                                </AlertDialogFooter>
-                                            </AlertDialogContent>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                            <AlertDialogTitle>For whom are you going to request?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Note: Please select the correct recipient for the blood request.
+                                            </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                            <AlertDialogCancel onClick={(e)=>handleClick(e,"/requestme",1500)}className="border-[1px] border-red-500 text-red-500 hover:text-red-500">For Me</AlertDialogCancel>
+                                            <AlertDialogAction onClick={(e)=>handleClick(e,"/request",1500)}className="bg-red-500 hover:bg-red-600">Others</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
                                         </AlertDialog>
                                         </Button>  
                                     </div>

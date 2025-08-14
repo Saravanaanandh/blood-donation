@@ -2,15 +2,16 @@
 import Navbar from "../components/Navbar.jsx" 
 import { useEffect,useState} from "react"
 import bannerImg from './../assets/banner.png'
-import { BadgeCheckIcon, CheckCheck, CheckCircle, Clock, DropletsIcon, Mail, SendHorizonal, TabletSmartphoneIcon, TriangleAlertIcon, X } from "lucide-react"
+import { BadgeCheckIcon, CheckCheck, CheckCircle, Clock, DropletsIcon, Loader2, Mail, SendHorizonal, TabletSmartphoneIcon, Trash2, TriangleAlertIcon, X } from "lucide-react"
 import profilePic from './../assets/user.png'
 import ToggleButton from './../components/ToggleButton.jsx' 
 import { useDonorStore } from "../store/useDonorStore.jsx"
 import { useParams } from "react-router" 
 import { useRecipientStore} from '../store/useRecipientStore.jsx'
 import { useNavigate } from "react-router"  
-import { useAuthStore } from "../store/useAuthStore.jsx"
-
+import { useAuthStore } from "../store/useAuthStore.jsx"  
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog.jsx"
+import { Button } from "@/components/ui/button.jsx"
 
 const SingleDonor = () => { 
 
@@ -18,7 +19,7 @@ const SingleDonor = () => {
     const {id:donorId} = useParams()  
     const {isUserAsRecipient} = useAuthStore()
     const {getDonor, singleDonor} = useDonorStore()
-    const {sendRequest,rejectRequest, confirmRequest} = useRecipientStore()
+    const {sendRequest,rejectRequest, confirmRequest,deleteRequest,isSendRequest} = useRecipientStore()
     
     const [showToggle, setShowToggle] = useState(false);
 
@@ -32,15 +33,17 @@ const SingleDonor = () => {
     useEffect(() => { 
         getDonor(donorId);  
     }, [donorId]);
-     
-
-    console.log(singleDonor)
+      
     const handleSendRequest = async(id)=>{
         
       await sendRequest(id)
       navigate('/alldonors')
+    } 
+
+    const handleClickDelete = async(id)=>{
+        await deleteRequest(id)
+        navigate('/alldonors')
     }
-    console.log(isUserAsRecipient)
     return (
         <div className="min-h-[100vh]">
             <Navbar/>
@@ -160,9 +163,30 @@ const SingleDonor = () => {
                 <button className="mb-10"> 
                   <div className="">
                     {singleDonor.requestDetail?.status === "prepending" ? (
-                        <span className="shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-500 text-black">
-                            Pending <TriangleAlertIcon/>
-                        </span>
+                        <div className="flex gap-5 items-center">
+                            
+                            <span>
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                        <Button className={`flex items-center gap-2 px-5 py-5 rounded-sm hover:bg-red-600 hover:shadow-lg shadow-red-400 bg-red-600 text-white`}> 
+                                            Delete <Trash2 className="size-4" />
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                        <AlertDialogTitle>If you want to Cancel send Request?</AlertDialogTitle> 
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                        <AlertDialogCancel className="border-[1px] border-red-500 text-red-500 hover:text-red-500">cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={()=>handleClickDelete(singleDonor.requestDetail?._id)} className="bg-red-600 text-white hover:bg-red-500 ">yes</AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </span>
+                            <span className="shadow-sm shadow-yellow-700 px-4 py-2 rounded-sm flex gap-2 bg-yellow-500 text-black">
+                                Pending <TriangleAlertIcon/>
+                            </span>
+                        </div>
                     ) : singleDonor.requestDetail?.status === "accepted" ? (
                         <div className="flex gap-5">
                             <span 
@@ -200,9 +224,9 @@ const SingleDonor = () => {
                         <button 
                             disabled={!isUserAsRecipient}
                             onClick={()=>{ handleSendRequest(singleDonor.donorDetail?._id)}} 
-                            className={`px-4 py-2 rounded-sm flex gap-2 ${isUserAsRecipient ? "cursor-pointer":"cursor-not-allowed"}  border-[1px] transition-all duration-300 text-green-700 hover:bg-green-700 hover:text-white`}
+                            className={`px-4 py-2 rounded-sm flex gap-2 ${isUserAsRecipient ? "cursor-pointer":"cursor-not-allowed"}  border-[1px] transition-all duration-300 text-green-700 hover:bg-green-700 hover:text-white ${isSendRequest && "bg-green-900 white"}`}
                         >
-                            Send Request <SendHorizonal/>
+                            {!isSendRequest ? <span className="flex gap-2">Send Request <SendHorizonal/></span> :  <span className="flex gap-2">Sending... <Loader2 className="animate-spin"/></span> } 
                         </button>
                     ) :""
                     }

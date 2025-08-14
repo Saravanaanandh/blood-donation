@@ -12,9 +12,8 @@ import toast from "react-hot-toast"
 import { motion } from "framer-motion" 
 
 const UpdateProfile = () => {  
-    const {authUser, updateProfile} = useAuthStore() 
-    const {allRequests} = useRecipientStore()
-    console.log(authUser)
+    const {authUser, updateProfile} = useAuthStore()  
+     
     const [formData, setFormData] = useState({
         weight:authUser.weight,
         location:authUser.location,
@@ -22,7 +21,8 @@ const UpdateProfile = () => {
         mobile:authUser.mobile,
         tattooIn12:authUser.tattooIn12,
         positiveHIVTest:authUser.positiveHIVTest
-    })
+    }) 
+
     const bannerRef = useRef()
     const profileRef = useRef() 
     
@@ -32,8 +32,7 @@ const UpdateProfile = () => {
     const [isWeightEdit, setIsWeightEdit] = useState(false)
 
     const [banner, setBanner] = useState(null)
-    const [profile, setProfile] = useState(null) 
-    const [pincode, setPincode] = useState()
+    const [profile, setProfile] = useState(null)  
     
     const handleImageChange = async (e)=>{
         const file = e.target.files[0] 
@@ -63,52 +62,46 @@ const UpdateProfile = () => {
  
     const handleEditToggle = async(e)=>{
         const target = e.target
+        console.log(e)
         if(isMobileEdit){ 
             if(!target.classList.contains("Edit")){ 
-                    await updateProfile(formData)
-                    setisMobileEdit(false)   
+                if(!/^\d{10}$/.test(formData.mobile.toString())){
+                    setFormData({...formData,pinCode:authUser.mobile})
+                    return toast.error("Incorrect Mobile No")
+                }
+                await updateProfile({mobile:formData.mobile})
+                setisMobileEdit(false)   
             }
         }  
         if(isLocationEdit){ 
             if(!target.classList.contains("Edit") ){ 
-                await updateProfile(formData)
+                await updateProfile({location:formData.location})
                 setIsLocationEdit(false)   
             }
         }   
         if(isWeightEdit){ 
             if(!target.classList.contains("Edit")){ 
-                await updateProfile(formData)
+                if(!Number(formData.weight)) {
+                    setFormData({...formData, weight:authUser.weight})
+                    return toast.error("Invalid Weight")
+                }
+                await updateProfile({weight:formData.weight})
                 setIsWeightEdit(false)   
             }
         }   
         if(isPincodeEdit){ 
             if(!target.classList.contains("Edit")){ 
-                await updateProfile(formData)
+                if(!/^\d{6}$/.test(formData.pinCode.toString())){
+                    setFormData({...formData,pinCode:authUser.pinCode})
+                    return toast.error("Incorrect Pincode")
+                }
+                await updateProfile({pinCode:formData.pinCode})
                 setIsPincodeEdit(false)   
             }
         }   
         return;
-    } 
-    const handleUpdataInfo = async(e,data)=>{
-        if(data === "location"){ 
-            setFormData({...formData, location:e.target.value}) 
-            return;
-        }
-        if(data === "mobile"){
-            if(formData.mobile.toString().length !== 10) return toast.error(" Mobile Not valid")
-            setFormData({...formData, mobile:parseInt(e.target.value)})  
-            return;
-        }
-        if(data === "pincode"){
-            if(formData.pinCode.toString().length !== 6) return toast.error("pincode Not valid")
-            setFormData({...formData, pinCode:parseInt(e.target.value)})  
-            return;
-        }
-        if(data === "weight"){
-            setFormData({...formData, weight:e.target.value}) 
-            return;
-        }
-    }
+    }  
+
     const subVarients2 = {
         hidden:{
             translateX:'100px'
@@ -170,7 +163,7 @@ const UpdateProfile = () => {
                 animate={{translateY:0,opacity:1}}
                 transition={{type:'spring', duration:0.5, delay:0.4,stiffness:70}}
             >
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[60vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[50vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className="cursor-pointer relative inline-block"> 
                             <input 
@@ -414,14 +407,15 @@ const UpdateProfile = () => {
                         <motion.div className="flex items-center gap-3" variants={subVarients2}>
                             <div>
                                 {
-                                    isWeightEdit ? (
-                                        <input 
-                                            className="Edit outline-none border-b-[1px] w-[10vw]"
-                                            type="text" 
-                                            value={formData.weight || 0}
-                                            autoFocus 
-                                            onChange={(e)=>handleUpdataInfo(e,"weight")}
-                                        />
+                                    isWeightEdit ? ( 
+                                            <input 
+                                                className="Edit outline-none border-b-[1px] w-[10vw]"
+                                                placeholder={`${formData.weight ? '': "in Kgs"}`}
+                                                type="text" 
+                                                value={formData.weight || ""}
+                                                autoFocus 
+                                                onChange={(e)=>setFormData({...formData, weight:e.target.value})}
+                                            /> 
                                     ) : (
                                         <motion.p
                                             variants={subVarients2}

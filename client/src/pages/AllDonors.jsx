@@ -9,6 +9,7 @@ import {
   Eye, 
   SendHorizontalIcon,
   TabletSmartphoneIcon,
+  Trash2,
   TriangleAlert,
 } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore.jsx";
@@ -407,58 +408,58 @@ const AllDonors = () => {
           )}
           {isPending &&
             prependingRequests.length > 0 &&
-            prependingRequests.map((donor) => (
-              <Link
-                className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
-                key={donor.donor._id}
-                // onClick={() => getDonor(donor.donor.donorId)}
-                to={`/alldonors/${donor.donor._id}`}
-              >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
-                  <div className="flex items-center gap-5">
-                    <div>
-                      <img
-                        className="size-15 rounded-full "
-                        src={donor.donorDetail.profile || profilePic}
-                        alt=""
-                      />
-                    </div>
-                    <div className="max-sm:hidden">
-                      <h1 className="flex gap-3 items-center">
-                        <strong>
+            prependingRequests.map((donor) => ( 
+                <Link 
+                  className="w-full h-[15vh] shadow-sm shadow-gray-500 rounded-md px-5 hover:border-[1px] transition-all duration-100 cursor-pointer"
+                  key={donor.donor._id} 
+                  to={`/alldonors/${donor.donor._id}`}
+                >
+                  <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+                    <div className="flex items-center gap-5">
+                      <div>
+                        <img
+                          className="size-15 rounded-full "
+                          src={donor.donorDetail.profile || profilePic}
+                          alt=""
+                        />
+                      </div>
+                      <div className="max-sm:hidden">
+                        <h1 className="flex gap-3 items-center">
+                          <strong>
+                            {" "}
+                            {donor.donorDetail.username.toUpperCase()}
+                          </strong>
+                          <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                            {donor.donorDetail.bloodType}
+                          </div>
+                        </h1>
+                        <p className="text-[0.9rem]">
                           {" "}
+                          Age : {donor.donorDetail.age} | Gender :{" "}
+                          {donor.donorDetail.gender} | location :{" "}
+                          {donor.donorDetail.location}{" "}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="sm:flex sm:flex-col sm:items-center">
+                      <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                        <strong>
                           {donor.donorDetail.username.toUpperCase()}
                         </strong>
-                        <div className="px-2 py-1 bg-red-600 text-white rounded-2xl">
+                        <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
                           {donor.donorDetail.bloodType}
                         </div>
                       </h1>
-                      <p className="text-[0.9rem]">
-                        {" "}
-                        Age : {donor.donorDetail.age} | Gender :{" "}
-                        {donor.donorDetail.gender} | location :{" "}
-                        {donor.donorDetail.location}{" "}
-                      </p>
+                      <div>
+                        <button
+                          className={`flex items-center gap-1 px-3 py-2 rounded-sm bg-yellow-500 text-black`}
+                        > 
+                          Pending <TriangleAlert className="size-4" />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
-                      <strong>
-                        {donor.donorDetail.username.toUpperCase()}
-                      </strong>
-                      <div className="px-1 py-0.5 bg-red-600 text-white rounded-2xl">
-                        {donor.donorDetail.bloodType}
-                      </div>
-                    </h1>
-
-                    <button
-                      className={`flex items-center gap-1 px-3 py-2 rounded-sm bg-yellow-500 text-black`}
-                    > 
-                      Pending <TriangleAlert className="size-4" />
-                    </button>
-                  </div>
-                </div>
-              </Link>
+                </Link> 
           ))}
           {isAccepted && !acceptedDonors.length && (
             <div className="w-full h-full flex justify-center items-center">

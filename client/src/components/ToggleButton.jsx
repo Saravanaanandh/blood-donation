@@ -15,17 +15,17 @@ const ToggleButton = ({Available,Id}) => {
   }   
   
   return (
-    <label className={`flex items-center ${isOtherUserProfile ? '': 'cursor-pointer'}`}>
+    <label className={`flex items-center ${isOtherUserProfile ? 'cursor-not-allowed': 'cursor-pointer'}`}>
       <input
         type="checkbox"
-        className={`sr-only ${isOtherUserProfile ? "cursor-not-allowed":"cursor-pointer"}`} 
+        className={`sr-only`} 
         checked={Available || ""}
         disabled={isOtherUserProfile ? true : false}
         onChange={() => !isOtherUserProfile ? handleChange() : ""}
       />
       <div
         className={`w-11 h-6 rounded-full transition-all duration-300 relative ${
-          isToggled ? "bg-red-600" : "bg-gray-300"
+          isToggled ? "bg-red-600" : "bg-gray-300" 
         }`}
       >
         <div

@@ -11,12 +11,12 @@ import DeletedReq from '../model/Deleted.js'
 export const sendRequest = async(req, res)=>{
     const {_id:recipientId} = req.user
     const {id:donorId} = req.params 
-    const redirectPage = "http://localhost:5173/allrequests" || "https://blood-donation-o7z9.onrender.com/allrequests"
     if(!recipientId) return res.status(401).json({message:"unauthorized user"})
     if(!req.user.recipientId || !mongoose.isValidObjectId(req.user.recipientId)) return res.status(400).json({message:"You're not a recipient, so cant send request"})
     try{
         const donor = await Donor.findOne({donorId})
         if(!donor) return res.status(404).json({message:"Donor not found"})
+
         if(recipientId === donorId) return res.status(400).json({message:"cant send request"})
 
         const existingRequest = await Requests.findOne({recipientId, donorId, status:{$ne:"finalState"}})
@@ -27,7 +27,8 @@ export const sendRequest = async(req, res)=>{
         //for binding with mail
         const recipient = await User.findOne({_id:recipientId})
         const recipientDetail = await ReqBlood.findOne({recipientId}) 
-        
+        const donorDetail = await User.findOne({donorId: donor._id})
+        const redirectPage = `https://blood-donation-o7z9.onrender.com/allrequests/${recipientDetail._id}`
         const transporter = nodemailer.createTransport({
             service:'gmail',
             auth:{
@@ -37,27 +38,33 @@ export const sendRequest = async(req, res)=>{
         })
         const mailOptions = {
             from: process.env.USER_ACCOUNT,
-            to: recipient.email,
-            subject:`🩸 Urgent Blood Donation Request from ${recipient.username}`,
+            to: donorDetail.email,
+            subject:`🩸 Urgent Blood Donation Request from ${donorDetail.username}`,
             html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
-                    <h1 style="color: #d32f2f; text-align: center;">🩸 GCES Blood Line</h1>
-                    <p>Hello <strong>${recipient.username}</strong>,</p>
+                    <h1 style="color: #d32f2f; text-align: center;">
+                        🩸 GCES Blood Line
+                    </h1>
+                    <p>
+                        Hello <strong>${donorDetail.username}</strong>,
+                    </p>
                     <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
                     <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
-                    <p style="display:flex; flex-direction:column; gap:10px;"><strong>Additional Message from Requester :</strong><span>${recipientDetail.note}</span></p>
-                    <p style="text-align: center; margin-top: 20px;">
-                    <a href=${redirectPage}
-                        style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
-                        text-decoration: none; border-radius: 5px; font-weight: bold;">
-                        View Request
-                    </a>
+                    <p style="display:flex; flex-direction:column; gap:10px;">
+                        <strong>Additional Message from Requester:</p></strong>
+                        <span style="border:1px solid black; border-radius:5px; padding:5px; margin:5px;">${recipientDetail.note}</span>
+                        <p style="text-align: center; margin-top: 20px;">
+                        <a href=${redirectPage}
+                            style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
+                            text-decoration: none; border-radius: 5px; font-weight: bold;">
+                            View Request
+                        </a>
                     </p>
                     <p>Thank you for being a Life-Saver! 💉🩸</p>
-                </div>`,
-            text: `Hello ${recipient.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
-            Your contribution can save a precious life.\n\n
-            Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
-            Thank you for your kindness.💉🩸`
+                </div>`
+            // text: Hello ${recipient.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
+            // Your contribution can save a precious life.\n\n
+            // Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
+            // Thank you for your kindness.💉🩸
         }
         await transporter.sendMail(mailOptions) 
         res.status(200).json(request)
@@ -68,6 +75,7 @@ export const sendRequest = async(req, res)=>{
         res.status(404).json({message:err.name})
     }
 }
+
 
 
 export const getAllRequests = async (req, res)=>{

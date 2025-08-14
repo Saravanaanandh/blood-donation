@@ -183,8 +183,10 @@ export const useRecipientStore = create((set,get)=>({
     deleteRequest:async(id)=>{
         try{
             await axiosInstance.delete(`/request/${id}`)
+            toast.success("Request Deleted")
         }catch(err){
             console.log(err.response.data.message)
+            toast.error(err.message)
         }
     },
     completedRequests:async()=>{
