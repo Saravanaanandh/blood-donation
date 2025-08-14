@@ -170,7 +170,7 @@ export const useRecipientStore = create((set,get)=>({
     rejectAcceptedRequest:async(id)=>{
         set({isRejectRequest:true})
         try{ 
-            const res = await axiosInstance.put(`/request/${id}rejected`) 
+            const res = await axiosInstance.put(`/request/${id}/rejected`) 
             set({request:res.data})
             toast.success("Request Rejected !")
         }catch(err){

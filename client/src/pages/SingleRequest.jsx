@@ -163,6 +163,7 @@ const SingleRequest = () => {
                             <button 
                                 className="cursor-pointer" 
                                 onClick={()=>{
+                                    
                                     rejectRequest(recipient.request?._id);
                                     navigate('/allrequests')
                                 }}
