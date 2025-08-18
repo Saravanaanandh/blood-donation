@@ -50,9 +50,10 @@ export const sendRequest = async(req, res)=>{
                     <p>You have received a <strong>Blood Donation Request</strong> from <strong>${recipient.username}</strong>.</p>
                     <p><strong>Your small act of kindness can save a precious life! 💖</strong></p>
                     <p style="display:flex; flex-direction:column; gap:10px;">
-                        <strong>Additional Message from Requester:</p></strong>
-                        <span style="border:1px solid black; border-radius:5px; padding:5px; margin:5px;">${recipientDetail.note}</span>
-                        <p style="text-align: center; margin-top: 20px;">
+                        <strong>Additional Message from Requester:</strong>
+                    </p>
+                    <p style="width:100%; min-height:100px; border:1px solid black; border-radius:5px; padding:5px; margin:5px;">${recipientDetail.note}</p>
+                    <p style="text-align: center; margin-top: 20px;">
                         <a href=${redirectPage}
                             style="background-color: #d32f2f; color: white; margin:20px auto; padding: 10px 20px; 
                             text-decoration: none; border-radius: 5px; font-weight: bold;">
@@ -183,7 +184,8 @@ export const rejectReq = async (req, res)=>{
     if(!requestId) return res.status(400).json({message:"request Not found"})
 
     try{
-        const request = await Requests.findOneAndUpdate({_id:requestId,recipientId:{$ne: userId}, status:{$or:["prepending","accepted"]}},{status:"rejected"},{new:true})
+        const request = await Requests.findOneAndUpdate({_id:requestId, $or:[{status:"prepending"},{status:"accepted"}]},{status:"rejected"},{new:true})
+        console.log(request)
         if(!request) return res.status(404).json({message:"request not found"})
         await Completed.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
         await Requests.deleteOne({_id:requestId,status:"rejected"})
@@ -204,7 +206,7 @@ export const rejectAcceptedReq = async (req, res)=>{
     if(!requestId) return res.status(400).json({message:"request Not found"})
 
     try{
-        const request = await Requests.findOneAndUpdate({_id:requestId,donorId:{$ne: userId}, status:"accepted"},{status:"rejected"},{new:true})
+        const request = await Requests.findOneAndUpdate({_id:requestId, status:"pending"},{status:"rejected"},{new:true})
         if(!request) return res.status(404).json({message:"request not found"})
         await Completed.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
         await Requests.deleteOne({_id:requestId,status:"rejected"})
