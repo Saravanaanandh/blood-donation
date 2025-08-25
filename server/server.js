@@ -16,7 +16,7 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
-    origin:["http://192.168.47.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","https://bloodline.gces1.duckdns.org"], 
+    origin:["https://gces-bloodline.web.app","http://192.168.47.231:5173","http://192.168.143.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","https://bloodline.gces1.duckdns.org"], 
     methods: "GET,POST,PATCH,PUT,DELETE",
     allowedHeaders: ["Content-Type"],
     credentials:true
@@ -35,13 +35,13 @@ app.use('/api/v1/donate',verifyJWT,donorRouter)
 app.use('/api/v1/otp',verifyJWT, otpRouter)
 
 
-if(process.env.NODE_ENV==="production"){
-    app.use(express.static(path.join(__dirname,'./../client/dist')))
+// if(process.env.NODE_ENV==="production"){
+//     app.use(express.static(path.join(__dirname,'./../client/dist')))
 
-    app.get('*',(req,res)=>{
-        res.sendFile(path.join(__dirname,"../client","dist","index.html"))
-    })
-}
+//     app.get('*',(req,res)=>{
+//         res.sendFile(path.join(__dirname,"../client","dist","index.html"))
+//     })
+// }
 server.listen(PORT, ()=>{
     console.log(`server running on PORT ${PORT}`)
     connectDB()
