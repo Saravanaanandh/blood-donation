@@ -258,7 +258,7 @@ const Home = () => {
                             <div className="flex gap-5">
                                 <Link to='/login'>
                                     <button className="cursor-pointer text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-6 sm:py-3  text-violet-900 transition-all duration-300 hover:scale-105" > 
-                                        Get
+                                        Get Started
                                     </button>  
                                 </Link>
                                 <Link to='/learnmore'>
