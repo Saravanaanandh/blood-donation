@@ -184,7 +184,7 @@ const Home = () => {
                     authUser && ( 
                             <div className=" flex flex-col gap-10 ">
                                 <motion.div 
-                                    className="w-[50vw] float-right  mt-[30vh] sm:w-[70vw] flex flex-col sm:items-center sm:justify-center gap-5"
+                                    className="w-[50vw] float-right  mt-[15vh] sm:w-[70vw] flex flex-col sm:items-center sm:justify-center gap-5"
                                     initial={{translateX: '-100px',opacity:0}}
                                     animate={{translateX:0,opacity:1}}
                                     transition={{type:'tween',duration:0.6, delay:0.2}}
@@ -205,7 +205,7 @@ const Home = () => {
                                     </p>
                                 </motion.div>
                                 <motion.div 
-                                    className="w-full sm:my-5  mt-[60vh] flex justify-center gap-8 sm:pr-96 sm:gap-16"
+                                    className="w-full sm:my-5  mt-[40vh] flex justify-center gap-8 sm:pr-96 sm:gap-16"
                                     initial={{translateY:'100vh',opacity:0}}
                                     animate={{translateY:0,opacity:1}}
                                     transition={{type:'tween',duration:1,delay:0.5}}
