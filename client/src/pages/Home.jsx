@@ -205,7 +205,7 @@ const Home = () => {
                                     </p>
                                 </motion.div>
                                 <motion.div 
-                                    className="w-full sm:my-5  mt-[40vh] flex justify-center gap-8 sm:pr-96 sm:gap-16"
+                                    className="w-full sm:my-5  mt-[20vh] flex justify-center gap-8 sm:pr-96 sm:gap-16"
                                     initial={{translateY:'100vh',opacity:0}}
                                     animate={{translateY:0,opacity:1}}
                                     transition={{type:'tween',duration:1,delay:0.5}}
