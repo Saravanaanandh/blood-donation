@@ -70,7 +70,7 @@ const SingleRequest = () => {
                 </div> 
             </div> 
             </div>
-            <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[90vh] right-0 mt-6 sm:sm:px-5">
+            <div className="w-full flex flex-col items-center justify-center sm:w-4/6 absolute max-sm:top-[70vh] right-0 mt-6 sm:sm:px-5">
                 <h1 className="text-[2rem] text-center"><strong>Patients Details</strong></h1>
                 <h1>{recipient.recipientDetail?.isCritical ? 
                     recipient.request?.status !== "finalState" && (

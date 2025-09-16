@@ -410,7 +410,7 @@ const AllDonors = () => {
                 <div className="flex items-center gap-5">
                   <div>
                     <img
-                      className="sm:size-15 rounded-full "
+                      className=" size-10 sm:size-15 rounded-full "
                       src={donor.donorDetail.profile || profilePic}
                       alt=""
                     />
@@ -475,7 +475,7 @@ const AllDonors = () => {
                     <div className="flex items-center gap-5">
                       <div>
                         <img
-                          className="sm:size-15 rounded-full "
+                          className="size-10 sm:size-15 rounded-full "
                           src={donor.donorDetail.profile || profilePic}
                           alt=""
                         />
@@ -536,7 +536,7 @@ const AllDonors = () => {
                   <div className="flex items-center gap-5">
                     <div>
                       <img
-                        className="sm:size-15 rounded-full "
+                        className="size-10 sm:size-15 rounded-full "
                         src={donor.donorDetail.profile || profilePic}
                         alt=""
                       />
@@ -603,7 +603,7 @@ const AllDonors = () => {
                   <div className="flex items-center gap-5">
                     <div>
                       <img
-                        className="sm:size-15 rounded-full "
+                        className="size-10 sm:size-15 rounded-full "
                         src={donor.donorDetail.profile || profilePic}
                         alt=""
                       />

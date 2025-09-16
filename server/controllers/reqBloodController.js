@@ -68,7 +68,7 @@ export const sendRequest = async(req, res)=>{
             // Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
             // Thank you for your kindness.💉🩸
         }
-        // await transporter.sendMail(mailOptions) 
+        await transporter.sendMail(mailOptions) 
         const receiverSocketId = getUserSocket(donorId)
         io.to(receiverSocketId).emit("requestsent", request)
         res.status(200).json(request)

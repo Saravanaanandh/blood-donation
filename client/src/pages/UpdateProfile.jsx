@@ -205,7 +205,7 @@ const UpdateProfile = () => {
                 </div> 
             </motion.div> 
             </div>
-            <div className=" w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[100vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
+            <div className=" w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[85vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
                 <motion.h1 className="text-[2rem] text-center"  variants={constVarients}
                     initial="hidden"
                     animate="visible" ><strong>Profile</strong></motion.h1>
