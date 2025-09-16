@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 import User from './../model/User.js'
 import Requests from '../model/Request.js' 
 import Completed from '../model/Completed.js'
+import { getUserSocket, io } from '../config/socket.js'
 
 const transporter = nodemailer.createTransport({
     service:'gmail',
@@ -81,6 +82,8 @@ export const verifyOTP = async(req, res)=>{
                     const request = await Requests.findOneAndUpdate({_id:requestId,status:"confirmed"},{status:"finalState"},{new:true})
                     if(!request) return res.status(404).json({message:"request not found"})  
                     await Completed.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
+                    const receiverSocketId = getUserSocket(request.recipientId)
+                    io.to(receiverSocketId).emit("otpverified")
                     res.status(200).json({
                         status:"VERIFIED",
                         message:"otp verified"
@@ -102,7 +105,8 @@ export const verifyOTP = async(req, res)=>{
             } 
         }
     }catch(err){
-        res.status(500).json({err})  
+        res.status(500).json({err}) 
+        console.log(err) 
     }
 }
 

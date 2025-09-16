@@ -1,3 +1,4 @@
+import { io } from '../config/socket.js'
 import Requests from '../model/Request.js'
 import Donor from './../model/Donar.js'
 import User from './../model/User.js' 
@@ -10,11 +11,13 @@ export const createDonor = async (req, res)=>{
     try{
         const existingDonor = await Donor.findOne({donorId:userId})
         if(existingDonor){
-            const updatedDonor = await Donor.findOneAndUpdate({donorId:userId},{...req.body},{new:true}) 
+            const updatedDonor = await Donor.findOneAndUpdate({donorId:userId},{...req.body},{new:true})  
+            io.emit("newdonor",updatedDonor)
             res.status(201).json(updatedDonor) 
         }else{
             const donor = await Donor.create({...req.body,donorId:userId}) 
             const user = await User.findByIdAndUpdate(userId, {donorId:donor._id},{new:true}) 
+            io.emit("newdonor",donor)
             res.status(201).json(donor)  
         }
     }catch(err){
@@ -37,7 +40,8 @@ export const getAllDonars = async(req, res)=>{
     );
     const requestDetails = await Promise.all(
         donors.map(donor => Requests.findOne({donorId:donor.donorId,recipientId:userId}))
-    ); 
+    );  
+    io.emit("allDonors",{donors,requestDetails,donorDetails,count:donors.length}) 
     res.status(200).json({donors,donorDetails,requestDetails,count:donors.length})
 }
 
@@ -55,6 +59,7 @@ export const getDonar = async (req, res)=>{
             const donorDetail = await User.findOne(donor.donorId) 
             const requestDetail = await Requests.findOne({donorId:donor.donorId,recipientId:userId})
             res.status(200).json({donor,donorDetail,requestDetail}) 
+            io.emit("getDonor",{donor,donorDetail,requestDetail})
         }catch(err){
             if(err.name === "CastError"){
                 res.status(400).json({message:"ObjectId not valid"}) 

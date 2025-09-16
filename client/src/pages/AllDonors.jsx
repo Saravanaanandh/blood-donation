@@ -225,11 +225,13 @@ const AllDonors = () => {
             )
           }
           {isAvailable && availableDonors.length > 0 && (
+            <div>
             <div className=" flex justify-evenly items-center">
               <div className="flex max-sm:flex-col gap-2">
                 <label>Age :</label>
                 <select
-                  className="max-sm:w-20 border-[1px] rounded-md "
+                  className="bg-white text-black
+        dark:bg-gray-900 dark:text-white max-sm:w-20 border-[1px] rounded-md "
                   onChange={(e) => {
                     const fromage = e.target.value.split("-")[0];
                     const toage = e.target.value.split("-")[1];
@@ -249,61 +251,63 @@ const AllDonors = () => {
                   <option value="40-100">40+</option>
                 </select>
               </div>
-              <div className="flex max-sm:flex-col gap-2">
-                <label>Location :</label>
-                <select
-                  className="max-sm:w-20 border-[1px] rounded-md "
-                  onChange={(e) =>
-                    setFilter({ ...filter, location: e.target.value })
-                  }
-                >
-                  <option value="" selected>
-                    All
-                  </option>
-                  <option value="Ariyalur">Ariyalur</option>
-                  <option value="Chengalpattu">Chengalpattu</option>
-                  <option value="Chennai">Chennai</option>
-                  <option value="Coimbatore">Coimbatore</option>
-                  <option value="Cuddalore">Cuddalore</option>
-                  <option value="Dharmapuri">Dharmapuri</option>
-                  <option value="Dindigul">Dindigul</option>
-                  <option value="Erode">Erode</option>
-                  <option value="Kallakurichi">Kallakurichi</option>
-                  <option value="Kanchipuram">Kanchipuram</option>
-                  <option value="Kanyakumari">Kanyakumari</option>
-                  <option value="Karur">Karur</option>
-                  <option value="Krishnagiri">Krishnagiri</option>
-                  <option value="Madurai">Madurai</option>
-                  <option value="Mayiladuthurai">Mayiladuthurai</option>
-                  <option value="Nagapattinam">Nagapattinam</option>
-                  <option value="Namakkal">Namakkal</option>
-                  <option value="Nilgiris">Nilgiris</option>
-                  <option value="Perambalur">Perambalur</option>
-                  <option value="Pudukkottai">Pudukkottai</option>
-                  <option value="Ramanathapuram">Ramanathapuram</option>
-                  <option value="Ranipet">Ranipet</option>
-                  <option value="Salem">Salem</option>
-                  <option value="Sivaganga">Sivaganga</option>
-                  <option value="Tenkasi">Tenkasi</option>
-                  <option value="Thanjavur">Thanjavur</option>
-                  <option value="Theni">Theni</option>
-                  <option value="Thoothukudi">Thoothukudi</option>
-                  <option value="Tiruchirappalli">Tiruchirappalli</option>
-                  <option value="Tirunelveli">Tirunelveli</option>
-                  <option value="Tirupathur">Tirupathur</option>
-                  <option value="Tiruppur">Tiruppur</option>
-                  <option value="Tiruvallur">Tiruvallur</option>
-                  <option value="Tiruvannamalai">Tiruvannamalai</option>
-                  <option value="Tiruvarur">Tiruvarur</option>
-                  <option value="Vellore">Vellore</option>
-                  <option value="Viluppuram">Viluppuram</option>
-                  <option value="Virudhunagar">Virudhunagar</option>
-                </select>
+              <div className=" max-sm:hidden flex max-sm:flex-col gap-2">
+              <label>Location :</label>
+              <select
+                className="bg-white text-black
+        dark:bg-gray-900 dark:text-white max-sm:w-20 border-[1px] rounded-md "
+                onChange={(e) =>
+                  setFilter({ ...filter, location: e.target.value })
+                }
+              >
+                <option value="" selected>
+                  All
+                </option>
+                <option value="Ariyalur">Ariyalur</option>
+                <option value="Chengalpattu">Chengalpattu</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Cuddalore">Cuddalore</option>
+                <option value="Dharmapuri">Dharmapuri</option>
+                <option value="Dindigul">Dindigul</option>
+                <option value="Erode">Erode</option>
+                <option value="Kallakurichi">Kallakurichi</option>
+                <option value="Kanchipuram">Kanchipuram</option>
+                <option value="Kanyakumari">Kanyakumari</option>
+                <option value="Karur">Karur</option>
+                <option value="Krishnagiri">Krishnagiri</option>
+                <option value="Madurai">Madurai</option>
+                <option value="Mayiladuthurai">Mayiladuthurai</option>
+                <option value="Nagapattinam">Nagapattinam</option>
+                <option value="Namakkal">Namakkal</option>
+                <option value="Nilgiris">Nilgiris</option>
+                <option value="Perambalur">Perambalur</option>
+                <option value="Pudukkottai">Pudukkottai</option>
+                <option value="Ramanathapuram">Ramanathapuram</option>
+                <option value="Ranipet">Ranipet</option>
+                <option value="Salem">Salem</option>
+                <option value="Sivaganga">Sivaganga</option>
+                <option value="Tenkasi">Tenkasi</option>
+                <option value="Thanjavur">Thanjavur</option>
+                <option value="Theni">Theni</option>
+                <option value="Thoothukudi">Thoothukudi</option>
+                <option value="Tiruchirappalli">Tiruchirappalli</option>
+                <option value="Tirunelveli">Tirunelveli</option>
+                <option value="Tirupathur">Tirupathur</option>
+                <option value="Tiruppur">Tiruppur</option>
+                <option value="Tiruvallur">Tiruvallur</option>
+                <option value="Tiruvannamalai">Tiruvannamalai</option>
+                <option value="Tiruvarur">Tiruvarur</option>
+                <option value="Vellore">Vellore</option>
+                <option value="Viluppuram">Viluppuram</option>
+                <option value="Virudhunagar">Virudhunagar</option>
+              </select>
               </div>
               <div className="flex max-sm:flex-col gap-2">
-                <label>Blood Group :</label>
+                <label>Blood Group:</label>
                 <select
-                  className="max-sm:w-24 border-[1px] rounded-md "
+                  className="bg-white text-black
+        dark:bg-gray-900 dark:text-white max-sm:w-24 border-[1px] rounded-md "
                   onChange={(e) =>
                     setFilter({ ...filter, bloodType: e.target.value })
                   }
@@ -333,6 +337,59 @@ const AllDonors = () => {
                 </select>
               </div>
             </div>
+            <div className="sm:hidden w-full flex max-sm:flex-col gap-2">
+              <label>Location :</label>
+              <select
+                className="bg-white text-black
+        dark:bg-gray-900 dark:text-white mx-2 border-[1px] rounded-md "
+                onChange={(e) =>
+                  setFilter({ ...filter, location: e.target.value })
+                }
+              >
+                <option value="" selected>
+                  All
+                </option>
+                <option value="Ariyalur">Ariyalur</option>
+                <option value="Chengalpattu">Chengalpattu</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Coimbatore">Coimbatore</option>
+                <option value="Cuddalore">Cuddalore</option>
+                <option value="Dharmapuri">Dharmapuri</option>
+                <option value="Dindigul">Dindigul</option>
+                <option value="Erode">Erode</option>
+                <option value="Kallakurichi">Kallakurichi</option>
+                <option value="Kanchipuram">Kanchipuram</option>
+                <option value="Kanyakumari">Kanyakumari</option>
+                <option value="Karur">Karur</option>
+                <option value="Krishnagiri">Krishnagiri</option>
+                <option value="Madurai">Madurai</option>
+                <option value="Mayiladuthurai">Mayiladuthurai</option>
+                <option value="Nagapattinam">Nagapattinam</option>
+                <option value="Namakkal">Namakkal</option>
+                <option value="Nilgiris">Nilgiris</option>
+                <option value="Perambalur">Perambalur</option>
+                <option value="Pudukkottai">Pudukkottai</option>
+                <option value="Ramanathapuram">Ramanathapuram</option>
+                <option value="Ranipet">Ranipet</option>
+                <option value="Salem">Salem</option>
+                <option value="Sivaganga">Sivaganga</option>
+                <option value="Tenkasi">Tenkasi</option>
+                <option value="Thanjavur">Thanjavur</option>
+                <option value="Theni">Theni</option>
+                <option value="Thoothukudi">Thoothukudi</option>
+                <option value="Tiruchirappalli">Tiruchirappalli</option>
+                <option value="Tirunelveli">Tirunelveli</option>
+                <option value="Tirupathur">Tirupathur</option>
+                <option value="Tiruppur">Tiruppur</option>
+                <option value="Tiruvallur">Tiruvallur</option>
+                <option value="Tiruvannamalai">Tiruvannamalai</option>
+                <option value="Tiruvarur">Tiruvarur</option>
+                <option value="Vellore">Vellore</option>
+                <option value="Viluppuram">Viluppuram</option>
+                <option value="Virudhunagar">Virudhunagar</option>
+              </select>
+            </div>
+            </div>
           )} 
           
           {isAvailable && availableDonors.length > 0 && !filteredDonors.length && (
@@ -349,11 +406,11 @@ const AllDonors = () => {
               // }}
               to={`/alldonors/${donor.donor._id}`}
             >
-              <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+              <div className="h-full flex max-sm:gap-2 sm:justify-between items-center">
                 <div className="flex items-center gap-5">
                   <div>
                     <img
-                      className="size-15 rounded-full "
+                      className="sm:size-15 rounded-full "
                       src={donor.donorDetail.profile || profilePic}
                       alt=""
                     />
@@ -377,7 +434,7 @@ const AllDonors = () => {
                   </div>
                 </div>
                 <div className="sm:flex sm:flex-col sm:items-center">
-                  <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                  <h1 className="sm:hidden text-[0.8rem] text-center flex gap-3 mb-2 items-center">
                     <strong>
                       {donor.donorDetail.username.toUpperCase()}
                     </strong>
@@ -387,11 +444,11 @@ const AllDonors = () => {
                   </h1>
                   {
                     isUserAsRecipient ? (
-                      <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
+                      <button className="text-[0.8rem] flex items-center gap-1 sm:px-3 sm:py-2 p-1 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
                         Send Request <SendHorizontalIcon className="size-4" />
                       </button>
                     ):(
-                      <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
+                      <button className="text-[0.8rem] flex items-center gap-1 sm:px-3 sm:py-2 p-1 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
                         View <Eye className="size-4" />
                       </button>
                     )
@@ -414,11 +471,11 @@ const AllDonors = () => {
                   key={donor.donor._id} 
                   to={`/alldonors/${donor.donor._id}`}
                 >
-                  <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+                  <div className="h-full flex max-sm:gap-2 sm:justify-between items-center">
                     <div className="flex items-center gap-5">
                       <div>
                         <img
-                          className="size-15 rounded-full "
+                          className="sm:size-15 rounded-full "
                           src={donor.donorDetail.profile || profilePic}
                           alt=""
                         />
@@ -442,7 +499,7 @@ const AllDonors = () => {
                       </div>
                     </div>
                     <div className="sm:flex sm:flex-col sm:items-center">
-                      <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                      <h1 className="sm:hidden text-[0.8rem]  text-center flex gap-3 mb-2 items-center">
                         <strong>
                           {donor.donorDetail.username.toUpperCase()}
                         </strong>
@@ -452,7 +509,7 @@ const AllDonors = () => {
                       </h1>
                       <div>
                         <button
-                          className={`flex items-center gap-1 px-3 py-2 rounded-sm bg-yellow-500 text-black`}
+                          className={`flex items-center gap-1 p-1 sm:px-3 sm:py-2 rounded-sm bg-yellow-500 text-black`}
                         > 
                           Pending <TriangleAlert className="size-4" />
                         </button>
@@ -475,11 +532,11 @@ const AllDonors = () => {
                 // onClick={() => getDonor(donor.donor.donorId)}
                 to={`/alldonors/${donor.donor._id}`}
               >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+                <div className="h-full flex max-sm:gap-1 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img
-                        className="size-15 rounded-full "
+                        className="sm:size-15 rounded-full "
                         src={donor.donorDetail.profile || profilePic}
                         alt=""
                       />
@@ -503,7 +560,7 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                    <h1 className="sm:hidden text-[0.8rem]  text-center flex gap-3 mb-2 items-center">
                       <strong>
                         {donor.donorDetail.username.toUpperCase()}
                       </strong>
@@ -512,7 +569,7 @@ const AllDonors = () => {
                       </div>
                     </h1>
 
-                    <button className={`flex items-center gap-1 px-3 py-2 rounded-sm ${ donor.requestDetail?.status === "accepted"
+                    <button className={`flex items-center gap-1 p-1 sm:px-3 sm:py-2 rounded-sm ${ donor.requestDetail?.status === "accepted"
                         ? "bg-green-700 text-white"
                         : "bg-yellow-500 text-black"}`}>
                         {donor.requestDetail?.status === "accepted"
@@ -542,11 +599,11 @@ const AllDonors = () => {
                 // onClick={() => getDonor(donor.donor.donorId)}
                 to={`/alldonors/${donor.donor._id}`}
               >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
+                <div className="h-full flex max-sm:gap-1 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img
-                        className="size-15 rounded-full "
+                        className="sm:size-15 rounded-full "
                         src={donor.donorDetail.profile || profilePic}
                         alt=""
                       />
@@ -570,7 +627,7 @@ const AllDonors = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden text-center flex gap-3 mb-2 items-center">
+                    <h1 className="sm:hidden text-[0.8rem] text-center flex gap-3 mb-2 items-center">
                       <strong>
                         {donor.donorDetail.username.toUpperCase()}
                       </strong>
@@ -579,9 +636,9 @@ const AllDonors = () => {
                       </div>
                     </h1>
 
-                    <button className="flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700 text-white">
+                    <button className="flex items-center gap-1 p-1 sm:px-3 sm:py-2 rounded-sm bg-green-700 text-white">
                       {donor.requestDetail?.status === "confirmed"
-                        ? "Verify OTP"
+                        ? "VerifyOTP"
                         : "Completed"}
                       {donor.requestDetail?.status === "confirmed" ? (
                         <TabletSmartphoneIcon className="size-4" />

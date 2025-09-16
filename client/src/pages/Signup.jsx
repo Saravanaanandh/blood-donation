@@ -56,12 +56,12 @@ const Signup = () => {
         <div className="pb-10 flex flex-col items-center w-full min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center" style={{backgroundImage:`url(${signupImg})`}}> 
         <form onSubmit={handleSubmit} className="flex items-center justify-center my-10 max-sm:my-4">
             
-            <div className="flex flex-col gap-1 min-h-auto w-[85vw] px-15 sm:w-[40vw] bg-amber-50 py-10 rounded-2xl max-sm:py-5">
+            <div className="flex flex-col gap-1 min-h-auto w-[85vw] px-10 sm:w-[40vw] bg-amber-50 py-10 rounded-2xl max-sm:py-5 dark:text-black">
                 <h1 className="sm:text-[2rem] text-center"><strong>Create Account</strong></h1>
 
                 <label className="text-start w-full">Full Name</label>
                 <input 
-                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
+                    className=" bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     type="text" 
                     placeholder="Enter fullname"
                     value={formData.username}
@@ -123,7 +123,7 @@ const Signup = () => {
 
                 <label>Location</label>
                 <select
-                    className="bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
+                    className=" bg-gray-300 sm:w-[30vw] w-[100%] outline-none border-none p-2 rounded-md"
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     autoComplete="on"
                     required
@@ -224,7 +224,7 @@ const Signup = () => {
                 <div>Note: Remember Your password!</div>
                 <div className="text-center my-1"> 
                     <input
-                        className="bg-gray-300 mr-2 outline-none border-none p-2 rounded-md"
+                        className=" bg-gray-300 mr-2 outline-none border-none p-2 rounded-md"
                         type="checkbox" 
                         checked={isChecked}
                         onChange={() => setIsChecked(!isChecked)}

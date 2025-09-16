@@ -12,8 +12,11 @@ import toast from "react-hot-toast"
 import { motion } from "framer-motion" 
 
 const UpdateProfile = () => {  
-    const {authUser, updateProfile} = useAuthStore()  
-     
+    const {authUser, updateProfile, getUser} = useAuthStore()  
+
+    useEffect(()=>{
+        getUser()
+    },[getUser])
     const [formData, setFormData] = useState({
         weight:authUser.weight,
         location:authUser.location,
@@ -61,12 +64,11 @@ const UpdateProfile = () => {
     
  
     const handleEditToggle = async(e)=>{
-        const target = e.target
-        console.log(e)
+        const target = e.target 
         if(isMobileEdit){ 
             if(!target.classList.contains("Edit")){ 
                 if(!/^\d{10}$/.test(formData.mobile.toString())){
-                    setFormData({...formData,pinCode:authUser.mobile})
+                    setFormData({...formData,mobile:authUser.mobile})
                     return toast.error("Incorrect Mobile No")
                 }
                 await updateProfile({mobile:formData.mobile})
@@ -153,7 +155,7 @@ const UpdateProfile = () => {
                     onChange={handleImageChange}  
                 />
                 <div className="cursor-pointer absolute p-1 bg-gray-300 rounded-full bottom-2 right-2 hover:text-white transition-colors duration-300 ease-in-out" onClick={()=>bannerRef.current?.click()}>
-                    <Edit className="size-3 sm:size-5"/>
+                    <Edit className="text-black size-3 sm:size-5"/>
                 </div>
             </div>
             <div className="sm:sticky top-22">
@@ -163,7 +165,7 @@ const UpdateProfile = () => {
                 animate={{translateY:0,opacity:1}}
                 transition={{type:'spring', duration:0.5, delay:0.4,stiffness:70}}
             >
-                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[50vh] rounded-md shadow-md bg-white shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
+                <div className="absolute -top-10 sm:-top-20 left-5 sm:left-10 w-[80vw] sm:w-[25vw] h-auto sm:h-[50vh] rounded-md shadow-md bg-white dark:bg-black shadow-gray-500 p-5 flex flex-col max-sm:gap-5 sm:justify-between items-center">
                     <div className=" top-0 w-full flex justify-center">
                         <div className="cursor-pointer relative inline-block"> 
                             <input 
@@ -173,13 +175,13 @@ const UpdateProfile = () => {
                                 accept="/image*"
                                 onChange={handleProfileImageChange}
                             />
-                            <Camera onClick={()=> profileRef.current.click()} className="p-1 size-5 sm:size-6 bg-gray-300 rounded-full absolute bottom-0 right-0 "/>
+                            <Camera onClick={()=> profileRef.current.click()} className="p-1 text-black size-5 sm:size-6 bg-gray-300 rounded-full absolute bottom-0 right-0 "/>
                             <img className="border-[1px] rounded-full size-23" src={profile || authUser.profile || profilePic} alt="profile picture" />
                         </div>
                     </div>
                     <div className="flex flex-col items-center gap-1">
-                        <h1 className="sm:text-[1.2rem]"><strong>{authUser.username}</strong></h1>
-                        <h1 className="">{authUser.email}</h1>
+                        <h1 className="sm:text-[1.2rem]"><strong>{authUser.username.toUpperCase()}</strong></h1>
+                        <h1 className="text-wrap text-center">{authUser.email.slice(0,20) + ' ' + authUser.email.slice(20)}</h1>
                         <div className="w-full flex justify-center gap-1 sm:gap-3"> 
                             <span>Available:</span>
                             <ToggleButton 
@@ -203,7 +205,7 @@ const UpdateProfile = () => {
                 </div> 
             </motion.div> 
             </div>
-            <div className="w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[80vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
+            <div className=" w-full flex flex-col items-center justify-center sm:w-4/6  absolute max-sm:top-[100vh] right-[0vw] sm:right-0 mt-6 sm:px-5">
                 <motion.h1 className="text-[2rem] text-center"  variants={constVarients}
                     initial="hidden"
                     animate="visible" ><strong>Profile</strong></motion.h1>
@@ -214,7 +216,7 @@ const UpdateProfile = () => {
                     animate="visible" 
                 >
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -227,7 +229,7 @@ const UpdateProfile = () => {
                         </motion.p>
                     </motion.li>
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -240,7 +242,7 @@ const UpdateProfile = () => {
                         </motion.p>
                     </motion.li>
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -255,7 +257,7 @@ const UpdateProfile = () => {
                     {
                     authUser.nextDonationDate ? (
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -270,7 +272,7 @@ const UpdateProfile = () => {
                         ) : ("")
                     } 
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -283,7 +285,7 @@ const UpdateProfile = () => {
                         </motion.p>
                     </motion.li>
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -297,7 +299,7 @@ const UpdateProfile = () => {
                     </motion.li>
                      
                     <motion.li 
-                        className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5"
+                        className="w-full flex items-center justify-between border-b-[1px] border-b-black dark:border-white sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -308,10 +310,14 @@ const UpdateProfile = () => {
                                 {
                                     isLocationEdit ? (
                                         <select
-                                        className="Edit max-sm:w-20 border-[1px] rounded-md "
+                                        className="bg-white text-black
+        dark:bg-gray-900 dark:text-white Edit max-sm:w-20 border-[1px] rounded-md 
+                                         
+         "
                                         onChange={(e) =>
                                             setFormData({ ...formData, location: e.target.value })
-                                        }
+                                        } 
+                                        value={formData.location}
                                         > 
                                         <option value="Ariyalur">Ariyalur</option>
                                         <option value="Chengalpattu">Chengalpattu</option>
@@ -356,18 +362,18 @@ const UpdateProfile = () => {
                                         <motion.p
                                             variants={subVarients2}
                                         >
-                                        {authUser.location} 
+                                        {formData.location} 
                                         </motion.p>
                                     )
                                 }
                             </div> 
                             <button className="EditIcon size-4 cursor-pointer" onClick={()=> setIsLocationEdit(!isLocationEdit)}>
-                              <img className="EditIcon" src={editIcon}/>
+                              <Edit/>
                             </button>
                         </motion.div> 
                     </motion.li>
                     
-                    <motion.li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5" variants={constVarients}>
+                    <motion.li className="w-full flex items-center justify-between border-b-[1px] border-b-black dark:border-white sm:px-5" variants={constVarients}>
                         <motion.h3
                             variants={subVarients1}
                         >Pincode</motion.h3>
@@ -387,18 +393,18 @@ const UpdateProfile = () => {
                                         <motion.p
                                             variants={subVarients2}
                                         >
-                                        {authUser.pinCode} 
+                                        {formData.pinCode} 
                                         </motion.p>
                                     )
                                 }
                             </div> 
                             <button className="EditIcon size-4 cursor-pointer" onClick={()=> setIsPincodeEdit(!isPincodeEdit)}>
-                              <img className="EditIcon" src={editIcon}/>
+                              <Edit/>
                             </button>
                         </motion.div> 
                     </motion.li>
                     <motion.li 
-                        className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5"
+                        className="w-full flex items-center justify-between border-b-[1px] border-b-black dark:border-white sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -420,18 +426,18 @@ const UpdateProfile = () => {
                                         <motion.p
                                             variants={subVarients2}
                                         >
-                                        {authUser.weight} 
+                                        {formData.weight} 
                                         </motion.p>
                                     )
                                 }
                             </div> 
                             <button className="EditIcon size-4 cursor-pointer" onClick={()=> setIsWeightEdit(!isWeightEdit)}>
-                              <img className="EditIcon" src={editIcon}/>
+                              <Edit/>
                             </button>
                         </motion.div> 
                     </motion.li>
                     <motion.li 
-                        className="w-full flex justify-between border-b-[1px] border-b-black sm:sm:px-5"
+                        className="w-full flex justify-between border-b-[1px] border-b-black dark:border-white sm:sm:px-5"
                         variants={constVarients}
                     >
                         <motion.h3
@@ -444,7 +450,7 @@ const UpdateProfile = () => {
                         </motion.p>
                     </motion.li>
                      
-                    <motion.li className="w-full flex items-center justify-between border-b-[1px] border-b-black sm:px-5" variants={constVarients}>
+                    <motion.li className="w-full flex items-center justify-between border-b-[1px] border-b-black dark:border-white sm:px-5" variants={constVarients}>
                     <motion.h3
                             variants={subVarients1}
                         >Mobile No</motion.h3>
@@ -464,13 +470,13 @@ const UpdateProfile = () => {
                                         <motion.p
                                             variants={subVarients2}
                                         >
-                                        {authUser.mobile} 
+                                        {formData.mobile} 
                                         </motion.p>
                                     )
                                 }
                             </div> 
                             <button className="EditIcon size-4 cursor-pointer" onClick={()=> setisMobileEdit(!isMobileEdit)}>
-                              <img className="EditIcon" src={editIcon}/>
+                              <Edit/>
                             </button>
                         </motion.div> 
                     </motion.li>

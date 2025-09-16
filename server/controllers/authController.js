@@ -1,5 +1,7 @@
 import cloudinary from '../config/cloudinary.js'
+import { getUserSocket, io } from '../config/socket.js'
 import User from './../model/User.js' 
+
 
 export const signupController = async (req, res)=>{
     const {username,age, gender, bloodType,location,pinCode,mobile, email, password} = req.body 
@@ -52,7 +54,8 @@ export const updateProfileController = async (req, res)=>{
             updatedUser = await User.findOneAndUpdate({email:user.email},{banner:uploadedResponse.secure_url},{new:true})
         } 
         const newUser = updatedUser  
-        res.status(200).json(newUser) 
+        res.status(200).json(newUser)  
+        io.emit("updateProfile", newUser)  
     }catch(err){
         if(err.name === "ValidationError"){
             return res.status(400).json({message:"please provide the valid details"})
@@ -69,7 +72,7 @@ export const logoutController = async (req, res)=>{
     if(!user) return res.status(404).json({message:"user not found"}) 
     user.token = ""
 
-    res.clearCookie('jwt',{httpOnly:true, secure:true, sameSite:"none"})
+    res.clearCookie('jwt',{httpOnly:true, secure:true, sameSite:"None"})
     res.status(204).json({message:"user logout successfully"})
 } 
 
@@ -82,9 +85,12 @@ export const getUserProfile = async(req, res)=>{
     if(!user) return res.status(403).json({message:"forbidden"})
 
     res.status(200).json(user)
+    io.emit("getProfile", user)
 }
 
 export const checkAuth = async(req, res)=>{
     if(!req?.user) return res.status(401).json({message:"unauthorized user"})  
+    const userSocket = getUserSocket(req.user._id)
+    io.to(userSocket).emit("checkAuth", req.user)
     res.status(200).json(req.user)
 }

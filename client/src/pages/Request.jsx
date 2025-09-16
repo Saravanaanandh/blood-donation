@@ -1,12 +1,13 @@
-import { useState } from "react" 
+import { useEffect, useState } from "react" 
 import { useRecipientStore } from "../store/useRecipientStore.jsx"
 import toast from "react-hot-toast"
 import Navbar from "../components/Navbar.jsx"
-import requestImg from './../assets/requestBgImg.jpeg' 
+import requestImg from './../assets/requestPageImg.png' 
 import { useNavigate } from "react-router"
 const Request = () => {
+    
     const navigate = useNavigate()
-    const [isChecked, setIsChecked] = useState(true)
+    // const [isChecked, setIsChecked] = useState(true)
     const [formData, setFormData] = useState({
         bloodType:"",
         patientsName:"",
@@ -19,11 +20,13 @@ const Request = () => {
         pinCode:"",
         reqDate:new Date(Date.now()).toISOString().split('T')[0],
         bloodUnits:"",
-        isCritical:isChecked,
+        isCritical:true,
         note:""
-    })
+    }) 
     const {createRecipient} = useRecipientStore()
-
+    useEffect(()=>{
+        console.log(formData)
+    },[formData])
     const handleSubmit = async (e)=>{
         e.preventDefault()
 
@@ -55,8 +58,8 @@ const Request = () => {
             bloodUnits:"",
             isCritical:isChecked,
             note:""
-        })
-        navigate('/alldonors') 
+        }) 
+        navigate('/alldonors')  
     }
   return (
     <div>
@@ -67,13 +70,13 @@ const Request = () => {
         <Navbar/>
         <h1 className="pl-10 text-[1.7rem] sm:text-[2rem] text-red-500"><strong>Request for Blood 🩸</strong></h1>
         <form onSubmit={handleSubmit} className="my-15 flex flex-col gap-10 px-10">
-            <div className="w-full flex max-sm:flex-col gap-5">
+            <div className="w-full flex max-sm:flex-col gap-5 ">
             <div className="sm:w-1/4 flex flex-col gap-5">
                 <div className="flex flex-col gap-1">
                     <label>Blood Group:</label>
                     <select
                         onChange={(e)=> setFormData({...formData, bloodType:e.target.value})} 
-                        className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                        className="border-[1px] dark:text-black border-black rounded-sm outline-none bg-white px-2 py-1"
                         required
                     >
                         <option value="">Select Blood Type</option>
@@ -100,7 +103,7 @@ const Request = () => {
                     <label>Patient's Name:</label>
                     <input 
                         type="text" 
-                        className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                        className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                         placeholder="patient's Name"
                         value={formData.patientsName}
                         onChange={(e)=> setFormData({...formData, patientsName:e.target.value})}
@@ -111,7 +114,7 @@ const Request = () => {
                     <label>Attendee's Name:</label> 
                     <input 
                         type="text" 
-                        className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                        className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                         placeholder="Attendees's Name"
                         value={formData.AttendeesName}
                         onChange={(e)=> setFormData({...formData, AttendeesName:e.target.value})}
@@ -122,7 +125,7 @@ const Request = () => {
                 <div className="flex flex-col gap-1">
                     <label>Patient's Gender:</label>
                     <select
-                        className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                        className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                         onChange={(e)=> setFormData({...formData, gender:e.target.value})}  
                         required
                     >
@@ -135,7 +138,7 @@ const Request = () => {
                     <label>District:</label>
                     <select
                             onChange={(e)=> setFormData({...formData, location:e.target.value})} 
-                            className="max-sm:hidden border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
+                            className="max-sm:hidden border-[1px] border-black dark:text-black rounded-md outline-none bg-white px-3 py-1.5"
                             required
                         >
                             <option value="">Select District</option>
@@ -183,29 +186,60 @@ const Request = () => {
                     <label>Email:</label>
                     <input 
                         type="email" 
-                        className="max-sm:hidden border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                        className="max-sm:hidden border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                         placeholder="Enter email"
                         value={formData.email}
                         onChange={(e)=> setFormData({...formData, email:e.target.value})}
                         required
                     /> 
                 </div> 
-                <div className="max-sm:hidden flex gap-3">
-                    <input 
-                        type="checkbox" 
-                        className="w-[15px]"
-                        checked={isChecked}
-                        onChange={()=> {setIsChecked(!isChecked);setFormData({...formData, isCritical:isChecked})}}
-                    /> <span>isCritical</span>
+                <div className="max-sm:hidden">
+                    <div className="mb-4 flex gap-5">
+                    <label htmlFor="emergency" className="block mb-2 font-medium">
+                        Is it Emergency?
+                    </label>
+
+                    <div className="flex gap-6 items-center" id="emergency">
+                        {/* Yes option */}
+                        <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            name="emergency"
+                            value="yes"
+                            className="w-[15px] h-[15px]"
+                            checked={formData.isCritical === true}
+                            onChange={() =>
+                            setFormData({ ...formData, isCritical: true })
+                            }
+                        />
+                        Yes
+                        </label>
+
+                        {/* No option */}
+                        <label className="flex items-center gap-2 cursor-pointer">
+                        <input
+                            type="checkbox"
+                            name="emergency"
+                            value="no"
+                            className="w-[15px] h-[15px]"
+                            checked={formData.isCritical === false}
+                            onChange={() =>
+                            setFormData({ ...formData, isCritical: false })
+                            }
+                        />
+                        No
+                        </label>
+                    </div>
+                </div>
                 </div>  
                 <div className="max-sm:hidden flex flex-col gap-1">
                     <label>Addition Information:</label>
                     <textarea
                         type="text" 
-                        className="max-sm:hidden border-[2px] border-black min-h-[50px] max-h-[150px] outline-none rounded-sm"
+                        className="max-sm:hidden border-[2px]  min-h-[50px] max-h-[150px] outline-none rounded-sm"
                         placeholder="Additional note to potential donors"
                         value={formData.note}
-                        onChange={(e)=> setFormData({...formData, note:e.target.value})}  
+                        onChange={(e)=> setFormData({...formData, note:e.target.value})}   
                         
                     >
                     </textarea>
@@ -216,7 +250,7 @@ const Request = () => {
                 <label>Patient's Age:</label>
                 <input 
                     type="tel" 
-                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                    className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                     placeholder={`${formData.patientsage ? '': "Patients Age"}`}
                     value={formData.patientsage || ""} 
                     onChange={(e)=> setFormData({...formData, patientsage:parseInt(e.target.value)})}
@@ -227,7 +261,7 @@ const Request = () => {
                 <label>Attendee's Phone:</label>
                 <input 
                     type="tel" 
-                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                    className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                     placeholder={`${formData.AttendeesPhno ? '': "Attendee's Phone no"}`}
                     value={formData.AttendeesPhno || ""}
                     onChange={(e)=> setFormData({...formData, AttendeesPhno:parseInt(e.target.value)})}
@@ -238,7 +272,7 @@ const Request = () => {
                 <label>Blood Required Date:</label>
                 <input 
                     type="date" 
-                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1" 
+                    className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1" 
                     value={formData.reqDate || ""} 
                     onChange={(e) => setFormData({...formData, reqDate:e.target.value})} required 
                 />
@@ -247,7 +281,7 @@ const Request = () => {
                 <label>District:</label>
                 <select
                     onChange={(e)=> setFormData({...formData, location:e.target.value})} 
-                    className="sm:hidden border-[1px] border-black rounded-md outline-none bg-white px-3 py-1.5"
+                    className="sm:hidden border-[1px] border-black dark:text-black rounded-md outline-none bg-white px-3 py-1.5"
                     required
                 >
                     <option value="">Select District</option>
@@ -295,7 +329,7 @@ const Request = () => {
                 <label>Pincode:</label>
                 <input 
                     type="text"
-                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                    className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                     placeholder={`${formData.pinCode ? '': "Enter pincode"}`}
                     value={formData.pinCode || ""}
                     onChange={(e)=> setFormData({...formData, pinCode:parseInt(e.target.value)})}
@@ -306,7 +340,7 @@ const Request = () => {
                 <label>Email:</label>
                 <input 
                     type="email" 
-                    className="sm:hidden border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                    className="sm:hidden border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                     placeholder="Enter email"
                     value={formData.email}
                     onChange={(e)=> setFormData({...formData, email:e.target.value})}
@@ -317,26 +351,53 @@ const Request = () => {
                 <label>Required Blood Units:</label>
                 <input 
                     type="tel" 
-                    className="border-[1px] border-black rounded-sm outline-none bg-white px-2 py-1"
+                    className="border-[1px] border-black dark:text-black rounded-sm outline-none bg-white px-2 py-1"
                     placeholder={`${formData.bloodUnits ? '': "No. of Units"}`}
                     value={formData.bloodUnits || ""} 
                     onChange={(e)=> setFormData({...formData, bloodUnits:parseInt(e.target.value)})}
                     required
                 />
              </div> 
-            <div className="sm:hidden flex gap-3">
-                <input 
-                    type="checkbox" 
-                    className="w-[15px] accent-red-600"
-                    checked={isChecked}
-                    onChange={()=> {setIsChecked(!isChecked);setFormData({...formData, isCritical:isChecked})}}
-                /> <span>isCritical</span>
+            <div className="sm:hidden flex flex-wrap gap-3">
+                <label className="block mb-2">Is it Emergency?</label>
+
+                    <div className="flex gap-4 items-center">
+                    <label htmlFor="emergency-yes" className="flex items-center gap-1 cursor-pointer">
+                        <input
+                        name="emergency"
+                        id="emergency-yes"
+                        type="radio"
+                        value="Yes"
+                        className="w-[15px] h-[15px]"
+                        checked={formData.isCritical === true}
+                        onChange={() =>
+                            setFormData({ ...formData, isCritical: true })
+                        }
+                        />
+                        Yes
+                    </label>
+
+                    <label htmlFor="emergency-no" className="flex items-center gap-1 cursor-pointer">
+                        <input
+                        name="emergency"
+                        id="emergency-no"
+                        type="radio"
+                        value="No"
+                        className="w-[15px] h-[15px]"
+                        checked={formData.isCritical === false}
+                        onChange={() =>
+                            setFormData({ ...formData, isCritical: false })
+                        }
+                        />
+                        No
+                    </label>
+                    </div>
             </div>  
             <div className="sm:hidden flex flex-col gap-1">
                 <label>Additional Information:</label>
                 <textarea
                     type="text" 
-                    className="sm:hidden border-[2px] border-black min-h-[50px] max-h-[150px] outline-none rounded-sm"
+                    className="sm:hidden border-[2px] min-h-[50px] max-h-[150px] outline-none rounded-sm"
                     placeholder="Additional note to potential donors"
                     value={formData.note}
                     onChange={(e)=> setFormData({...formData, note:e.target.value})} 

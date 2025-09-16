@@ -9,8 +9,7 @@ const ToggleButton = ({Available,Id}) => {
 
   const handleChange = async()=>{
     const newState = !isToggled
-    setIsToggled(newState)
-    console.log("available = "+ newState)
+    setIsToggled(newState) 
     await updateProfile({available:newState})
   }   
   

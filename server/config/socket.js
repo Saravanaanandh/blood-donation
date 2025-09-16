@@ -1,47 +1,37 @@
 import http from 'http'
 import express from 'express'
-import { Server } from 'socket.io'
-
+import { Server } from 'socket.io' 
 const app = express()
 
 const server = http.createServer(app)
 
 const io = new Server(server,{
     cors:{
-        origin:["https://blood-donation-o7z9.onrender.com","http://localhost:5173","http://localhost:5000/"], 
+        origin:["https://gces-bloodline.web.app","https://blood-donation-o7z9.onrender.com","http://localhost:5173","http://localhost:5000/"], 
         methods: "GET,POST,PATCH,PUT,DELETE",
         allowedHeaders: ["Content-Type"],
         credentials:true
     }
 })
 
-const userSocket = {}
-export const getUserId = (Id)=>{
-    return userSocket[Id]
+const usersSocket = {}
+
+export const getUserSocket = (userId)=>{
+    return usersSocket[userId]
 }
-io.on("connection",(socket)=>{
-    console.log(`a user connected : ${socket.id}`)
-    const userId = socket.handshake.query.userId
-    if(userId) userSocket[userId] = socket.id
 
-    // io.emit("getOnlineUsers",Object.keys(userSocket))
+io.on("connection",(socket)=>{ 
+    const userId = socket.handshake.query.userId  
+    console.log(`a user connected : ${socket.id}`) 
 
-    // socket.on("sendRequest",(request)=>{
-    //     console.log("Request Details On Console :"+request)
-    //     io.emit("newRequest",request)
-    // })
-    // socket.on("sendBloodRequest", (request) => {
-    //     io.emit("newBloodRequest", request); 
-    // });
- 
-    // socket.on("acceptRequest", ({ requestId, donorId }) => {
-    //     io.emit("requestAccepted", { requestId, donorId }); 
-    // });
+    if(userId) usersSocket[userId] = socket.id 
+
     socket.on("disconnect",()=>{
-        console.log(`A user disconnected : ${socket.id}`)
-        delete userSocket[userId]
-        io.emit("getOnlineUsers",Object.keys(userId))
+        console.log(`A user disconnected : ${socket.id}`) 
+        delete usersSocket[userId]
     })
 })
 
 export {io, app, server}
+
+

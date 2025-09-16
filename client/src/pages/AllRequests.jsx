@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import { motion } from "framer-motion";
 import {
+  AlertTriangle,
   Check,
   CheckCheck,
   CheckCircle,
@@ -27,8 +28,7 @@ const AllRequests = () => {
   useEffect(() => {    
       allRecipients();
   }, [allRecipients]); 
-
-  console.log(recipients)
+ 
   const allRecipient = recipients.filter(recipient=>( recipient.request === null && !recipient.recipient?.isDonorFinded) ? recipient :"")
   const prependingRequests = recipients.filter((recipient) => (recipient.request?.status === "prepending"));
   const acceptedrequests = recipients.filter(
@@ -36,10 +36,7 @@ const AllRequests = () => {
       ((recipient.request?.status === "accepted") | (recipient.request?.status === "pending")) 
   );
   const completedRequests = recipients.filter((recipient) => ((recipient.request?.status === "confirmed")|(recipient.request?.status === "finalState")));
-  console.log(allRecipient)
-  console.log(prependingRequests)
-  console.log(acceptedrequests)
-  console.log(completedRequests)
+
   return (
     <div>
       <Navbar />
@@ -257,6 +254,19 @@ const AllRequests = () => {
                       View <Eye className="size-4" />
                     </button>
                   </div>
+                  <div className="sm:hidden flex flex-col items-center gap-2">
+                    <p>
+                    <span  className="p-1 bg-red-600 text-white rounded-2xl">{recipient.recipient?.bloodType}</span>
+                    </p> 
+                    {
+                      recipient.recipient?.isCritical === true ? 
+                        recipient.request?.status !== "finalState" && (
+                        <span className="px-2 py-1 bg-red-600 text-white animate-caret-blink rounded-md">
+                          <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
+                        </span> 
+                      ):("")
+                    } 
+                  </div> 
                 </div>
               </Link>
           ))}
@@ -274,11 +284,11 @@ const AllRequests = () => {
                 // onClick={() => getRequest(request.recipientProfile.recipientId)}
                 to={`/allrequests/${recipient.recipient._id}`}
               >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between  items-center">
-                  <div className="flex items-center gap-5">
+                <div className="h-full flex max-sm:gap-2 sm:justify-between items-center">
+                  <div className="flex justify-between items-center gap-5">
                     <div>
                       <img
-                        className="size-15 rounded-full "
+                        className="sm:size-15 rounded-full "
                         src={recipient.recipientProfile.profile || profilePic}
                         alt=""
                       />
@@ -314,16 +324,29 @@ const AllRequests = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden">
+                    <h1 className="sm:hidden  text-[0.8rem]">
                       <strong>
                         {" "}
                         {recipient.recipientProfile?.username.toUpperCase()}
                       </strong>
                     </h1>
-                    <button className="flex items-center gap-1 px-3 py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
+                    <button className="flex items-center gap-1 p-1 max-sm:text-[0.7rem] sm:px-3 sm:py-2 border-[1px] transition-all duration-200 rounded-sm  bg-green-700 text-white">
                       Accept <MoveRight className="size-4" />
                     </button>
                   </div>
+                  <div className="sm:hidden flex flex-col items-center gap-2">
+                    <p>
+                    <span  className="p-1 bg-red-600 text-white rounded-2xl">{recipient.recipient?.bloodType}</span>
+                    </p> 
+                    {
+                      recipient.recipient?.isCritical === true ? 
+                        recipient.request?.status !== "finalState" && (
+                        <span className="px-2 py-1 bg-red-600 text-white animate-caret-blink rounded-md">
+                          <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
+                        </span> 
+                      ):("")
+                    } 
+                  </div> 
                 </div>
               </Link>
           ))}
@@ -341,11 +364,11 @@ const AllRequests = () => {
                 // onClick={() => getRequest(recipient.recipientProfile.recipientId)}
                 to={`/allrequests/${recipient.recipient._id}`}
               >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between  items-center">
+                <div className="h-full flex max-sm:gap-2 sm:justify-between items-center">
                   <div className="flex items-center gap-5">
                     <div>
                       <img
-                        className="size-15 rounded-full "
+                        className="sm:size-15 rounded-full "
                         src={recipient.recipientProfile.profile || profilePic}
                         alt=""
                       />
@@ -380,13 +403,13 @@ const AllRequests = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden">
+                    <h1 className="sm:hidden text-[0.8rem]">
                       <strong>
                         {" "}
                         {recipient.recipientProfile.username.toUpperCase()}
                       </strong>
                     </h1>
-                    <button className={`flex items-center gap-1 px-3 py-2 rounded-sm text-white ${recipient.request?.status === "accepted" ? "bg-yellow-700 ":"bg-green-700"}`}>
+                    <button className={`flex items-center gap-1 sm:px-3 sm:py-2 p-1 rounded-sm text-white ${recipient.request?.status === "accepted" ? "bg-yellow-700 ":"bg-green-700"}`}>
                       {
                         recipient.request?.status === "accepted"
                           ? "Waiting"
@@ -401,6 +424,19 @@ const AllRequests = () => {
                       }
                     </button>
                   </div>
+                  <div className="sm:hidden flex flex-col items-center gap-2">
+                    <p>
+                    <span  className="p-1 bg-red-600 text-white rounded-2xl">{recipient.recipient?.bloodType}</span>
+                    </p> 
+                    {
+                      recipient.recipient?.isCritical === true ? 
+                        recipient.request?.status !== "finalState" && (
+                        <span className="px-2 py-1 bg-red-600 text-white animate-caret-blink rounded-md">
+                          <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
+                        </span> 
+                      ):("")
+                    } 
+                  </div> 
                 </div>
               </Link>
             ))}
@@ -418,11 +454,11 @@ const AllRequests = () => {
                 // onClick={() => getRequest(recipient.recipientProfile.recipientId)}
                 to={`/allrequests/${recipient.recipient._id}`}
               >
-                <div className="h-full flex max-sm:gap-10 sm:justify-between items-center">
-                  <div className="flex items-center gap-5">
+                <div className="h-full flex max-sm:gap-2 justify-between items-center">
+                  <div className="flex justify-between items-center gap-5">
                     <div>
                       <img
-                        className="size-15 rounded-full "
+                        className="sm:size-15 rounded-full"
                         src={recipient.recipientProfile.profile || profilePic}
                         alt=""
                       />
@@ -441,8 +477,8 @@ const AllRequests = () => {
                           </p> 
                           {
                             recipient.recipient?.isCritical === true ? ( 
-                              <span className="px-2 py-1 bg-red-600 text-white rounded-md">
-                                Emergency
+                              <span className="px-2 py-1 flex gap-2 items-center bg-red-600 text-white animate-caret-blink rounded-md">
+                                <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
                               </span> 
                             ):("")
                           } 
@@ -457,14 +493,14 @@ const AllRequests = () => {
                     </div>
                   </div>
                   <div className="sm:flex sm:flex-col sm:items-center">
-                    <h1 className="sm:hidden">
+                    <h1 className="sm:hidden text-[0.6rem]">
                       <strong>
                         {" "}
                         {recipient.recipientProfile?.username.toUpperCase()}
                       </strong>
                     </h1>
                     <button
-                      className={`flex items-center gap-1 px-3 py-2 rounded-sm bg-green-700  text-white`}
+                      className={`flex items-center max-sm:text-[0.7rem] gap-1 sm:px-3 p-1 sm:py-2 rounded-sm bg-green-700  text-white`}
                     >  
                       {recipient.request?.status === "confirmed"
                         ? "Generate OTP"
@@ -476,6 +512,19 @@ const AllRequests = () => {
                       )} 
                     </button> 
                   </div>
+                  <div className="sm:hidden flex flex-col items-center gap-2">
+                    <p>
+                    <span  className="p-1 bg-red-600 text-white rounded-2xl">{recipient.recipient?.bloodType}</span>
+                    </p> 
+                    {
+                      recipient.recipient?.isCritical === true ? 
+                        recipient.request?.status !== "finalState" && (
+                        <span className="px-2 py-1 bg-red-600 text-white animate-caret-blink rounded-md">
+                          <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
+                        </span> 
+                      ):("")
+                    } 
+                  </div> 
                 </div>
               </Link>
             ))}

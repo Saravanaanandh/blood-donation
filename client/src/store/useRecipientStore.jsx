@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios.jsx";
 import toast from "react-hot-toast";   
+import { useAuthStore } from "./useAuthStore.jsx";
 
 export const useRecipientStore = create((set,get)=>({
      
@@ -30,9 +31,10 @@ export const useRecipientStore = create((set,get)=>({
             const res = await axiosInstance.post('/recipient/',data)  
             set({recipients: [...get().recipients,res.data]}) 
             toast.success("Recipient Created successfully!")
+            useAuthStore.getState().checkAuth()
         }catch(err){
             console.log(err.response.data.message)
-            toast.error(err)
+            toast.error(err) 
         }finally{
             set({isCreatingRecipient:false})
         }
@@ -40,17 +42,41 @@ export const useRecipientStore = create((set,get)=>({
     allRecipients: async () => {
         set({ isRecipientFetching: true });
         try {
-            
+            const fetchRecipients = async()=>{await axiosInstance.get('/recipient/')}
             const res = await axiosInstance.get('/recipient/'); 
             const recipients = res.data.recipients.map((recipient, index) => ({
                 recipient,
                 recipientProfile: res.data.recipientProfile[index],
                 request: res.data.requests[index]
             })); 
-            set({recipients});   
+            set({recipients});
+            const socket = useAuthStore.getState().socket
+            socket.off("newrecipient")
+            socket.off("allrecipients")
+            socket.off("requestsent")
+            socket.off("deleterequest")
+            socket.off("confirmrequest")
+            socket.off("rejectaccrequest")
+            socket.off("rejectrequest")
+ 
+            socket.on("newrecipient", fetchRecipients)
+            socket.on("requestsent",fetchRecipients)
+            socket.on("deleterequest",fetchRecipients)
+            socket.on("confirmrequest",fetchRecipients) 
+            socket.on("rejectaccrequest",fetchRecipients)
+            socket.on("rejectrequest",fetchRecipients)
+
+            socket.on("allrecipients",({recipients,recipientProfile,requests})=>{
+                const recipientAll = recipients.map((recipient, index) => ({
+                    recipient,
+                    recipientProfile:  recipientProfile[index],
+                    request:  requests[index]
+                })); 
+                set({recipients:recipientAll}); 
+            })
     
         } catch (err) {
-            console.log(err.response?.data?.message || err);
+            console.log(err);
         } finally {
             set({ isRecipientFetching: false });
         }
@@ -58,8 +84,31 @@ export const useRecipientStore = create((set,get)=>({
     getRecipient: async (id) => {
         set({ isRecipientLoading: true });
         try { 
+            const fetchRecipient = async(id)=>  {
+                await axiosInstance.get(`/recipient/${id}`) 
+            }
             const res = await axiosInstance.get(`/recipient/${id}`); 
             set({ recipient: res.data })  //{recipientDetail,request,recipientProfile}
+            const socket = useAuthStore.getState().socket
+            socket.off("getrecipient")  
+            socket.off("updateProfile")  
+            socket.off("requestsent")
+            socket.off("deleterequest")
+            socket.off("confirmrequest")
+            socket.off("rejectaccrequest")
+            socket.off("rejectrequest")
+  
+            socket.on("requestsent",()=>fetchRecipient(id))
+            socket.on("deleterequest",()=>fetchRecipient(id))
+            socket.on("confirmrequest",()=>fetchRecipient(id)) 
+            socket.on("rejectaccrequest",()=>fetchRecipient(id))
+            socket.on("rejectrequest",()=>fetchRecipient(id))
+            socket.on("updateProfile",()=>fetchRecipient(id))
+            
+            socket.on("getrecipient",({recipientDetail,request,recipientProfile})=>{
+                set({recipient:{recipientDetail,request,recipientProfile}})
+            }) 
+             
         } catch (err) {
             console.log(err);
         } finally {
@@ -77,13 +126,19 @@ export const useRecipientStore = create((set,get)=>({
         set({ isRequestsFetching: true });
         try {
             
+            const socket = useAuthStore.getState().socket
+            socket.off("requestsent")
             const res = await axiosInstance.get('/request/'); 
             const requests = res.data.requests.map((request, index) => ({
                 request,
                 donorProfile: res.data.donorProfile[index],
                 recipientProfile: res.data.recipientProfile[index]
             })); 
-            set({ requests });    
+            set({ requests });   
+            socket.on("requestsent",async()=>{
+                get().allRequests()
+                return;
+            })
         } catch (err) {
             console.log(err.response?.data?.message || err);
         } finally {
@@ -104,9 +159,14 @@ export const useRecipientStore = create((set,get)=>({
     sendRequest: async (donorId) => {
         set({ isSendRequest: true });
         try { 
-            const res = await axiosInstance.post(`/request/${donorId}`); 
-            set({ requests: [...get().requests, res.data]})
+            const socket = useAuthStore.getState().socket
+            socket.off("requestsent")
+            await axiosInstance.post(`/request/${donorId}`);  
+            socket.on("requestsent",(request)=>{
+                set({requests:[...get().requests, request]})
+            })
             toast.success("Request sent Successfully!")  
+            
         } catch (err) {
             console.log(err);
             toast.error("Something went wrong, try again later!");
@@ -221,7 +281,7 @@ export const useRecipientStore = create((set,get)=>({
             } 
         }catch(err){
             set({isOtpVerified:false})
-            console.log(err.response.data.message)
+            console.log(err)
             toast.error("something went wrong !")
         }finally{
             set({isVerifyOtp:false})

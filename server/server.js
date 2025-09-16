@@ -11,6 +11,8 @@ import { verifyJWT } from './middleware/auth.middleware.js'
 import cors from 'cors'
 import path from 'path'
 import {app, server} from './config/socket.js'
+import rateLimit from 'express-rate-limit'
+
 
 dotenv.config() 
 const PORT = process.env.PORT || 5000
@@ -25,14 +27,21 @@ app.use(cors({
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true })); 
 app.use(cookieParser())
+const apiLimiter = rateLimit({
+    windowMs: 60*1000,
+    max: 100,
+    message:{message:"Too many requests, please try again later"},
+    standardHeaders:true,
+    legacyHeaders:true
+})
 
 const __dirname = path.resolve()
  
-app.use('/api/v1/auth',authRouter)
-app.use('/api/v1/request',verifyJWT,bloodReqRouter)
-app.use('/api/v1/recipient',verifyJWT,recipientRouter)
-app.use('/api/v1/donate',verifyJWT,donorRouter)
-app.use('/api/v1/otp',verifyJWT, otpRouter)
+app.use('/api/v1/auth',apiLimiter,authRouter)
+app.use('/api/v1/request',apiLimiter,verifyJWT,bloodReqRouter)
+app.use('/api/v1/recipient',apiLimiter,verifyJWT,recipientRouter)
+app.use('/api/v1/donate',apiLimiter,verifyJWT,donorRouter)
+app.use('/api/v1/otp',apiLimiter,verifyJWT, otpRouter)
 
 
 if(process.env.NODE_ENV==="production"){

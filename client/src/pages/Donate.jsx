@@ -31,7 +31,7 @@ const Donate = () => {
     }
   return (
     <div className="relative"> 
-        <div className="pb-10 flex flex-col items-center w-full min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center" style={{backgroundImage:`url(${donoteImg})`}}>
+        <div className="pb-10 flex flex-col dark:text-black items-center w-full min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center" style={{backgroundImage:`url(${donoteImg})`}}>
             <Navbar/>
             <div className="text-start mb-5">
                 <h1 className="sm:text-[2rem]"><strong>Blood Donation Consent Form</strong></h1> 

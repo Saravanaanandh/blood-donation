@@ -42,12 +42,12 @@ const Login = () => {
             </div> 
         </div>
         <form onSubmit={handleSubmit} className="h-screen flex items-center justify-center my-0 max-sm:my-0">
-            <div className="flex flex-col items-center gap-5 min-h-auto w-[80vw] sm:w-[40vw]  py-10 rounded-2xl max-sm:py-5">
+            <div className="dark:text-black flex flex-col items-center gap-5 min-h-auto w-[80vw] sm:w-[40vw] bg-[#0000003e]  border-2 border-black  py-10 rounded-2xl max-sm:py-5 backdrop-blur-[10px]">
             <h1 className="sm:text-[2rem] text-white"><strong>Access Account</strong></h1>
             <input 
                 type="email" 
-                className="bg-gray-300 sm:w-[25vw] w-[80%] outline-none border-none p-2 rounded-md"
-                placeholder="Enter email"
+                className="bg-gray-300 sm:w-[30vw] w-[80%] outline-none border-none p-2 rounded-md"
+                placeholder="Email"
                 value={formData.email}
                 onChange={(e)=> setFormDate({...formData, email:e.target.value})}
                 autoComplete="on"
@@ -56,9 +56,9 @@ const Login = () => {
             <div className="relative flex justify-between items-center max-sm:w-[80%]">
 
                 <input 
-                    className="bg-gray-300 max-sm:w-full sm:w-[25vw] outline-none border-none p-2 rounded-md"
+                    className="bg-gray-300 max-sm:w-full sm:w-[30vw] outline-none border-none p-2 rounded-md"
                     type={showPassword ? "text":"password"}
-                    placeholder="Enter Password"
+                    placeholder="Password"
                     value={formData.password}
                     onChange={(e) => setFormDate({ ...formData, password:e.target.value })}
                     required
@@ -70,14 +70,15 @@ const Login = () => {
                 }
                 </div>
             </div>
-            <div className="sm:w-[25vw] w-[80%] text-center">
+            <div className="sm:w-[30vw] w-[80%] text-center">
 
-                <button className="w-full text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-2.5 bg-violet-900 text-white transition-all duration-300 hover:scale-105"  type="submit" onClick={handleSubmit} disabled={!formData.email || !formData.password}>
-                    log in
+                <button className="cursor-pointer w-full text-nowrap border-[1px] border-violet-800 rounded-md px-2 py-1 sm:px-5 sm:py-2.5 bg-violet-900 text-white transition-all duration-300 hover:scale-105"  type="submit" onClick={handleSubmit} disabled={!formData.email || !formData.password}>
+                    Log In
                 </button>
                 <div className="mt-5">
-                    <p>don&rsquo;t have an account?<Link className="text-violet-800 underline" to='/signup'>sign up</Link>
+                    <strong className="text-white"><p>don&rsquo;t have an account ? <Link className="text-violet-800 underline" to='/signup'>Sign up</Link>
                     </p>
+                    </strong>
                 </div>
             </div>
             </div>

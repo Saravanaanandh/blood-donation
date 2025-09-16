@@ -17,7 +17,7 @@ const OtpPage = () => {
       setTimeout(()=>{
         setOtpDetail(null)
         navigate('/profile')
-      },5*60*1000)
+      },2*60*1000)
     }
   }, [isOtpVerified,OtpDetail]); 
   const [email, setEmail] = useState(recipient.recipientDetail?.email);
