@@ -47,7 +47,7 @@ const OtpPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-2xl shadow-lg w-96 animate-fade-in-up">
+      <div className="bg-white dark:text-black p-6 rounded-2xl shadow-lg w-96 animate-fade-in-up">
         {!OtpDetail ? (
           <form className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold text-center">Enter Your Email</h2>
@@ -69,7 +69,7 @@ const OtpPage = () => {
           </form>
         ) : (
           <form className="flex flex-col gap-4">
-            <h2 className="text-xl font-semibold text-center">Enter OTP</h2>
+            <h2 className="text-xl font-semibold dark:text-black text-center">Enter OTP</h2>
             <p className="text-gray-700">OTP sent to {email}:</p>
             <input
               type="text"
