@@ -24,12 +24,12 @@ export const sendRequest = async(req, res)=>{
         if(existingRequest) return res.status(200).json({message:"already request was sent to donor!"})
 
         const request = await Requests.create({recipientId, donorId}) 
-
-        //for binding with mail
+ 
         const recipient = await User.findOne({_id:recipientId})
         const recipientDetail = await ReqBlood.findOne({recipientId}) 
         const donorDetail = await User.findOne({donorId: donor._id})
         const redirectPage = `https://blood-donation-o7z9.onrender.com/allrequests/${recipientDetail._id}`
+
         const transporter = nodemailer.createTransport({
             host: "smtp-relay.brevo.com",
             port: 587,
@@ -64,15 +64,11 @@ export const sendRequest = async(req, res)=>{
                         </a>
                     </p>
                     <p>Thank you for being a Life-Saver! 💉🩸</p>
-                </div>`
-            // text: Hello ${recipient.username},\n\nYou have received a Blood Donation Request from ${recipient.username}. 
-            // Your contribution can save a precious life.\n\n
-            // Please check the request here: https://blood-donation-o7z9.onrender.com/\n\n
-            // Thank you for your kindness.💉🩸
+                </div>` 
         }
         await transporter.sendMail(mailOptions) 
         const receiverSocketId = getUserSocket(donorDetail._id)
-        io.to(receiverSocketId).emit("requestsent", request)
+        if(receiverSocketId) io.to(receiverSocketId).emit("requestsent", request)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -136,7 +132,7 @@ export const acceptReq = async (req, res)=>{
         const request = await Requests.findOneAndUpdate({_id:requestId,recipientId:{$ne: userId},status:"prepending"},{status:"accepted"},{new:true})
         if(!request) return res.status(404).json({message:"request not found"}) 
         const receiverSocketId = getUserSocket(request.recipientId)
-        io.to(receiverSocketId).emit("acceptrequest",request)
+        if(receiverSocketId) io.to(receiverSocketId).emit("acceptrequest",request)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -156,7 +152,7 @@ export const confirmReq = async (req, res)=>{
         const request = await Requests.findOneAndUpdate({_id:requestId,donorId:{$ne: userId},status:"accepted"},{status:"pending"},{new:true}) 
         if(!request) return res.status(404).json({message:"request not found"})   
         const receiverSocketId = getUserSocket(request.donorId)
-        io.to(receiverSocketId).emit("confirmrequest",request)
+        if(receiverSocketId) io.to(receiverSocketId).emit("confirmrequest",request)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -177,7 +173,7 @@ export const confirmedReq = async (req, res)=>{
         if(!request) return res.status(404).json({message:"request not found"}) 
         await ReqBlood.findOneAndUpdate({recipientId: request.recipientId},{isDonorFinded:true}, {new:true}) 
         const receiverSocketId = getUserSocket(request.recipientId)
-        io.to(receiverSocketId).emit("confirmedrequest",request)
+        if(receiverSocketId) io.to(receiverSocketId).emit("confirmedrequest",request)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -203,7 +199,7 @@ export const rejectReq = async (req, res)=>{
         await ReqBlood.findOneAndUpdate({recipientId: request.recipientId},{isDonorFinded:false}, {new:true}) 
         const receiverSocketId = getUserSocket(request.recipientId)
         const senderSocketId = getUserSocket(request.donorId)
-        io.to([receiverSocketId,senderSocketId]).emit("rejectrequest")
+        if(receiverSocketId && senderSocketId) io.to([receiverSocketId,senderSocketId]).emit("rejectrequest")
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -228,7 +224,7 @@ export const rejectAcceptedReq = async (req, res)=>{
         await ReqBlood.findOneAndUpdate({recipientId: request.recipientId},{isDonorFinded:false}, {new:true}) 
         const receiverSocketId = getUserSocket(request.recipientId)
         
-        io.to(receiverSocketId).emit("rejectaccrequest",request)
+        if(receiverSocketId) io.to(receiverSocketId).emit("rejectaccrequest",request)
         res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
@@ -250,7 +246,7 @@ export const deleteRequest = async(req, res)=>{
         if(!deletedReq) return res.status(404).json({message:"request cant be deleted, because it was confirmed"})
         await DeletedReq.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
         const receiverSocket = getUserSocket(deletedReq.donorId)
-        io.to(receiverSocket).emit("deleterequest")
+        if(receiverSocketId) io.to(receiverSocket).emit("deleterequest")
         return res.status(200).json({message:"request was deleted!"})
     }catch(err){
         return res.status(500).json({message:"cant delete the request, try again later"})

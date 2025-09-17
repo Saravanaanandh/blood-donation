@@ -160,6 +160,7 @@ export const useRecipientStore = create((set,get)=>({
         set({ isSendRequest: true });
         try {  
             const res = await axiosInstance.post(`/request/${donorId}`); 
+            console.log(res)
             set({requests:[...get().requests, res.data]})
             toast.success("Request sent Successfully!")  
             
