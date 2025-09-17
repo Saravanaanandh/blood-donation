@@ -158,13 +158,9 @@ export const useRecipientStore = create((set,get)=>({
     },
     sendRequest: async (donorId) => {
         set({ isSendRequest: true });
-        try { 
-            const socket = useAuthStore.getState().socket
-            socket.off("requestsent")
-            await axiosInstance.post(`/request/${donorId}`);  
-            socket.on("requestsent",(request)=>{
-                set({requests:[...get().requests, request]})
-            })
+        try {  
+            const res = await axiosInstance.post(`/request/${donorId}`); 
+            set({requests:[...get().requests, res.data]})
             toast.success("Request sent Successfully!")  
             
         } catch (err) {

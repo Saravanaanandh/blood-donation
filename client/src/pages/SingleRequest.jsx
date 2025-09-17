@@ -46,7 +46,7 @@ const SingleRequest = () => {
                     <div className="flex flex-col items-center gap-1">
                         <h1 className="text-[1.2rem]"><strong>{ recipient.recipientProfile?.username.toUpperCase()}</strong></h1>
                         <h1 className="">{recipient.recipientProfile?.email}</h1>
-                        <div className="flex gap-3"> 
+                        {/* <div className="flex gap-3"> 
                             <span> Available : </span>
                             {
                                 !showToggle && (
@@ -64,7 +64,7 @@ const SingleRequest = () => {
                                     /> 
                                 )
                             }
-                        </div> 
+                        </div>  */}
                         <h1 className="flex gap-2 text-[1.2rem]">Donations : { recipient.recipientProfile?.donation}<span className="text-red-600 "><DropletsIcon/></span></h1>
                     </div>
                 </div> 

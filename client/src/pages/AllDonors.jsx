@@ -338,10 +338,10 @@ const AllDonors = () => {
               </div>
             </div>
             <div className="sm:hidden w-full flex max-sm:flex-col gap-2">
-              <label>Location :</label>
+              <label className="ml-[8vw]">Location :</label>
               <select
                 className="bg-white text-black
-        dark:bg-gray-900 dark:text-white mx-2 border-[1px] rounded-md "
+        dark:bg-gray-900 dark:text-white mx-[8vw] border-[1px] rounded-md "
                 onChange={(e) =>
                   setFilter({ ...filter, location: e.target.value })
                 }

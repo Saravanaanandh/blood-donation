@@ -202,7 +202,7 @@ const SingleDonor = () => {
                             <span 
                                 onClick={()=>{
                                     confirmRequest(singleDonor.requestDetail?._id);
-                                    
+                                    navigate('/alldonors')
                                 }}  
                                 className="cursor-pointer text-green-700 border-[1px] hover:shadow-sm hover:shadow-green-700 px-4 py-2 rounded-sm flex gap-2 hover:bg-green-700 hover:text-white items-center"
                             >

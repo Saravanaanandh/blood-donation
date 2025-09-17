@@ -228,8 +228,8 @@ const AllRequests = () => {
                           </p> 
                           {
                             recipient.recipient?.isCritical === true ? ( 
-                              <span className="px-2 py-1 bg-red-600 text-white rounded-md">
-                                Emergency
+                              <span className="px-2 flex gap-2 py-1 bg-red-600 text-white animate-caret-blink rounded-md">
+                              <span className="max-sm:hidden">Emergency</span> <AlertTriangle/>
                               </span> 
                             ):("")
                           } 

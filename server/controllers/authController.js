@@ -34,7 +34,7 @@ export const loginController = async (req, res)=>{
     const token = user.createJWT()
     user.token = token
 
-    res.cookie('jwt',token,{httpOnly:true,maxAge:30*24*60*60*1000, secure:true, sameSite:"None"})
+    res.cookie('jwt',token,{httpOnly:true,maxAge:30*24*60*60*1000, secure:true, sameSite:"none"})
     res.status(200).json(user)
 }
 

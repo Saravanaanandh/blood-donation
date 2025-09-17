@@ -18,7 +18,7 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 
 app.use(cors({
-    origin:["https://gces-bloodline.web.app"," http://10.145.118.231:5173/","https://blood-donation-o7z9.onrender.com","http://localhost:5173"], 
+    origin:["https://gces-bloodline.web.app","http://192.168.56.1:5173","http://10.45.38.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173"], 
     methods: "GET,POST,PATCH,PUT,DELETE",
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials:true
@@ -51,7 +51,7 @@ if(process.env.NODE_ENV==="production"){
         res.sendFile(path.join(__dirname,"../client","dist","index.html"))
     })
 }
-server.listen(PORT, ()=>{
+app.listen(PORT, ()=>{
     console.log(`server running on PORT ${PORT}`)
     connectDB()
 })
