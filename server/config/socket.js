@@ -8,7 +8,7 @@ const server = http.createServer(app)
 const io = new Server(server,{
     cors:{
         origin:["https://gces-bloodline.web.app","http://192.168.56.1:5173","http://10.45.38.231:5173","https://blood-donation-o7z9.onrender.com","http://localhost:5173","http://localhost:5000/"], 
-        methods: "GET,POST,PATCH,PUT,DELETE",
+        methods: ["GET","POST","PATCH","PUT","DELETE"],
         allowedHeaders: ["Content-Type"],
         credentials:true
     }
