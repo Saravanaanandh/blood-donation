@@ -66,10 +66,10 @@ export const sendRequest = async(req, res)=>{
                     <p>Thank you for being a Life-Saver! 💉🩸</p>
                 </div>` 
         }
+        res.status(200).json(request)
         await transporter.sendMail(mailOptions) 
         const receiverSocketId = getUserSocket(donorDetail._id)
         if(receiverSocketId) io.to(receiverSocketId).emit("requestsent", request)
-        res.status(200).json(request)
     }catch(err){
         if(err.name === "CastError"){
             return res.status(400).json({message:"please provide the valid donor id"})
@@ -246,7 +246,7 @@ export const deleteRequest = async(req, res)=>{
         if(!deletedReq) return res.status(404).json({message:"request cant be deleted, because it was confirmed"})
         await DeletedReq.create({_id:request._id, donorId: request.donorId, recipientId:request.recipientId, status:request.status})
         const receiverSocket = getUserSocket(deletedReq.donorId)
-        if(receiverSocketId) io.to(receiverSocket).emit("deleterequest")
+        if(receiverSocket) io.to(receiverSocket).emit("deleterequest")
         return res.status(200).json({message:"request was deleted!"})
     }catch(err){
         return res.status(500).json({message:"cant delete the request, try again later"})
