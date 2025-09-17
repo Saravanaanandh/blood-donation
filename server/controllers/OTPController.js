@@ -7,10 +7,12 @@ import Completed from '../model/Completed.js'
 import { getUserSocket, io } from '../config/socket.js'
 
 const transporter = nodemailer.createTransport({
-    service:'gmail',
+    host: "smtp-relay.brevo.com",
+    port: 587,
+    secure: false,
     auth:{
-        user:process.env.USER_ACCOUNT,
-        pass:process.env.PASSWORD,
+        user:process.env.BREVO_USER,
+        pass:process.env.BREVO_PASS,
     }
 })
 function get90thDayFromDate(date) {
@@ -31,7 +33,7 @@ export const sendOTP = async(req, res)=>{
     const generatedOTP = `${Math.floor(100000 + Math.random()*900000)}` 
     try{
         const mailOptions = {
-            from:process.env.USER_ACCOUNT,
+            from:'"Blood Donation App" <973ae0001@smtp-brevo.com>',
             to:email,
             subject:"verify with OTP",
             html:`<div><h1>Gces Blood Line</h1><p>Your OTP is: ${generatedOTP}. It is valid for 2 minutes.</p></div>`, 

@@ -31,14 +31,16 @@ export const sendRequest = async(req, res)=>{
         const donorDetail = await User.findOne({donorId: donor._id})
         const redirectPage = `https://blood-donation-o7z9.onrender.com/allrequests/${recipientDetail._id}`
         const transporter = nodemailer.createTransport({
-            service:'gmail',
+            host: "smtp-relay.brevo.com",
+            port: 587,
+            secure: false,
             auth:{
-                user:process.env.USER_ACCOUNT,
-                pass:process.env.PASSWORD,
+                user:process.env.BREVO_USER,
+                pass:process.env.BREVO_PASS,
             }
         })
         const mailOptions = {
-            from: process.env.USER_ACCOUNT,
+            from: '"Blood Donation App" <973ae0001@smtp-brevo.com>',
             to: donorDetail.email,
             subject:`🩸 Urgent Blood Donation Request from ${donorDetail.username}`,
             html: `<div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
