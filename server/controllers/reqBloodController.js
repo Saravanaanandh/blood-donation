@@ -67,9 +67,11 @@ export const sendRequest = async(req, res)=>{
                 </div>` 
         }
         res.status(200).json(request)
-        await transporter.sendMail(mailOptions) 
-        const receiverSocketId = getUserSocket(donorDetail._id)
-        if(receiverSocketId) io.to(receiverSocketId).emit("requestsent", request)
+        transporter.sendMail(mailOptions)
+            .then(() => console.log("Mail sent"))
+            .catch(err => console.error("Mail error:", err));
+        // const receiverSocketId = getUserSocket(donorDetail._id)
+        // if(receiverSocketId) io.to(receiverSocketId).emit("requestsent", request)
     }catch(err){
         if(err.name === "CastError"){
             return res.status(400).json({message:"please provide the valid donor id"})
